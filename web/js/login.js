@@ -10,7 +10,7 @@ $("a#btnLogin").click(function () {
         return;
     }
     if (username.length == 0) {
-        alert("密码不能为空");
+        alert("密码不能为空1");
         return;
     }
     doLogin(username, password);
@@ -31,9 +31,7 @@ function doLogin(username, password) {
                 localStorage.setItem(window.config.token, response.data);
                 console.info(localStorage.getItem(window.config.token));
                 window.location = "./index.html";
-            } else {
-                alert(response.message);
-            }
+            } 
         }
     });
 }
