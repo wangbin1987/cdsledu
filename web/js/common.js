@@ -18,6 +18,8 @@ function getUserInfo() {
     });
 }
 
+$("div#productName").html(window.config.appName);
+
 $("#logoutModal a.btn.btn-primary").click(function () {
     logout();
 })
