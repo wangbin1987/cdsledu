@@ -1,7 +1,7 @@
 window.config = {
-    api: 'http://127.0.0.1',
+    api: 'http://118.112.189.117/api',
     token: 'ACCESS-TOKEN',
-    appName: '双流教育'
+    appName: 'SB Admin <sup>2</sup>'
 }
 $(
     $.ajaxSetup({
