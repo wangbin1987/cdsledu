@@ -1,5 +1,5 @@
 window.config = {
-    api: 'http://118.112.189.117/api',
+    api: 'http://127.0.0.1:8080',
     token: 'ACCESS-TOKEN',
     appName: 'SB Admin <sup>2</sup>'
 }
@@ -15,15 +15,17 @@ $(
         complete: function (xhr, ts) {
             console.log("ajax complete");
             if (xhr.status == 200) {
-                if (xhr.responseJSON.errorCode != 200) {
-                    if (xhr.responseJSON.errorCode == 401) {
-                        console.log("未登录");
-                        alert(xhr.responseJSON.message);
-                        setTimeout(function () {
-                            window.location = "./login.html";
-                        }, 1000);
-                    } else {
-                        alert(xhr.responseJSON.message);
+                if (xhr.responseJSON) {
+                    if (xhr.responseJSON.errorCode != 200) {
+                        if (xhr.responseJSON.errorCode == 401) {
+                            console.log("未登录");
+                            alert(xhr.responseJSON.message);
+                            setTimeout(function () {
+                                window.location = "./login.html";
+                            }, 1000);
+                        } else {
+                            alert(xhr.responseJSON.message);
+                        }
                     }
                 }
             }
