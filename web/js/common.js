@@ -20,7 +20,7 @@ function getUserInfo() {
 
 $("div#productName").html(window.config.appName);
 
-$("#logoutModal button.btn.btn-primary").click(function () {
+$("body").on("click", "button#logoutBtn", function() {
     logout();
 })
 
