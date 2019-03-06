@@ -32,7 +32,7 @@ $(document).ready(function () {
       type: 'GET'
     },
     "columns": [
-      { "data": "createTime" },
+      { "data": "department.name" },
       { "data": "username" },
       { "data": "nickname" },
       { "data": "telephone" },
