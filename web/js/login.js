@@ -6,7 +6,7 @@ $("a#btnLogin").click(function () {
         return;
     }
     if (username.length == 0) {
-        alert("用户名不能为空");
+        alert("用户名不能为空!");
         return;
     }
     if (username.length == 0) {
