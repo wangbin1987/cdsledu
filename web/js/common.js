@@ -7,7 +7,7 @@ function getUserInfo() {
                 alert(response.message);
                 window.location = "./login.html";
             }
-            console.info(response)
+            // console.info(response)
             var nickname = response.data.nickname;
             if (typeof nickname == "undefined" || nickname == null || nickname == "") {
                 $("#nickname").text(response.data.username);
@@ -29,7 +29,7 @@ function logout() {
         url: window.config.api + '/user/logout',
         method: "POST",
         success: function (response) {
-            console.info(response);
+            // console.info(response);
             localStorage.removeItem(window.config.token);
             window.location = "./login.html";
         }
@@ -41,7 +41,7 @@ function getMenu() {
         url: window.config.api + '/user/getMenu',
         method: "GET",
         success: function (response) {
-            console.info(response);
+            // console.info(response);
             $('#postionHave').remove();
             drawMenu(response);
         }
@@ -52,7 +52,7 @@ function drawMenu(response) {
 
     var filename = location.href;
     filename = filename.substr(filename.lastIndexOf('/') + 1);
-    console.info("当前页：" + filename);
+    // console.info("当前页：" + filename);
 
     var ul = $("ul#accordionSidebar");
 
@@ -73,9 +73,9 @@ function drawMenu(response) {
     var arr = response.data;
     for (var i = 0; i < arr.length; i++) {
         var element = arr[i];
-        console.info(i);
-        console.info(element);
-        console.info(element.url);
+        // console.info(i);
+        // console.info(element);
+        // console.info(element.url);
         var li = $('<li class="nav-item"></li>');
         if (element.url) { //一级菜单
             if (filename == element.url) {
@@ -115,8 +115,6 @@ function drawMenu(response) {
     }
     $(document).on("click", "li.nav-item", function () {
 
-
-
         if ($(this).children('div').first().attr('class').indexOf('show') <= 0) {
             $(this).children('div').first().addClass('show');
             $(this).children('a').first().removeClass('collapsed');
@@ -124,7 +122,6 @@ function drawMenu(response) {
             $(this).children('div').first().removeClass('show');
             $(this).children('a').first().addClass('collapsed');
         }
-
 
     });
 }
