@@ -1,7 +1,7 @@
 window.config = {
     api: 'http://118.112.189.117/api',
     token: 'ACCESS-TOKEN',
-    appName: 'SB Admin <sup>2</sup>'
+    appName: 'shuangliu'
 }
 toastr.options = {
     "closeButton": false,
