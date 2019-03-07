@@ -55,7 +55,11 @@
                   默认标题
                 </div>
                 <div class="card-body">
-                  默认内容
+                  <button id="showtoast1" type="button" class="btn btn-primary">Primary</button>
+                  <button id="showtoast" type="button" class="btn btn-info">Info</button>
+                  <button id="showtoastsuccess" type="button" class="btn btn-success">Success</button>
+                  <button id="showtoastwarning" type="button" class="btn btn-warning">Warning</button>
+                  <button id="showtoasterror" type="button" class="btn btn-danger">Error</button>
                 </div>
               </div>
 
@@ -90,7 +94,28 @@
   <script src="js/common.js"></script>
   <script src="js/user-info-menu.js"></script>
   <script>
-    
+
+    $('#showtoast1').click(function () {
+      //成功
+      toastr.info('haha');
+    });
+    $('#showtoast').click(function () {
+      //成功
+      toastr.info('内容info', '标题info');
+    });
+    $('#showtoastsuccess').click(function () {
+      //成功
+      toastr.success('内容success', '标题success');
+    });
+
+    $('#showtoasterror').click(function () {
+      //错误
+      toastr.error('内容error', '标题error');
+    });
+    $('#showtoastwarning').click(function () {
+      //警告
+      toastr.warning('内容warning', '标题warning');
+    });
   </script>
 
 </body>
