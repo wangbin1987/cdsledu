@@ -1,5 +1,5 @@
 window.config = {
-    api: 'http://127.0.0.1:8080',
+    api: 'http://118.112.189.117/api',
     token: 'ACCESS-TOKEN',
     appName: 'SB Admin <sup>2</sup>'
 }
