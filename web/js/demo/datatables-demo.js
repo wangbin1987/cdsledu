@@ -54,10 +54,6 @@ $(document).ready(function () {
         "sSortDescending": ": 以降序排列此列"
       }
     },
-    "aoColumns": [
-      { "mDataProp": "department.name", "sType": "chinese" },
-      { "mDataProp": "nickname", "sType": "chinese" }
-    ],
     "serverSide": false,
     ajax: {
       url: window.config.api + '/user/getAllUser',

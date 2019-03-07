@@ -20,7 +20,7 @@ function getUserInfo() {
 
 $("div#productName").html(window.config.appName);
 
-$("body").on("click", "button#logoutBtn", function() {
+$("body").on("click", "button#logoutBtn", function () {
     logout();
 })
 
@@ -92,17 +92,19 @@ function drawMenu(response) {
 
             var div = $('<div id="#collapsePages' + i + '" class="collapse" aria-labelledby="#collapsePages' + i + '" data-parent="#accordionSidebar"></div>');
             var innerDiv = $('<div class="bg-white py-2 collapse-inner rounded"></div>');
-            element.childMenus.forEach(child => {
-                var innerA = $('<a class="collapse-item" href="' + child.url + '"> ' + child.name + '</a>');
-                if (filename == child.url) {
-                    innerA.addClass("active");
-                    div.addClass("show");
-                    li.addClass("active");
-                    a.removeClass("collapsed");
-                    a.attr("aria-expanded", true);
-                }
-                innerDiv.append(innerA);
-            })
+            if (element.childMenus) {
+                element.childMenus.forEach(child => {
+                    var innerA = $('<a class="collapse-item" href="' + child.url + '"> ' + child.name + '</a>');
+                    if (filename == child.url) {
+                        innerA.addClass("active");
+                        div.addClass("show");
+                        li.addClass("active");
+                        a.removeClass("collapsed");
+                        a.attr("aria-expanded", true);
+                    }
+                    innerDiv.append(innerA);
+                })
+            }
             div.append(innerDiv);
             li.append(a);
             li.append(div);
@@ -112,13 +114,13 @@ function drawMenu(response) {
         ul.append($('<hr class="sidebar-divider d-none d-md-block">'));
     }
     $(document).on("click", "li.nav-item", function () {
-        
-        
+
+
 
         if ($(this).children('div').first().attr('class').indexOf('show') <= 0) {
             $(this).children('div').first().addClass('show');
             $(this).children('a').first().removeClass('collapsed');
-        }else{
+        } else {
             $(this).children('div').first().removeClass('show');
             $(this).children('a').first().addClass('collapsed');
         }
