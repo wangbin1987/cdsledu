@@ -29,7 +29,7 @@ function doLogin(username, password) {
             console.info(response);
             if (response.errorCode == 200) {
                 localStorage.setItem(window.config.token, response.data);
-                console.info(localStorage.getItem(window.config.token));
+                // console.info(localStorage.getItem(window.config.token));
                 window.location = "./index.html";
             } 
         }
