@@ -12,6 +12,7 @@
   <title>SB Admin 2 - Dashboard</title>
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="vendor/toastr/toastr.css" rel="stylesheet">
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
 </head>
@@ -49,10 +50,75 @@
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <h1 class="h3 mb-2 text-gray-800">一个空页面</h1>
 
-          <!-- DataTales Example -->
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary"></h6> <h1 class="h3 mb-2 text-gray-800">本园目前登记户籍内学生：2人,登记户籍外学生：0人</h1>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 
+                  <tbody>
+                  <tr>
+                    <td>学生姓名</td>
+                    <td><input name="xsname"/></td>
+                    <td>身份证号码</td>
+                    <td><input name="xsid"/></td>
+                    <td>学生性别</td>
+                    <td><input type="radio" name="xssex" value="male">男<input type="radio" name="xssex" value="female">女</td>
+                  </tr>
+                  <tr>
+                    <td>监护人姓名</td>
+                    <td><input name="guarder"/></td>
+                    <td>监护人身份证</td>
+                    <td><input name="guarderid"/></td>
+                    <td>联系电话</td>
+                    <td><input name="telphone"/></td>
+                  </tr>
+                  <tr>
+                    <td>所在区域</td>
+                    <td><select>
+                      <option value="#">---请选择---</option>
+                      <option value="dsjd">东升街道</option>
+                      <option value="xhcjd">西航港街道</option>
+                      <option value="jjjd">九江街道</option>
+                      <option value="pz">彭镇</option>
+                      <option value="hsz">黄水镇</option>
+                      <option value="hjjd">黄甲街道</option>
+                      <option value="dsjd">金桥镇</option>
+                      <option value="gxjd">公兴街道</option>
+                      <option value="slz">胜利镇</option>
+                      <option value="hlxz">黄龙溪镇</option>
+                      <option value="yaz">永安镇</option>
+                      <option value="xhjd">协和街道</option>
+                    </select>
+                    </td>
+                    <td>户籍地址</td>
+                    <td  colspan="3"><input name="name"/></td>
+                  </tr>
+                  <tr>
+                    <td>公办幼儿园</td>
+                    <td><select>
+                      <option value="staterun">--请选择--</option>
+                    </select>
+                    </td>
+                    <td>公益幼儿园</td>
+                    <td><select>
+                      <option value="public">---请选择---</option>
+                    </select>
+                    </td>
+                    <td>户籍归属</td>
+                    <td><input type="radio" name="district" value="qyn">区域内<input type="radio" name="district" value="yzgb">援藏干部</td>
+                  </tr>
+                  <tr>
+                    <td colspan="6" rowspan="2"><input type="submit" value="Submit"></td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
         <!-- 页面内容 -->
       </div>
@@ -70,7 +136,7 @@
 
   <!-- Core plugin JavaScript-->
   <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
+  <script src="vendor/toastr/toastr.min.js"></script>
   <!-- Custom scripts for all pages-->
   <script src="js/sb-admin-2.min.js"></script>
 
