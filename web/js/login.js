@@ -1,20 +1,28 @@
-$("a#btnLogin").click(function () {
-    var username = $("#username").val().trim();
-    var password = $("#password").val().trim();
-    if (username.length == 0 && password.length == 0) {
-        alert("用户名，密码不能为空");
-        return;
-    }
-    if (username.length == 0) {
-        alert("用户名不能为空!");
-        return;
-    }
-    if (username.length == 0) {
-        alert("密码不能为空1");
-        return;
-    }
-    doLogin(username, password);
-
+$().ready(function () {
+// 在键盘按下并释放及提交后验证提交表单
+    $("#loginForm").validate({
+        rules: {
+            username: {
+                required: true,
+            },
+            password: {
+                required: true,
+            }
+        },
+        messages: {
+            username: {
+                required: "请输入用户名"
+            },
+            password: {
+                required: "请输入密码"
+            }
+        },
+        submitHandler: function () {
+            let username = $("#username").val().trim();
+            let password = $("#password").val().trim();
+            doLogin(username, password);
+        }
+    });
 });
 
 function doLogin(username, password) {
@@ -26,12 +34,11 @@ function doLogin(username, password) {
             "password": password
         }),
         success: function (response) {
-            console.info(response);
+            // console.info(response);
             if (response.errorCode == 200) {
                 localStorage.setItem(window.config.token, response.data);
-                // console.info(localStorage.getItem(window.config.token));
                 window.location = "./index.html";
-            } 
+            }
         }
     });
 }
