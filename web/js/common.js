@@ -120,18 +120,26 @@ function drawMenu(response) {
         // 分隔符
         ul.append($('<hr class="sidebar-divider d-none d-md-block">'));
     }
-
-    $(document).on("click", "li.nav-item", function () {
-
-        if ($(this).children('div').length > 0) {
-            if ($(this).children('div').first().attr('class').indexOf('show') <= 0) {
-                $(this).children('div').first().addClass('show');
-                $(this).children('a').first().removeClass('collapsed');
-            } else {
-                $(this).children('div').first().removeClass('show');
-                $(this).children('a').first().addClass('collapsed');
-            }
-        }
-
-    });
+    ul.append($('<div class="text-center d-none d-md-inline"><button class="rounded-circle border-0" id="sidebarToggle"></button></div>'));
 }
+
+$(document).on("click", "li.nav-item", function () {
+
+    if ($(this).children('div').length > 0) {
+        if ($(this).children('div').first().attr('class').indexOf('show') <= 0) {
+            $(this).children('div').first().addClass('show');
+            $(this).children('a').first().removeClass('collapsed');
+        } else {
+            $(this).children('div').first().removeClass('show');
+            $(this).children('a').first().addClass('collapsed');
+        }
+    }
+})
+
+$(document).on('click', "#sidebarToggle, #sidebarToggleTop", function () {
+    $("body").toggleClass("sidebar-toggled");
+    $(".sidebar").toggleClass("toggled");
+    if ($(".sidebar").hasClass("toggled")) {
+        $('.sidebar .collapse').collapse('hide');
+    }
+})
