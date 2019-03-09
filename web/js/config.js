@@ -5,25 +5,6 @@ window.config = {
     appName: 'SB Admin <sup>2</sup>'
 }
 
-// 消息提示全局设置
-toastr.options = {
-    "closeButton": false,
-    "debug": false,
-    "newestOnTop": false,
-    "progressBar": false,
-    "positionClass": "toast-top-center",
-    "preventDuplicates": false,
-    "onclick": null,
-    "showDuration": "300",
-    "hideDuration": "1000",
-    "timeOut": "3000",
-    "extendedTimeOut": "1000",
-    "showEasing": "swing",
-    "hideEasing": "linear",
-    "showMethod": "fadeIn",
-    "hideMethod": "fadeOut"
-}
-
 // ajax全局设置，统一添加ACCESS-TOKEN，统一拦截错误信息
 $($.ajaxSetup({
     contentType: 'application/json; charset=utf-8',
@@ -52,3 +33,22 @@ $($.ajaxSetup({
         }
     }
 }))
+
+// 消息提示全局设置
+toastr.options = {
+    "closeButton": false,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": false,
+    "positionClass": "toast-top-center",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "3000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+}
