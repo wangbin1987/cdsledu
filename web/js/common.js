@@ -25,11 +25,13 @@ function getUserInfo() {
         method: "GET",
         success: function (response) {
             if (response.errorCode == 401) {
-                alert(response.message);
-                window.location = "./login.html";
+                toastr.warning(response.message);
+                setTimeout(function () {
+                    window.location = "./login.html";
+                }, 1500)
             }
             // console.info(response)
-            var nickname = response.data.nickname;
+            let nickname = response.data.nickname;
             if (typeof nickname == "undefined" || nickname == null || nickname == "") {
                 $("#nickname").text(response.data.username);
             } else {
@@ -60,6 +62,7 @@ function drawMenu(response) {
     let filename = location.href;
     filename = filename.substr(filename.lastIndexOf('/') + 1);
     // console.info("当前页：" + filename);
+    // TODO 如果当前页不在配置的菜单中，提示未授权，无法访问
 
     let ul = $("ul#accordionSidebar");
 
@@ -101,7 +104,7 @@ function drawMenu(response) {
             let innerDiv = $('<div class="bg-white py-2 collapse-inner rounded"></div>');
             if (element.childMenus) {
                 element.childMenus.forEach(child => {
-                    var innerA = $('<a class="collapse-item" href="' + child.url + '"> ' + child.name + '</a>');
+                    let innerA = $('<a class="collapse-item" href="' + child.url + '"> ' + child.name + '</a>');
                     if (filename == child.url) {
                         innerA.addClass("active");
                         div.addClass("show");
