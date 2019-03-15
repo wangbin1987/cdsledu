@@ -83,5 +83,3 @@ fieldset[disabled] .btn.active{background-color:#e5e5e5;border-color: #e5e5e5; c
 .step .lbg-txt{ position:relative; color:#b6c6ce; font-size:13px;}
 .step .on .lbg-txt{color:#1a97d7;}
 .step .on .line_bg,.step .on .num em{ background:#1a97d7}
-
-

@@ -100,7 +100,7 @@
                     </div>
                 </div>
                 <div class="part4 text-center" style="display:none">
-                    <h3>恭喜<span id="loginusername"></span>>您已注册成功，现在开始您的体验吧！</h3>
+                    <h3><span id="loginusername"> </span> 您已注册成功（手机号就是您的登录帐号）</h3>
                     <p class="c-666 f-mt30 f-mb50">页面将在 <strong id="times" class="f-size18">10</strong> 秒钟后，跳转到 <a
                             href="login.html" class="c-blue">登录页面</a></p>
                 </div>
@@ -209,7 +209,7 @@
                         $(".part4").show();
                         $(".step li").eq(2).addClass("on");
 
-                        $("#loginusername").val(telephone);
+                        $("#loginusername").text(telephone);
                         countDown();
                     }
                 }
@@ -290,7 +290,7 @@
 
     function getRegisterCode(type, key) {
         let url = window.config.api + '/sms/getCode';
-        if (type=='email') {
+        if (type == 'email') {
             url = window.config.api + '/email/getCode';
         }
         $.ajax({
