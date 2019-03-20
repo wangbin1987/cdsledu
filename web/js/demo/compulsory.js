@@ -56,16 +56,17 @@ $(document).ready(function () {
     },
     "serverSide": false,
     ajax: {
-      url: window.config.api + '/user/getAllUser',
+      url: window.config.api + '/enrollment/getCompulsory',
       type: 'GET'
     },
     "columns": [
-      { "data": "department.name" },
-      { "data": "username" },
-      { "data": "password" },
-      { "data": "nickname" },
-      { "data": "telephone" },
-      { "data": "createTime" }
+      { "data": "guarderName" },
+      { "data": "guarderIdentityNumber" },
+      { "data": "studentName" },
+      { "data": "studentIdentityNumber" },
+      { "data": "rentAddressZone" },
+      { "data": "createTime" },
+      { "data": "status" }
     ]
   });
 
