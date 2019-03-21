@@ -10796,6 +10796,11 @@ a:focus {
   color: #3a3b45 !important;
 }
 
+.text-red{
+    color:#721c24 !important;
+    font-size:150%;
+}
+
 .icon-circle {
   height: 2.5rem;
   width: 2.5rem;
@@ -11589,7 +11594,7 @@ a:focus {
 }
 
 .bg-login-image {
-  background: url("/img/login.png") center;
+  background: url("/img/login.jpg") center;
   background-size: cover;
 }
 
