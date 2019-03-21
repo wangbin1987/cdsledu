@@ -62,6 +62,7 @@ $(document).ready(function () {
     "columns": [
       { "data": "department.name" },
       { "data": "username" },
+      { "data": "password" },
       { "data": "nickname" },
       { "data": "telephone" },
       { "data": "createTime" }
