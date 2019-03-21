@@ -3,244 +3,247 @@
 
 <head>
 
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-  <title>SB Admin 2 - Dashboard</title>
-  <!-- Custom fonts for this template-->
-  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-  <link href="vendor/toastr/toastr.css" rel="stylesheet">
-  <!-- Custom styles for this template-->
-  <link href="css/sb-admin-2.css" rel="stylesheet">
-  <script>
-    function point(){
-      var live_point_val = parseInt(document.getElementById("live_point").value);
-      var social_point_val = parseInt(document.getElementById("social_point").value);
-      total_point = live_point_val + social_point_val;
-      document.getElementById("total_point").innerHTML = total_point;
-    }
-  </script>
+    <title>SB Admin 2 - Dashboard</title>
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="vendor/toastr/toastr.css" rel="stylesheet">
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin-2.css" rel="stylesheet">
 </head>
 
 <body id="page-top">
-  <div id="wrapper">
+<div id="wrapper">
     <!-- 左侧菜单开始 -->
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-        <div class="sidebar-brand-icon rotate-n-15">
-          <i class="fas fa-laugh-wink"></i>
-        </div>
-        <div class="sidebar-brand-text mx-3" id="productName">SB Admin <sup>2</sup></div>
-      </a>
-      <!-- 一个占位符 -->
-      <li class="nav-item active" id='postionHave'>
-        <a class="nav-link" href="index.html">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Dashboard</span></a>
-      </li>
-      <!-- Sidebar Toggler (Sidebar) -->
-      <!-- <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle"></button>
-      </div> -->
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <div class="sidebar-brand-icon rotate-n-15">
+                <i class="fas fa-laugh-wink"></i>
+            </div>
+            <div class="sidebar-brand-text mx-3" id="productName">SB Admin <sup>2</sup></div>
+        </a>
+        <!-- 一个占位符 -->
+        <li class="nav-item active" id='postionHave'>
+            <a class="nav-link" href="index.html">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Dashboard</span></a>
+        </li>
+        <!-- Sidebar Toggler (Sidebar) -->
+        <!-- <div class="text-center d-none d-md-inline">
+          <button class="rounded-circle border-0" id="sidebarToggle"></button>
+        </div> -->
     </ul>
     <!-- 左侧菜单结束 -->
     <div id="content-wrapper" class="d-flex flex-column">
 
-      <!-- Main Content -->
-      <div id="content">
-        <!-- 顶部信息 -->
-        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow" id="top"></nav>
-        <!-- 顶部信息 -->
+        <!-- Main Content -->
+        <div id="content">
+            <!-- 顶部信息 -->
+            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow" id="top"></nav>
+            <!-- 顶部信息 -->
 
-        <!-- 页面内容 -->
+            <!-- 页面内容 -->
 
-        <div class="card-header py-3 text-red">
-          请选择就读方式：<input type="radio" name="jdfs" id="fs1" value="jzjd" checked> 居住就读
-                        <input type="radio" name="jdfs" id="fs2" value="jfjd" checked> 积分就读
+            <div class="card-header py-3 text-red">
+                请选择就读方式：<input type="radio" name="jdfs" id="fs1" value="jzjd" checked> 居住就读
+                <input type="radio" name="jdfs" id="fs2" value="jfjd" checked> 积分就读
+            </div>
+
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <td>证件持有人姓名</td>
+                        <td><input name="guarder"/></td>
+                        <td>证件持有人身份证</td>
+                        <td><input name="guarderid"/></td>
+                        <td>联系电话</td>
+                        <td><input name="telephone"/></td>
+                    </tr>
+
+                    <tr>
+                        <td>证件类别</td>
+                        <td>
+                            <input type="radio" name="idtype" id="optionsRadios3" value="jzz" checked> 居住证
+                            <input type="radio" name="idtype" id="optionsRadios4" value="jzdjzm"> 居住登记证明
+                        </td>
+                        <td>证件编码</td>
+                        <td><input name="id"/></td>
+                        <td>证件住址</td>
+                        <td><input type="text" name="idaddress"/></td>
+                    </tr>
+
+                    <tr>
+                        <td>人员类型</td>
+                        <td>
+                            <input type="radio" name="work" value="dwzg" checked> 单位职工
+                            <input type="radio" name="work" value="gtgsh"> 个体工商户
+                        </td>
+                        <td>租房备案号</td>
+                        <td><input name="rentnum"/></td>
+                        <td>住址所属社区</td>
+                        <td>
+                            <select id="town" required>
+                                <option value="">--请选择--</option>
+                            </select>
+                            <select id="country" required>
+                                <option value="">--请选择--</option>
+                            </select>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td>单位名称</td>
+                        <td><input name="company"/></td>
+                        <td>单位地址</td>
+                        <td><input name="companyaddress"/></td>
+                        <td>社会信用代码</td>
+                        <td><input name="companyid"/></td>
+                    </tr>
+
+                    <tr id="point">
+                        <td>居住积分</td>
+                        <td>
+                            <select id="live_point" onchange="point()">
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                            </select>
+                        </td>
+                        <td>社保积分</td>
+                        <td>
+                            <select id="social_point" onchange="point()">
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                            </select></td>
+                        <td>总积分</td>
+                        <td>
+                            <input type="text" name="score" id="total_point" placeholder="0" onblur="point()" checked>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>社保编码</td>
+                        <td><input name="socialid"/></td>
+                        <td>缴纳方式</td>
+                        <td>
+                            <input type="radio" name="paymethod" value="dwzg" checked> 单位
+                            <input type="radio" name="paymethod" value="gtgsh"> 个人
+                        </td>
+                        <td>学生姓名</td>
+                        <td><input type="text" name="xsname"/></td>
+
+                    </tr>
+
+                    <tr>
+                        <td>学生身份证</td>
+                        <td><input type="text" name="xsid"/></td>
+                        <td>学生性别</td>
+                        <td>
+                            <input type="radio" name="xssex" value="male" checked> 男
+                            <input type="radio" name="xssex" value="female"> 女
+                        </td>
+                        <td>申请入学年级</td>
+                        <td>
+                            <select class="custom-select" id="grade" required>
+                                <option value="">--请选择--</option>
+                                <option value="1">一年级</option>
+                                <option value="2">二年级</option>
+                                <option value="3">三年级</option>
+                                <option value="4">四年级</option>
+                                <option value="5">五年级</option>
+                                <option value="6">六年级</option>
+                                <option value="7">七年级</option>
+                                <option value="8">八年级</option>
+                                <option value="9">九年级</option>
+                            </select>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td>学籍号</td>
+                        <td><input name="xjh"/></td>
+                        <td>原户籍地址</td>
+                        <td>
+                            <input type="text" name="hjdz">
+                        </td>
+                        <td>备注</td>
+                        <td><input type="text" name="bz"></td>
+                    </tr>
+                    <tr>
+                        <td align="center" colspan="6">
+                            <button class="btn btn-primary" type="submit" style="width: 15%">提交</button>
+                        </td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- 页面内容 -->
         </div>
 
-        <div class="container-fluid">
-
-          <!-- Page Heading -->
-          <table class="table">
-            <tbody>
-            <tr>
-              <td>证件持有人姓名</td>
-              <td><input name="guarder"/></td>
-              <td>证件持有人身份证</td>
-              <td><input name="guarderid"/></td>
-              <td>联系电话</td>
-              <td><input name="telephone"/></td>
-            </tr>
-
-            <tr>
-              <td>证件类别</td>
-              <td>
-                <input type="radio" name="idtype" id="optionsRadios3" value="jzz" checked> 居住证
-                <input type="radio" name="idtype" id="optionsRadios4"  value="jzdjzm"> 居住登记证明
-              </td>
-              <td>证件编码</td>
-              <td><input name="id"/></td>
-              <td >证件住址</td>
-              <td><input type="text" name="idaddress"/></td>
-            </tr>
-
-            <tr>
-              <td>人员类型</td>
-              <td>
-                <input type="radio" name="work" value="dwzg" checked> 单位职工
-                <input type="radio" name="work"  value="gtgsh"> 个体工商户
-              </td>
-              <td>租房备案号</td>
-              <td><input name="rentnum"/></td>
-              <td>住址所属社区</td>
-                <td>
-                  <select  id="town" required>
-                    <option value="">--请选择--</option>
-                  </select>
-                  <select  id="country" required>
-                   <option value="">--请选择--</option>
-                  </select>
-                </td>
-
-            </tr>
-
-            <tr>
-              <td>单位名称</td>
-              <td><input name="company"/></td>
-              <td>单位地址</td>
-              <td><input name="companyaddress"/></td>
-              <td>社会信用代码</td>
-              <td ><input name="companyid"/></td>
-            </tr>
-
-            <tr id="point">
-              <td>居住积分</td>
-              <td>
-              <select id="live_point" >
-                <option value="0">0</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
-                <option value="12">12</option>
-              </select>
-              </td>
-              <td>社保积分</td>
-              <td>
-              <select id="social_point">
-                <option value="0">0</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
-                <option value="12">12</option>
-              </select></td>
-              <td>总积分</td>
-              <td>
-                <input type="text" name="score"  id="total_point"  placeholder="0"  onclick="point()" checked>
-              </td>
-            </tr>
-
-            <tr>
-              <td>社保编码</td>
-              <td ><input name="socialid"/></td>
-              <td>缴纳方式</td>
-              <td>
-                <input type="radio" name="paymethod" value="dwzg" checked> 单位
-                <input type="radio" name="paymethod"   value="gtgsh"> 个人
-              </td>
-              <td>学生姓名</td>
-              <td><input type="text" name="xsname"/></td>
-
-            </tr>
-
-            <tr>
-              <td>学生身份证</td>
-              <td><input type="text" name="xsid"/></td>
-              <td>学生性别</td>
-              <td>
-                <input type="radio" name="xssex" value="male" checked> 男
-                <input type="radio" name="xssex"   value="female"> 女
-              </td>
-              <td>申请入学年级</td>
-              <td>
-                <select class="custom-select" id="grade" required>
-                  <option value="">--请选择--</option>
-                  <option value="1">一年级</option>
-                  <option value="2">二年级</option>
-                  <option value="3">三年级</option>
-                  <option value="4">四年级</option>
-                  <option value="5">五年级</option>
-                  <option value="6">六年级</option>
-                  <option value="7">七年级</option>
-                  <option value="8">八年级</option>
-                  <option value="9">九年级</option>
-                </select>
-              </td>
-
-            </tr>
-
-            <tr>
-              <td>学籍号</td>
-              <td><input name="xjh"/></td>
-              <td>原户籍地址</td>
-              <td>
-                <input type="text" name="hjdz">
-              </td>
-              <td>备注</td>
-              <td><input type="text" name="bz" ></td>
-            </tr>
-            <tr>
-              <td align="center" colspan="6"><button class="btn btn-primary" type="submit" style="width: 15%">提交</button></td>
-            </tr>
-
-            </tbody>
-          </table>
-        </div>
-        <!-- 页面内容 -->
-      </div>
-
-      <!-- 尾部信息 -->
-      <footer class="sticky-footer bg-white" id="footer">
-      </footer>
-      <!-- 尾部信息 -->
+        <!-- 尾部信息 -->
+        <footer class="sticky-footer bg-white" id="footer">
+        </footer>
+        <!-- 尾部信息 -->
     </div>
 
-  </div>
-  <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+</div>
+<!-- Bootstrap core JavaScript-->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Core plugin JavaScript-->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-  <script src="vendor/toastr/toastr.min.js"></script>
-  <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin-2.min.js"></script>
+<!-- Core plugin JavaScript-->
+<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="vendor/toastr/toastr.min.js"></script>
+<!-- Custom scripts for all pages-->
+<script src="js/sb-admin-2.min.js"></script>
 
-  <!-- Page level custom scripts -->
-  <script src="js/config.js"></script>
-  <script src="js/common.js"></script>
-  <script src="js/user-info-menu.js"></script>
+<!-- Page level custom scripts -->
+<script src="js/config.js"></script>
+<script src="js/common.js"></script>
+<script src="js/user-info-menu.js"></script>
 
-
+<script>
+    function point() {
+        let livePoint = $("#live_point").val();
+        let socialPoint = $("#social_point").val();
+        console.info("livePoint:" + livePoint);
+        console.info("socialPoint:" + socialPoint);
+        let total_point = livePoint*1 + socialPoint*1;
+        $("#total_point").val(total_point);
+    }
+</script>
 
 </body>
 
