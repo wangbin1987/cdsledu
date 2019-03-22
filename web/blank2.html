@@ -80,7 +80,7 @@
                         <td><input type="text" name="idaddress"/></td>
                     </tr>
 
-                    <tr>
+                    <tr id="rent">
                         <td>人员类型</td>
                         <td>
                             <input type="radio" name="work" value="dwzg" checked> 单位职工
@@ -100,7 +100,7 @@
 
                     </tr>
 
-                    <tr>
+                    <tr id="company">
                         <td>单位名称</td>
                         <td><input name="company"/></td>
                         <td>单位地址</td>
@@ -193,12 +193,17 @@
                     <tr>
                         <td>学籍号</td>
                         <td><input name="xjh"/></td>
-                        <td>原户籍地址</td>
-                        <td>
-                            <input type="text" name="hjdz">
-                        </td>
+                        <td>户籍地址</td>
+                        <td  colspan="3" id="disSelect">
+                            <select  class="custom-select col-md-4"   id="province" data-province="四川省"></select>
+                            <select  class="custom-select col-md-3" id="city" data-city="成都市"></select>
+                            <select  class="custom-select col-md-3" id="county" data-county="双流区"></select></td>
+                    </tr>
+                    <tr>
                         <td>备注</td>
-                        <td><input type="text" name="bz"></td>
+                        <td colspan="5"><label>
+                            <input type="text" name="bz" style="width:500%" maxlength="30">
+                        </label></td>
                     </tr>
                     <tr>
                         <td align="center" colspan="6">
@@ -233,6 +238,12 @@
 <script src="js/config.js"></script>
 <script src="js/common.js"></script>
 <script src="js/user-info-menu.js"></script>
+<script src="js/distpicker.js"></script>
+<script type="text/javascript">
+    $(function() {
+        $("#disSelect").distpicker();
+    });
+</script>
 
 <script>
     function point() {

@@ -593,6 +593,14 @@ pre code {
   margin-right: auto;
   margin-left: auto;
 }
+.container-fluid-a4 {
+  width: 650px;
+  height: 978px;
+  padding-right: 0.75rem;
+  padding-left: 0.75rem;
+  margin-right: auto;
+  margin-left: auto;
+}
 
 .row {
   display: -webkit-box;
@@ -1669,14 +1677,16 @@ pre code {
 .table {
   width: 100%;
   margin-bottom: 1rem;
-  color: #858796;
+  color: #1b1e21;
+  border: 1px;
+
 }
 
 .table th,
 .table td {
   padding: 0.75rem;
   vertical-align: top;
-  border-top: 1px solid #e3e6f0;
+  border: 1px solid #e3e6f0;
 }
 
 .table thead th {
