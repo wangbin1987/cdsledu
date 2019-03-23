@@ -50,8 +50,8 @@
             <!-- 页面内容 -->
 
             <div class="card-header py-3 text-red">
-                请选择就读方式：<input type="radio" name="jdfs" id="fs1" value="jzjd" checked> 居住就读
-                <input type="radio" name="jdfs" id="fs2" value="jfjd" checked> 积分就读
+                请选择就读方式：<input type="radio" name="jdfs" id="rents" value="rents" checked> 居住就读
+                <input type="radio" name="jdfs" id="points" value="points"> 积分就读
             </div>
 
             <div class="container-fluid">
@@ -254,6 +254,24 @@
         let total_point = livePoint*1 + socialPoint*1;
         $("#total_point").val(total_point);
     }
+</script>
+
+<script>
+    $(document).ready(function(){
+          $("#point").hide();
+            $("input[type=radio][name=jdfs]").change(function(){
+                if(this.value==="points") {
+                  $("#point").show();
+                  $("#rent").hide();
+                  $("#company").hide();
+                }
+                else if(this.value==="rents"){
+                    $("#point").hide();
+                    $("#rent").show();
+                    $("#company").show();
+                }
+            });
+    });
 </script>
 
 </body>
