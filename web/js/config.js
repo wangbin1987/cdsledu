@@ -1,6 +1,6 @@
 // 全局设置，请求url统一前缀和显示名称
 window.config = {
-    api: 'http://127.0.0.1:8080',
+    api: 'http://118.112.189.117/api',
     token: 'ACCESS-TOKEN',
     appName: 'SB Admin <sup>2</sup>'
 }
