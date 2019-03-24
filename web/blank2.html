@@ -196,10 +196,10 @@
                         <td><input name="xjh" id="xjh"/></td>
                         <td>户籍地址</td>
                         <td colspan="3">
-                            <div id="target">
-                                <select data-province="四川省"></select>
-                                <select data-city="成都市"></select>
-                                <select data-district="双流区"></select>
+                            <div id="target" data-toggle="distpicker">
+                                <select data-province="四川省" id="provinceName"></select>
+                                <select data-city="成都市" id="cityName"></select>
+                                <select data-district="双流区" id="districtName"></select>
                             </div>
                         </td>
                     </tr>
@@ -247,6 +247,10 @@
 <script src="js/distpicker.js"></script>
 
 <script type="text/javascript">
+    $("#target").distpicker({
+        autoSelect: true,
+        placeholder: false
+    })
     let id = getUrlParam("id");
     if (id) {
         $.ajax({
@@ -291,16 +295,13 @@
                 $("#xjh").val(response.data.studentSchoolRoll);
                 $("#bz").val(response.data.comment);
                 let addr = response.data.studentHousehold.split("|");
-                $("#target").distpicker({
-                    autoselect: 3
-                })
                 console.table(addr);
-                $('#target').distpicker('destroy');
-                $('#target').distpicker({
-                    province: addr[0],
-                    city: addr[1],
-                    district: addr[2]
-                });
+                $("#provinceName").val(addr[0]);
+                $("#provinceName").trigger("change");
+                $("#cityName").val(addr[1]);
+                $("#cityName").trigger("change");
+                $("#districtName").val(addr[2]);
+                $("#districtName").trigger("change");
             }
         });
     }
