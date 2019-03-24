@@ -61,6 +61,10 @@ function drawMenu(response) {
     let a;
     let filename = location.href;
     filename = filename.substr(filename.lastIndexOf('/') + 1);
+    let reg = ".*.html*";
+    if (filename.match(reg)) {
+        filename = filename.match(reg)[0];
+    }
     // console.info("当前页：" + filename);
     // TODO 如果当前页不在配置的菜单中，提示未授权，无法访问
 
