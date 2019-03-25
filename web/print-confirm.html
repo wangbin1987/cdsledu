@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>双流区教育局</title>
+    <title>双流区进城务工随迁子女就读报名系统</title>
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <!-- Custom styles for this template-->
@@ -51,21 +51,31 @@
                                 <tr>
                                     <td>持证人姓名</td>
                                     <td id="guarder1"></td>
-                                    <td>租房备案号</td>
-                                    <td id="rentNum1"></td>
-                                </tr>
-                                <tr>
                                     <td>持证人身份证</td>
                                     <td id="guarderId1"></td>
-                                    <td>联系电话</td>
-                                    <td id="telephone1"></td>
+
+                                </tr>
+                                <tr>
+                                    <td>租房备案号</td>
+                                    <td id="rentNum1"></td>
+                                    <td>单位名称及地址</td>
+                                    <td id="companyNameAddress1"></td>
+
+                                </tr>
+
+                                <tr>
+                                    <td>总积分</td>
+                                    <td id="totalPoint1"></td>
+                                    <td>居住积分和社保积分</td>
+                                    <td id="point1"></td>
                                 </tr>
 
                                 <tr>
                                     <td>社保编码</td>
                                     <td id="socialIdType1"></td>
-                                    <td>单位名称及地址</td>
-                                    <td id="companyNameAddress1"></td>
+                                    <td>联系电话</td>
+                                    <td id="telephone1"></td>
+
                                 </tr>
 
                                 <tr>
@@ -118,21 +128,30 @@
                                 <tr>
                                     <td>持证人姓名</td>
                                     <td id="guarder2"></td>
-                                    <td>租房备案号</td>
-                                    <td id="rentNum2"></td>
-                                </tr>
-                                <tr>
                                     <td>持证人身份证</td>
                                     <td id="guarderId2"></td>
-                                    <td>联系电话</td>
-                                    <td id="telephone2"></td>
+
+                                </tr>
+                                <tr>
+                                    <td>租房备案号</td>
+                                    <td id="rentNum2"></td>
+                                    <td>单位名称及地址</td>
+                                    <td id="companyNameAddress2"></td>
+
+                                </tr>
+                                <tr>
+                                    <td>总积分</td>
+                                    <td id="totalPoint2"></td>
+                                    <td>居住积分和社保积分</td>
+                                    <td id="point2"></td>
                                 </tr>
 
                                 <tr>
                                     <td>社保编码</td>
                                     <td id="socialIdType2"></td>
-                                    <td>单位名称及地址</td>
-                                    <td id="companyNameAddress2"></td>
+                                    <td>联系电话</td>
+                                    <td id="telephone2"></td>
+
                                 </tr>
 
                                 <tr>
@@ -191,21 +210,22 @@
             method: "GET",
             success: function (response) {
                 console.info(response);
-                $("#idType1,#idType2").text(response.data.residenceType);
+                $("#idType1,#idType2").text(response.data.residenceType +"(" + response.data.socialSecurityPayMethod +")");
                 $("#jzzid1,#jzzid2").text(response.data.residenceNumber);
                 $("#guarder1,#guarder2").text(response.data.guarderName);
                 $("#rentNum1,#rentNum2").text(response.data.rentNumber);
                 $("#guarderId1,#guarderId2").text(response.data.guarderIdentityNumber);
                 $("#telephone1,#telephone2").text(response.data.telephone);
-                $("#socialIdType1,#socialIdType2").text(response.data.socialSecurityId);
+                $("#socialIdType1,#socialIdType2").text(response.data.socialSecurityId + "(" + response.data.socialSecurityPayMethod + ")");
                 $("#companyNameAddress1,#companyNameAddress2").text(response.data.company + "(" + response.data.companyAddress + ")");
                 $("#xsName1,#xsName2").text(response.data.studentName);
                 $("#xsId1,#xsId2").text(response.data.studentIdentityNumber);
                 $("#grade1,#grade2").text(response.data.studentGrade).attr("selected", true);
                 $("#xjh1,#xjh2").text(response.data.studentSchoolRoll);
                 $("#idAddress1,#idAddress2").text(response.data.residenceAddress);
+                $("#total_point1,#totalPoint2").text(response.data.totalPoint);
                 let addr = response.data.studentHousehold.split("|");
-                $("#target1").text(addr[0]+addr[1]+addr[2]);
+                $("#target1,#target2").text(addr[0]+addr[1]+addr[2]);
                 let time = (new Date()).toLocaleString();
                 $('#currentTime1,#currentTime2').text(time);
             }
