@@ -125,21 +125,21 @@
                                     <td>居住证编号</td>
                                     <td id="jzzid2"></td>
                                 </tr>
-                                <tr>
+                                <tr id="guarder">
                                     <td>持证人姓名</td>
                                     <td id="guarder2"></td>
                                     <td>持证人身份证</td>
                                     <td id="guarderId2"></td>
 
                                 </tr>
-                                <tr>
+                                <tr id="rent">
                                     <td>租房备案号</td>
                                     <td id="rentNum2"></td>
                                     <td>单位名称及地址</td>
                                     <td id="companyNameAddress2"></td>
 
                                 </tr>
-                                <tr>
+                                <tr id="totalPoints">
                                     <td>总积分</td>
                                     <td id="totalPoint2"></td>
                                     <td>居住积分和社保积分</td>
@@ -223,7 +223,8 @@
                 $("#grade1,#grade2").text(response.data.studentGrade).attr("selected", true);
                 $("#xjh1,#xjh2").text(response.data.studentSchoolRoll);
                 $("#idAddress1,#idAddress2").text(response.data.residenceAddress);
-                $("#total_point1,#totalPoint2").text(response.data.totalPoint);
+                $("#totalPoint1,#totalPoint2").text(response.data.totalPoint);
+                $("#point1,#point2").text(response.data.livePoint+"+"+response.data.socialPoint);
                 let addr = response.data.studentHousehold.split("|");
                 $("#target1,#target2").text(addr[0]+addr[1]+addr[2]);
                 let time = (new Date()).toLocaleString();
