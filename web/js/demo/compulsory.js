@@ -66,7 +66,7 @@ $(document).ready(function () {
             {"data": "studentName"},
             {"data": "studentIdentityNumber"},
             {"data": "rentAddressZone"},
-            {"data": "createTime"},
+            {"data": "showStatus"},
             {"data": "status"}
         ], "columnDefs": [{
             // 定义操作列,######以下是重点########
@@ -74,12 +74,26 @@ $(document).ready(function () {
             "data": null,
             "render": function (data, type, row) {
                 let id = row.id;
-                let html = "<a href='javascript:void(0);'  class='delete btn btn-default btn-xs'  ><i class='fa fa-times'></i> 查看</a>";
-                html += "<a href='javascript:void(0);' class='up btn btn-default btn-xs'><i class='fa fa-arrow-up'></i> 编辑</a>"
-                html += "<a href='javascript:void(0);' onclick='alert(" + id + ")' class='down btn btn-default btn-xs'><i class='fa fa-arrow-down'></i> 删除</a>"
-                return html;
+                if (row.operation === 0) {
+                    let html = "<a href='javascript:void(0);' onclick='view(" + id + ")' class='delete btn btn-default btn-xs'  ><i class='fa fa-times'></i> 查看</a>";
+                    return html;
+                }
+                if (row.operation === 1) {
+                    let html = "<a href='javascript:void(0);'  class='delete btn btn-default btn-xs'  ><i class='fa fa-times'></i> 查看</a>";
+                    html += "<a href='javascript:void(0);' class='up btn btn-default btn-xs'><i class='fa fa-arrow-up'></i> 编辑</a>"
+                    html += "<a href='javascript:void(0);' onclick='alert(" + id + ")' class='down btn btn-default btn-xs'><i class='fa fa-arrow-down'></i> 删除</a>"
+                    return html;
+                }
+                if (row.operation == 2 || row.operation == 3) {
+                    let html = "<a href='javascript:void(0);'  class='delete btn btn-default btn-xs'  ><i class='fa fa-times'></i> 审核</a>";
+                    return html;
+                }
             }
         }],
     });
-
 });
+
+function view(id) {
+    console.info(id);
+    window.location = "./blank2.html?id=" + id + "&view=1";
+}

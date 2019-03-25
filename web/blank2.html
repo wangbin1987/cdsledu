@@ -50,7 +50,8 @@
             <!-- 页面内容 -->
 
             <div class="card-header py-3 text-red">
-                请选择就读方式：<input type="radio" name="jdfs" id="rents" value="rents" checked> 居住就读
+                请选择就读方式：
+                <input type="radio" name="jdfs" id="rents" value="rents" checked> 居住就读
                 <input type="radio" name="jdfs" id="points" value="points"> 积分就读
             </div>
 
@@ -75,7 +76,7 @@
                             <input type="radio" name="idType" id="jzdjzm" value="jzdjzm"> 居住登记证明
                         </td>
                         <td>证件编码</td>
-                        <td><input name="id" id="id"/></td>
+                        <td><input name="jzzid" id="jzzid"/></td>
                         <td>证件住址</td>
                         <td><input type="text" name="idAddress" id="idAddress"/></td>
                     </tr>
@@ -83,8 +84,8 @@
                     <tr id="rent">
                         <td>人员类型</td>
                         <td>
-                            <input type="radio" name="work" id="dwzg" value="dwzg" checked> 单位职工
-                            <input type="radio" name="work" id="gtgsh" value="gtgsh"> 个体工商户
+                            <input type="radio" name="workType" id="dwzg" value="dwzg" checked> 单位职工
+                            <input type="radio" name="workType" id="gtgsh" value="gtgsh"> 个体工商户
                         </td>
                         <td>租房备案号</td>
                         <td><input name="rentNum" id="rentNum"/></td>
@@ -166,7 +167,7 @@
 
                     <tr>
                         <td>学生身份证</td>
-                        <td><input type="text" name="xsId"  id="xsId"/></td>
+                        <td><input type="text" name="xsId" id="xsId"/></td>
                         <td>学生性别</td>
                         <td>
                             <input type="radio" name="xsGender" value="male" checked> 男
@@ -194,15 +195,18 @@
                         <td>学籍号</td>
                         <td><input name="xjh" id="xjh"/></td>
                         <td>户籍地址</td>
-                        <td  colspan="3" id="disSelect">
-                            <select  class="custom-select col-md-4"   id="province" data-province="四川省"></select>
-                            <select  class="custom-select col-md-3" id="city" data-city="成都市"></select>
-                            <select  class="custom-select col-md-3" id="county" data-county="双流区"></select></td>
+                        <td colspan="3">
+                            <div id="target" data-toggle="distpicker">
+                                <select data-province="四川省" id="provinceName"></select>
+                                <select data-city="成都市" id="cityName"></select>
+                                <select data-district="双流区" id="districtName"></select>
+                            </div>
+                        </td>
                     </tr>
                     <tr>
                         <td>备注</td>
-                        <td colspan="5" id="bz"><label>
-                            <input type="text" name="bz" style="width:500%" maxlength="30">
+                        <td colspan="5"><label>
+                            <textarea name="bz" id="bz" style="width:500%" maxlength="30"></textarea>
                         </label></td>
                     </tr>
                     <tr>
@@ -243,41 +247,89 @@
 <script src="js/distpicker.js"></script>
 
 <script type="text/javascript">
-    $(function() {
-        $("#disSelect").distpicker();
-    });
-</script>
+    $("#target").distpicker({
+        autoSelect: true,
+        placeholder: false
+    })
+    let id = getUrlParam("id");
+    if (id) {
+        $.ajax({
+            url: window.config.api + '/enrollment/getCompulsoryById/' + id,
+            method: "GET",
+            success: function (response) {
 
-<script>
+                console.info(response);
+                $("#guarder").val(response.data.guarderName);
+                $("#guarderId").val(response.data.guarderIdentityNumber);
+                $("#telephone").val(response.data.telephone);
+                if (response.data.residenceType == '居住证') {
+                    $("input[name='idType'][value='jzz']").attr("checked", true);
+                } else {
+                    $("input[name='idType'][value='jzdjzm']").attr("checked", true);
+                }
+                $("#jzzid").val(response.data.residenceNumber);
+                $("#idAddress").val(response.data.residenceAddress);
+                if (response.data.guarderType == '单位职工') {
+                    $("input[name='workType'][value='dwzg']").attr("checked", true);
+                } else {
+                    $("input[name='workType'][value='gtgsh']").attr("checked", true);
+                }
+                $("#rentNum").val(response.data.rentNumber);
+                $("#companyName").val(response.data.company);
+                $("#companyAddress").val(response.data.companyAddress);
+                $("#companyId").val(response.data.companySocialId);
+                $("#socialId").val(response.data.socialSecurityId);
+                if (response.data.socialSecurityPayMethod == '单位') {
+                    $("input[name='payMethod'][value='dw']").attr("checked", true);
+                } else {
+                    $("input[name='payMethod'][value='gr']").attr("checked", true);
+                }
+                $("#xsName").val(response.data.studentName);
+                $("#xsId").val(response.data.studentIdentityNumber);
+                if (response.data.studentGender == '男') {
+                    $("input[name='xsGender'][value='male']").attr("checked", true);
+                } else {
+                    $("input[name='xsGender'][value='female']").attr("checked", true);
+                }
+                $("#grade").find("option:contains(" + response.data.studentGrade + ")").attr("selected", true);
+                $("#xjh").val(response.data.studentSchoolRoll);
+                $("#bz").val(response.data.comment);
+                let addr = response.data.studentHousehold.split("|");
+                console.table(addr);
+                $("#provinceName").val(addr[0]);
+                $("#provinceName").trigger("change");
+                $("#cityName").val(addr[1]);
+                $("#cityName").trigger("change");
+                $("#districtName").val(addr[2]);
+                $("#districtName").trigger("change");
+            }
+        });
+    }
+
     function point() {
         let livePoint = $("#live_point").val();
         let socialPoint = $("#social_point").val();
         console.info("livePoint:" + livePoint);
         console.info("socialPoint:" + socialPoint);
-        let total_point = livePoint*1 + socialPoint*1;
+        let total_point = livePoint * 1 + socialPoint * 1;
         $("#total_point").val(total_point);
     }
-</script>
 
-<script>
-    $(document).ready(function(){
-          $("#point").hide();
-            $("input[type=radio][name=jdfs]").change(function(){
-                if(this.value==="points") {
-                  $("#point").show();
-                  $("#rent").hide();
-                  $("#company").hide();
-                }
-                else if(this.value==="rents"){
-                    $("#point").hide();
-                    $("#rent").show();
-                    $("#company").show();
-                }
-            });
+    $(document).ready(function () {
+        $("#point").hide();
+        $("input[type=radio][name=jdfs]").change(function () {
+            if (this.value === "points") {
+                $("#point").show();
+                $("#rent").hide();
+                $("#company").hide();
+            } else if (this.value === "rents") {
+                $("#point").hide();
+                $("#rent").show();
+                $("#company").show();
+            }
+        });
     });
-</script>
 
-<script>
     // 验证中文名称
     function isChinaName(name) {
         let pattern = /^[\u4E00-\u9FA5]{1,6}$/;
@@ -301,21 +353,21 @@
         let str = '';
 
         // 判断名称
-        if($.trim($("#xsName").val()).length === 0) {
+        if ($.trim($("#xsName").val()).length === 0) {
             str += '请输入学生姓名\n';
             $('#xsName').focus();
         } else {
-            if(isChinaName($.trim($('#xsName').val())) === false) {
+            if (isChinaName($.trim($('#xsName').val())) === false) {
                 str += '请输入合法的学生姓名\n';
                 $('#xsName').focus();
             }
         }
 
-        if($.trim($("#guarder").val()).length === 0) {
+        if ($.trim($("#guarder").val()).length === 0) {
             str += '请输入证件持有人姓名\n';
             $('#guarder').focus();
         } else {
-            if(isChinaName($.trim($('#guarder').val())) === false) {
+            if (isChinaName($.trim($('#guarder').val())) === false) {
                 str += '请输入合法的证件持有人姓名\n';
                 $('#guarder').focus();
             }
@@ -326,45 +378,45 @@
             str += '联系电话没有输入\n';
             $('#telephone').focus();
         } else {
-            if(isPhoneNo($.trim($('#telephone').val()) === false)) {
+            if (isPhoneNo($.trim($('#telephone').val()) === false)) {
                 str += '请输入合法的联系电话\n';
                 $('#telephone').focus();
             }
         }
 
         // 验证身份证
-        if($.trim($('#xsId').val()).length === 0) {
+        if ($.trim($('#xsId').val()).length === 0) {
             str += '学生身份证号码没有输入\n';
             $('#xsId').focus();
         } else {
-            if(isCardNo($.trim($('#xsId').val())) === false) {
+            if (isCardNo($.trim($('#xsId').val())) === false) {
                 str += '学生身份证号不正确；\n';
                 $('#xsId').focus();
             }
         }
 
-        if($.trim($('#guarderId').val()).length === 0) {
+        if ($.trim($('#guarderId').val()).length === 0) {
             str += '证件持有人身份证号码没有输入\n';
             $('#guarderId').focus();
         } else {
-            if(isCardNo($.trim($('#guarderId').val())) === false) {
+            if (isCardNo($.trim($('#guarderId').val())) === false) {
                 str += '证件持有人身份证号不正确；\n';
                 $('#guarderId').focus();
             }
         }
 
         // 验证地址
-        if($.trim($('#idAddress').val()).length === 0) {
+        if ($.trim($('#idAddress').val()).length === 0) {
             str += '请输入证件住址\n';
             $('#idAddress').focus();
         }
-        if($.trim($('#companyAddress').val()).length === 0) {
+        if ($.trim($('#companyAddress').val()).length === 0) {
             str += '请输入单位地址\n';
             $('#companyAddress').focus();
         }
 
         // 如果没有错误则提交
-        if(str !== '') {
+        if (str !== '') {
             alert(str);
             return false;
         } else {
@@ -372,7 +424,7 @@
         }
     }
 
-    $('#submit').on('click', function() {
+    $('#submit').on('click', function () {
         formValidate();
     });
 </script>
