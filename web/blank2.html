@@ -427,7 +427,48 @@
             alert(str);
             return false;
         } else {
-            $('.auth-form').submit();
+            console.info("提交数据");
+
+            // 就读方式：1居住就读，2积分就读
+            let type = $("input[type='radio'][name='jdfs']:checked").val();
+            if (type === 'rents') {
+                type = 1;
+            } else {
+                type = 2;
+            }
+            let guarderName = $("#guarder").val();
+            let guarderIdentityNumber = $("#guarderId").val();
+            let telephone = $("#telephone").val();
+            let residenceType = $("input[type='radio'][name='idType']:checked").val();
+            if(residenceType==='jzz'){
+                residenceType = '居住证';
+            }else{
+                residenceType = '居住登记证明';
+            }
+            // 居住证件编码
+            let residenceNumber = $("#jzzid").val();
+            let residenceAddress = $("#idAddress").val();
+
+            let guarderType = $("input[type='radio'][name='workType']:checked").val();
+            if (guarderType === 'dwzg') {
+                guarderType = '单位职工';
+            } else {
+                guarderType = '个体工商户';
+            }
+            let rentNumber = $("#rentNum").val();
+            let rentAddressZone = $("#town:selected").val();
+            rentAddressZone += $("#village:selected").val();
+
+            console.info("就读方式：" + type);
+            console.info("证件持有人姓名：" + guarderName)
+            console.info("证件持有人身份证：" + guarderIdentityNumber)
+            console.info("联系电话：" + telephone)
+            console.info("居住证件类型：" + residenceType)
+            console.info("居住证件编码：" + residenceNumber)
+            console.info("居住证上所写住址：" + residenceAddress)
+            console.info("人员类型：" + guarderType)
+            console.info("租房备案号：" + rentNumber)
+            console.info("住址所属社区：" + rentAddressZone)
         }
     }
 
