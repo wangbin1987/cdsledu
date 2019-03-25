@@ -177,15 +177,15 @@
                         <td>
                             <select class="custom-select" id="grade" required>
                                 <option value="">--请选择--</option>
-                                <option value="1">一年级</option>
-                                <option value="2">二年级</option>
-                                <option value="3">三年级</option>
-                                <option value="4">四年级</option>
-                                <option value="5">五年级</option>
-                                <option value="6">六年级</option>
-                                <option value="7">七年级</option>
-                                <option value="8">八年级</option>
-                                <option value="9">九年级</option>
+                                <option value="一年级">一年级</option>
+                                <option value="二年级">二年级</option>
+                                <option value="三年级">三年级</option>
+                                <option value="四年级">四年级</option>
+                                <option value="五年级">五年级</option>
+                                <option value="六年级">六年级</option>
+                                <option value="七年级">七年级</option>
+                                <option value="八年级">八年级</option>
+                                <option value="九年级">九年级</option>
                             </select>
                         </td>
 
@@ -209,12 +209,11 @@
                             <textarea name="bz" id="bz" style="width:500%" maxlength="30"></textarea>
                         </label></td>
                     </tr>
-                    <tr>
+                    <tr id="last">
                         <td align="center" colspan="6">
                             <button class="btn btn-primary" type="submit" id="submit" style="width: 15%">提交</button>
                         </td>
                     </tr>
-
                     </tbody>
                 </table>
             </div>
@@ -252,6 +251,11 @@
         placeholder: false
     })
     let id = getUrlParam("id");
+    let view = getUrlParam("view");
+    if (view) {
+        $(":input").attr("disabled", "disabled");
+        $("#last").hide();
+    }
     if (id) {
         $.ajax({
             url: window.config.api + '/enrollment/getCompulsoryById/' + id,
@@ -260,6 +264,14 @@
 
                 if (response.data.type == '2') {
                     $("#points").trigger("click");
+                    $("#point").show();
+                    $("#rent").hide();
+                    $("#company").hide();
+                } else {
+                    $("#rents").trigger("click");
+                    $("#point").hide();
+                    $("#rent").show();
+                    $("#company").show();
                 }
 
                 $("#live_point").val(response.data.livePoint);
@@ -357,6 +369,9 @@
 
     // 验证函数
     function formValidate() {
+
+        let type = $("input[type='radio'][name='jdfs']:checked").val();
+
         let str = '';
 
         // 判断名称
@@ -418,8 +433,11 @@
             $('#idAddress').focus();
         }
         if ($.trim($('#companyAddress').val()).length === 0) {
-            str += '请输入单位地址\n';
-            $('#companyAddress').focus();
+            if (type == 1) {
+                str += '请输入单位地址\n';
+                $('#companyAddress').focus();
+            }
+
         }
 
         // 如果没有错误则提交
@@ -440,9 +458,9 @@
             let guarderIdentityNumber = $("#guarderId").val();
             let telephone = $("#telephone").val();
             let residenceType = $("input[type='radio'][name='idType']:checked").val();
-            if(residenceType==='jzz'){
+            if (residenceType === 'jzz') {
                 residenceType = '居住证';
-            }else{
+            } else {
                 residenceType = '居住登记证明';
             }
             // 居住证件编码
@@ -456,9 +474,33 @@
                 guarderType = '个体工商户';
             }
             let rentNumber = $("#rentNum").val();
-            let rentAddressZone = $("#town:selected").val();
-            rentAddressZone += $("#village:selected").val();
-
+            let rentAddressZone = $("#town:selected").val() + $("#village:selected").val();
+            let livePoint = $("#live_point").val();
+            let socialPoint = $("#social_point").val();
+            let totalPoint = $("#total_point").val();
+            let company = $("#companyName").val();
+            let companyAddress = $("#companyAddress").val();
+            let companySocialId = $("#companyId").val();
+            let socialSecurityId = $("#socialId").val();
+            let socialSecurityPayMethod = $("input[type='radio'][name='payMethod']:checked").val();
+            if (socialSecurityPayMethod == 'dw') {
+                socialSecurityPayMethod = '单位';
+            } else {
+                socialSecurityPayMethod = '个人';
+            }
+            let studentName = $("#xsName").val();
+            let studentIdentityNumber = $("#xsId").val();
+            let studentGender = $("input[type='radio'][name='xsGender']:checked").val();
+            if (studentGender == 'male') {
+                studentGender = '男'
+            } else {
+                studentGender = '女'
+            }
+            let studentGrade = $("#grade").val();
+            let studentSchoolRoll = $("#xjh").val();
+            let studentHousehold = $("#provinceName").val() + "|" + $("#cityName").val() + "|" + $("#districtName").val();
+            let comment = $("#bz").val();
+            console.info("id:" + id);
             console.info("就读方式：" + type);
             console.info("证件持有人姓名：" + guarderName)
             console.info("证件持有人身份证：" + guarderIdentityNumber)
@@ -469,8 +511,61 @@
             console.info("人员类型：" + guarderType)
             console.info("租房备案号：" + rentNumber)
             console.info("住址所属社区：" + rentAddressZone)
+            console.info("居住积分:" + livePoint)
+            console.info("社保积分:" + socialPoint)
+            console.info("总积分:" + totalPoint)
+            console.info("单位名称:" + company)
+            console.info("单位地址:" + companyAddress)
+            console.info("单位社会信用代码:" + companySocialId)
+            console.info("社保编码:" + socialSecurityId)
+            console.info("社保缴纳方式:" + socialSecurityPayMethod)
+            console.info("学生姓名:" + studentName)
+            console.info("学生身份证号:" + studentIdentityNumber)
+            console.info("学生性别:" + studentGender)
+            console.info("申请入学年级:" + studentGrade)
+            console.info("学籍号:" + studentSchoolRoll)
+            console.info("户籍地址:" + studentHousehold)
+            console.info("备注:" + comment)
+
+            $.ajax({
+                url: window.config.api + '/enrollment/addCompulsory',
+                method: "POST",
+                data: JSON.stringify({
+                    "id": id,
+                    "type": type,
+                    "guarderName": guarderName,
+                    "guarderIdentityNumber": guarderIdentityNumber,
+                    "telephone": telephone,
+                    "residenceType": residenceType,
+                    "residenceNumber": residenceNumber,
+                    "residenceAddress": residenceAddress,
+                    "guarderType": guarderType,
+                    "rentNumber": rentNumber,
+                    "rentAddressZone": rentAddressZone,
+                    "livePoint": livePoint,
+                    "socialPoint": socialPoint,
+                    "totalPoint": totalPoint,
+                    "company": company,
+                    "companyAddress": companyAddress,
+                    "companySocialId": companySocialId,
+                    "socialSecurityId": socialSecurityId,
+                    "socialSecurityPayMethod": socialSecurityPayMethod,
+                    "studentName": studentName,
+                    "studentIdentityNumber": studentIdentityNumber,
+                    "studentGender": studentGender,
+                    "studentGrade": studentGrade,
+                    "studentSchoolRoll": studentSchoolRoll,
+                    "studentHousehold": studentHousehold,
+                    "comment": comment
+                }),
+                success: function (response) {
+                    toastr.success("提交成功");
+                }
+            });
+
         }
     }
+
     $('#submit').on('click', function () {
         formValidate();
     });

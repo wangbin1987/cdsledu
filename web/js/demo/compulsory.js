@@ -75,12 +75,12 @@ $(document).ready(function () {
             "render": function (data, type, row) {
                 let id = row.id;
                 if (row.operation === 0) {
-                    let html = "<a href='javascript:void(0);' onclick='view(" + id + ")' class='delete btn btn-default btn-xs'  ><i class='fa fa-times'></i> 查看</a>";
+                    let html = "<a href='javascript:void(0);' onclick='view(" + id + ")' class='view btn btn-default btn-xs'  ><i class='fa fa-times'></i> 查看</a>";
                     return html;
                 }
                 if (row.operation === 1) {
-                    let html = "<a href='javascript:void(0);'  class='delete btn btn-default btn-xs'  ><i class='fa fa-times'></i> 查看</a>";
-                    html += "<a href='javascript:void(0);' class='up btn btn-default btn-xs'><i class='fa fa-arrow-up'></i> 编辑</a>"
+                    let html = "<a href='javascript:void(0);' onclick='view(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-times'></i> 查看</a>";
+                    html += "<a href='javascript:void(0);' onclick='edit(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-pencil-square-o'></i> 编辑</a>";
                     html += "<a href='javascript:void(0);' onclick='alert(" + id + ")' class='down btn btn-default btn-xs'><i class='fa fa-arrow-down'></i> 删除</a>"
                     return html;
                 }
@@ -94,6 +94,9 @@ $(document).ready(function () {
 });
 
 function view(id) {
-    console.info(id);
     window.location = "./blank2.html?id=" + id + "&view=1";
+}
+
+function edit(id) {
+    window.location = "./blank2.html?id=" + id + "&edit=1";
 }
