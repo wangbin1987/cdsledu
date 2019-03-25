@@ -5,6 +5,7 @@ window.config = {
     appName: 'SB Admin <sup>2</sup>'
 }
 
+// 获取地址栏的参数
 function getUrlParam(name) {
     // 未传参，返回空
     if (!name) return null;

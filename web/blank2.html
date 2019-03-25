@@ -258,6 +258,14 @@
             method: "GET",
             success: function (response) {
 
+                if (response.data.type == '2') {
+                    $("#points").trigger("click");
+                }
+
+                $("#live_point").val(response.data.livePoint);
+                $("#social_point").val(response.data.socialPoint);
+                $("#total_point").val(response.data.totalPoint);
+
                 console.info(response);
                 $("#guarder").val(response.data.guarderName);
                 $("#guarderId").val(response.data.guarderIdentityNumber);
@@ -295,7 +303,6 @@
                 $("#xjh").val(response.data.studentSchoolRoll);
                 $("#bz").val(response.data.comment);
                 let addr = response.data.studentHousehold.split("|");
-                console.table(addr);
                 $("#provinceName").val(addr[0]);
                 $("#provinceName").trigger("change");
                 $("#cityName").val(addr[1]);
