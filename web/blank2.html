@@ -397,7 +397,7 @@
             $('#xsId').focus();
         } else {
             if (isCardNo($.trim($('#xsId').val())) === false) {
-                str += '学生身份证号不正确；\n';
+                str += '学生身份证号不正确\n';
                 $('#xsId').focus();
             }
         }
@@ -407,7 +407,7 @@
             $('#guarderId').focus();
         } else {
             if (isCardNo($.trim($('#guarderId').val())) === false) {
-                str += '证件持有人身份证号不正确；\n';
+                str += '证件持有人身份证号不正确\n';
                 $('#guarderId').focus();
             }
         }
@@ -471,7 +471,6 @@
             console.info("住址所属社区：" + rentAddressZone)
         }
     }
-
     $('#submit').on('click', function () {
         formValidate();
     });
