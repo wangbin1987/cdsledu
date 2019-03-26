@@ -251,11 +251,6 @@
         placeholder: false
     })
     let id = getUrlParam("id");
-    let view = getUrlParam("view");
-    if (view) {
-        $(":input").attr("disabled", "disabled");
-        $("#last").hide();
-    }
     if (id) {
         $.ajax({
             url: window.config.api + '/enrollment/getCompulsoryById/' + id,
@@ -272,6 +267,12 @@
                     $("#point").hide();
                     $("#rent").show();
                     $("#company").show();
+                }
+
+                let view = getUrlParam("view");
+                if (view) {
+                    $(":input").attr("disabled", "disabled");
+                    $("#last").hide();
                 }
 
                 $("#live_point").val(response.data.livePoint);
