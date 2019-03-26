@@ -7001,6 +7001,7 @@ button.bg-dark:focus {
   background-color: #fff !important;
 }
 
+
 .bg-transparent {
   background-color: transparent !important;
 }
@@ -10806,10 +10807,7 @@ a:focus {
   color: #3a3b45 !important;
 }
 
-.text-red{
-    color:#721c24 !important;
-    font-size:150%;
-}
+
 
 .icon-circle {
   height: 2.5rem;
@@ -10925,6 +10923,13 @@ a:focus {
   transform-origin: top right;
   right: .25rem;
   margin-top: -.25rem;
+}
+
+.top-blue {
+  height: fit-content;
+  font-family: 微软雅黑;
+  font: 40em;
+  background: #d7f1f5;
 }
 
 .sidebar .nav-item .nav-link .img-profile,
