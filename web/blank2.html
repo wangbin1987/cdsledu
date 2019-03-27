@@ -246,10 +246,37 @@
 <script src="js/distpicker.js"></script>
 
 <script type="text/javascript">
+
+    // 省市区联动
     $("#target").distpicker({
         autoSelect: true,
         placeholder: false
     })
+
+    // 加载住址所属社区数据联动
+    $.ajax({
+        url: window.config.api + '/system/getDistrict',
+        method: "GET",
+        async: false,
+        success: function (response) {
+            console.info(response);
+            for (let i = 0; i < response.data.length; i++) {
+                $("#town").append($("<option data-value=" + response.data[i].name + "></option>").val(i + 1).html(response.data[i].name));
+            }
+            // 为省份下拉列表绑定change事件
+            $("#town").change(function () {
+                let index = $(this).val() - 1;// 获取当前省的下标
+                $("#village").prop("length", 1);// 清空原有的数据
+                if (response.data[index]) {
+                    for (let i = 0; i < response.data[index].addresses.length; i++) {//重新为市赋值
+                        $("#village").append($("<option data-value=" + response.data[index].addresses[i].name + "></option>").val(i + 1).html(response.data[index].addresses[i].name));
+                    }
+                }
+            });
+        }
+    })
+
+    // 根据id获取数据并绑定显示
     let id = getUrlParam("id");
     if (id) {
         $.ajax({
@@ -322,6 +349,26 @@
                 $("#cityName").trigger("change");
                 $("#districtName").val(addr[2]);
                 $("#districtName").trigger("change");
+
+                let zone = response.data.rentAddressZone.split("|");
+                $("#town option").each(function () {
+                    let val = $(this).val();
+                    let text = $(this).attr('data-value');
+                    console.info(text);
+                    if (text == zone[0]) {
+                        $("#town").val(val);
+                    }
+                })
+                $("#town").trigger("change");
+                $("#village option").each(function () {
+                    let val = $(this).val();
+                    let text = $(this).attr('data-value');
+                    console.info(text);
+                    if (text == zone[1]) {
+                        $("#village").val(val);
+                    }
+                })
+
             }
         });
     }
@@ -372,6 +419,11 @@
     function formValidate() {
 
         let type = $("input[type='radio'][name='jdfs']:checked").val();
+        if (type === 'rents') {
+            type = 1;
+        } else {
+            type = 2;
+        }
 
         let str = '';
 
@@ -438,7 +490,14 @@
                 str += '请输入单位地址\n';
                 $('#companyAddress').focus();
             }
+        }
 
+        if (type == 1) {
+            let town = $("#town").find("option:selected").data("value");
+            let village = $("#village").find("option:selected").data("value");
+            if (town == undefined || village == undefined) {
+                str += '请选择住址所属社区\n';
+            }
         }
 
         // 如果没有错误则提交
@@ -475,7 +534,7 @@
                 guarderType = '个体工商户';
             }
             let rentNumber = $("#rentNum").val();
-            let rentAddressZone = $("#town:selected").val() + $("#village:selected").val();
+            let rentAddressZone = $("#town").find("option:selected").data("value") + "|" + $("#village").find("option:selected").data("value");
             let livePoint = $("#live_point").val();
             let socialPoint = $("#social_point").val();
             let totalPoint = $("#total_point").val();
@@ -560,7 +619,9 @@
                     "comment": comment
                 }),
                 success: function (response) {
-                    toastr.success("提交成功");
+                    if (response.errorCode == 200) {
+                        toastr.success("提交成功");
+                    }
                 }
             });
 
