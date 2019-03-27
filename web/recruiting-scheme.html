@@ -71,9 +71,9 @@
                     <tr>
                       <td>101001</td>
                       <td>双流区实验幼儿园</td>
-                      <td>100</td>
+                      <td id="plan">100</td>
                       <td>公办公益性幼儿园</td>
-                      <td><button  class="btn btn-primary">修改计划</button></td>
+                      <td><button  class="btn btn-primary" id="changePlan">修改计划</button></td>
                     </tr>
                   </thead>
                   <tbody>
@@ -112,6 +112,25 @@
   <script src="js/config.js"></script>
   <script src="js/common.js"></script>
   <script src="js/user-info-menu.js"></script>
+  <script>
+    (function(){
+      $('button').on('click', function(){
+        let $this = $(this),
+                edit_status = $this.attr('edit_status'),
+                status_value = edit_status && 1 == edit_status ? 0 : 1,
+                $td_arr = $this.parent().prevAll('#plan');
+        $this.val(1 == status_value ? 'complete' : 'edit').attr('edit_status', status_value);
+        $.each($td_arr, function(){
+          let $td = $(this);
+          if(1 == status_value) {
+            $td.html('<input type="text" value="'+$td.html()+'">');
+          } else if(0 == status_value){
+            $td.html($td.find('input[type=text]').val());
+          }
+        });
+      });
+    })();
+  </script>
 
 
 </body>
