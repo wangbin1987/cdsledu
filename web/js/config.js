@@ -25,6 +25,33 @@ function getUrlParam(name) {
     return r[2];
 }
 
+// datatable 添加中文排序
+function addChieseAsc() {
+    jQuery.fn.dataTableExt.oSort['chinese-asc'] = function (x, y) {
+        x = (x instanceof Array) ? x[0] : x == '-' ? 'z' : x; //z的ASCII码值最大
+        y = (y instanceof Array) ? y[0] : y == '-' ? 'z' : y;
+        //javascript自带的中文比较函数，具体用法可自行查阅了解
+        return x.localeCompare(y);
+    };
+
+    jQuery.fn.dataTableExt.oSort['chinese-desc'] = function (x, y) {
+        x = (x instanceof Array) ? x[0] : x == '-' ? 'z' : x;
+        y = (y instanceof Array) ? y[0] : y == '-' ? 'z' : y;
+        return y.localeCompare(x);
+    };
+
+    // aTypes是插件存放表格内容类型的数组
+    // reg赋值的正则表达式，用来判断是否是中文字符
+    // 返回值push到aTypes数组，排序时扫描该数组，'chinese'则调用上面两个方法。返回null默认是'string'
+    jQuery.fn.dataTableExt.aTypes.push(function (sData) {
+        let reg = /^[\u4e00-\u9fa5]*$/;
+        if (reg.test(sData)) {
+            return 'chinese';
+        }
+        return null;
+    });
+}
+
 // ajax全局设置，统一添加ACCESS-TOKEN，统一拦截错误信息
 $($.ajaxSetup({
     contentType: 'application/json; charset=utf-8',
