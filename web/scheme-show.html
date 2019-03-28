@@ -9,11 +9,10 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SB Admin 2 - Dashboard</title>
+  <title>幼儿园招生计划</title>
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-  <link href="vendor/toastr/toastr.css" rel="stylesheet">
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.css" rel="stylesheet">
   <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -21,37 +20,12 @@
 
 <body id="page-top">
   <div id="wrapper">
-    <!-- 左侧菜单开始 -->
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-        <div class="sidebar-brand-icon rotate-n-15">
-          <i class="fas fa-laugh-wink"></i>
-        </div>
-        <div class="sidebar-brand-text mx-3" id="productName">SB Admin <sup>2</sup></div>
-      </a>
-      <!-- 一个占位符 -->
-      <li class="nav-item active" id='postionHave'>
-        <a class="nav-link" href="index.html">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Dashboard</span></a>
-      </li>
-      <!-- Sidebar Toggler (Sidebar) -->
-      <!-- <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle"></button>
-      </div> -->
-    </ul>
-    <!-- 左侧菜单结束 -->
+
     <div id="content-wrapper" class="d-flex flex-column">
       <!-- Main Content -->
       <div id="content">
-        <!-- 顶部信息 -->
-        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow" id="top"></nav>
-        <!-- 顶部信息 -->
-
         <!-- 页面内容 -->
         <div class="container-fluid">
-
-
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
@@ -66,14 +40,16 @@
                       <th>学校名称</th>
                       <th>学校性质</th>
                       <th>招生计划</th>
-                      <th>修改计划</th>
+                      <th>目前报名人数</th>
+                      <th>空余学位</th>
                     </tr>
                     <tr>
                       <td>GB001</td>
                       <td>双流区实验幼儿园</td>
                       <td>公办公益性幼儿园</td>
-                      <td id="plan">100</td>
-                      <td><button  class="btn btn-primary" id="changePlan">修改计划</button></td>
+                      <td>100</td>
+                      <td>55</td>
+                      <td>45</td>
                     </tr>
                   </thead>
                   <tbody>
@@ -107,32 +83,8 @@
   <!-- Page level plugins -->
   <script src="vendor/datatables/jquery.dataTables.min.js"></script>
   <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
-  <script src="vendor/toastr/toastr.min.js"></script>
   <!-- Page level custom scripts -->
   <script src="js/config.js"></script>
-  <script src="js/common.js"></script>
-  <script src="js/user-info-menu.js"></script>
-  <script>
-    (function(){
-      $('button').on('click', function(){
-        let $this = $(this),
-                edit_status = $this.attr('edit_status'),
-                status_value = edit_status && 1 == edit_status ? 0 : 1,
-                $td_arr = $this.parent().prevAll('#plan');
-        $this.val(1 == status_value ? 'complete' : 'edit').attr('edit_status', status_value);
-        $.each($td_arr, function(){
-          let $td = $(this);
-          if(1 == status_value) {
-            $td.html('<input type="text" value="'+$td.html()+'">');
-          } else if(0 == status_value){
-            $td.html($td.find('input[type=text]').val());
-          }
-        });
-      });
-    })();
-  </script>
-
-
 </body>
 
 </html>
