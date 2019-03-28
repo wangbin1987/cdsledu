@@ -38,14 +38,13 @@ $(document).ready(function () {
             {"data": "name"},
             {"data": "type"},
             {"data": "extra.septemberAdd"},
-            {"data": "extra.currentEnrollment"},
-            {"data": "extra.septemberAdd"-"extra.currentEnrollment"},
+            {"data": "extra.currentEnrollment"}
         ], "columnDefs": [{
             // 定义操作列,######以下是重点########
-            "targets": 4,//操作按钮目标列
+            "targets": 5,//操作按钮目标列
             "data": null,
             "render": function (data, type, row) {
-                let html = "<a href='javascript:void(0);' onclick='edit(" + row.id + ")' class='view btn btn-default btn-xs'  ><i class='fa fa-edit '></i> 修改</a>";
+                let html = "<a href='javascript:void(0);' onclick='edit(" + row.id + ")' class='view btn btn-default btn-xs'  ><i class='fa fa-edit '></i> 报名</a>";
                 return html;
             }
         }],
@@ -53,8 +52,7 @@ $(document).ready(function () {
 });
 
 function edit(id) {
-    // alert(id);
-    // 通过ajxa获取再显示数据
-    $("#updateId").text("通过"+id+"获取数据，展示出来");
-    $("#myModal").modal("show");
+    alert(id);
+// 通过ajxa获取再显示数据
 }
+

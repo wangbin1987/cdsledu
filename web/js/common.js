@@ -9,7 +9,7 @@ function logout() {
         url: window.config.api + '/user/logout',
         method: "POST",
         success: function (response) {
-            // console.info(response);
+            localStorage.removeItem("user-info");
             localStorage.removeItem(window.config.token);
             window.location = "./login.html";
         }
@@ -37,6 +37,7 @@ function getUserInfo() {
             } else {
                 $("#nickname").text(nickname);
             }
+            localStorage.setItem("user-info", JSON.stringify(response.data));
         }
     });
 }
