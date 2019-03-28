@@ -25,18 +25,38 @@
             margin: 12px;
         }
 
-        label.error {
-            color: #f6c23e;
-            margin: 0.5rem;
+        a,
+        a:link,
+        a:hover,
+        a:visited {
+            text-decoration: none;
+        }
+
+        .top{
+            background:rgba(255,255,255,0.8);
+            padding: 5px;
+
+        }
+        .top-img{
+            position:relative;
+            left:10px;
+        }
+        .top-link{
+            position:absolute;
+            top:20px;
+            right: 50px;
+            font-family: 微软雅黑,serif;
+            font-size: 24px;
+            color:#000;
         }
     </style>
 
 </head>
 
 <body class="bg-gradient-primary">
-<nav class=" navbar-expand  topbar  static-top bg-white shadow" id="top">
-        <div><a href="./scheme-show.html">幼儿园招生计划</a></div>
-
+<nav class="top" id="top">
+    <img src="./img/logo.png" alt="logo" class="top-img">
+    <a href="./scheme-show.html" target="_blank" class="top-link">幼儿园招生计划</a>
 </nav>
     <div class="container">
 
