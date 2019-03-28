@@ -53,6 +53,51 @@ $(document).ready(function () {
 function edit(id) {
     // alert(id);
     // 通过ajxa获取再显示数据
-    $("#updateId").text("通过"+id+"获取数据，展示出来");
-    $("#myModal").modal("show");
+    $("#schoolId").val(id);
+    // 加载住址所属社区数据联动
+    $.ajax({
+        url: window.config.api + '/primary/enrolPlan/' + id,
+        method: "GET",
+        success: function (response) {
+            console.info(response);
+            if (response.errorCode == 200) {
+                $("#schoolCode").text(response.data.code);
+                $("#schoolName").text(response.data.name);
+                $("#schoolType").text(response.data.type);
+                $("#plan").val(response.data.extra.septemberAdd);
+                $("#currentSigned").text(response.data.extra.currentEnrollment);
+                $("#myModal").modal("show");
+            }
+        }
+    })
 }
+
+$("#updateBtn").click(function () {
+    let id = $("#schoolId").val();
+    let plan = $("#plan").val();
+    if (plan.length == 0) {
+        toastr.warning("请输入计划招生人数");
+        return;
+    }
+    if (!(/(^[1-9]\d*$)/.test(plan))) {
+        toastr.warning("计划招生人数必须是正整数");
+        return;
+    }
+
+    $.ajax({
+        url: window.config.api + '/primary/enrolPlan',
+        method: "POST",
+        data: JSON.stringify({
+            "id": id,
+            "septemberAdd": plan,
+        }),
+        success: function (response) {
+            console.info(response);
+            if (response.errorCode == 200) {
+                toastr.success(response.message);
+                $("#myModal").modal("hide");
+                $('#dataTable').DataTable().ajax.reload();
+            }
+        }
+    })
+})
