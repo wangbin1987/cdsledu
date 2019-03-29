@@ -47,7 +47,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">要修改的幼儿园信息</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">学校信息修改</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
@@ -65,7 +65,19 @@
                             <label>学校性质：</label><label id="schoolType"></label>
                         </div>
                         <div class="form-group">
-                            <label >计划招生人数：</label>
+                            <label>设计学位总数：</label>
+                            <input type="text" id="totalStudent" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>现有学生：</label>
+                            <input type="text" id="currentStudent" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>六月毕业学生：</label>
+                            <input type="text" id="juneGraduate" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>计划招生人数：</label>
                             <input type="text" id="plan" class="form-control">
                         </div>
                         <div class="form-group">
@@ -76,7 +88,7 @@
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">取消</button>
-                    <button class="btn btn-primary" id="updateBtn">修改</button>
+                    <button class="btn btn-primary" id="updateBtn">确认修改</button>
                 </div>
             </div>
         </div>
@@ -106,6 +118,7 @@
                                     <th>学校代码</th>
                                     <th>学校名称</th>
                                     <th>学校性质</th>
+                                    <th>所在片区</th>
                                     <th>招生计划</th>
                                     <th>操作</th>
                                 </tr>
