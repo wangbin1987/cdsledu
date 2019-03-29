@@ -43,6 +43,19 @@ $(document).ready(function () {
             {"data": "status"}
         ], "columnDefs": [{
             // 定义操作列,######以下是重点########
+            "targets": 4,//操作按钮目标列
+            "className" : 'class-center',
+            "data": null,
+            "render": function (data, type, row) {
+                let address = row.rentAddressZone;
+                let html = '-';
+                if (address) {
+                    html = address.split('|');
+                }
+                return html;
+            }
+        }, {
+            // 定义操作列,######以下是重点########
             "targets": 6,//操作按钮目标列
             "data": null,
             "render": function (data, type, row) {

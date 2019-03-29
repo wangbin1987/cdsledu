@@ -120,9 +120,9 @@ $("#updateBtn").click(function () {
         method: "POST",
         data: JSON.stringify({
             "id": id,
-            "totalStudent":total,
-            "currentStudent":current,
-            "juneGraduate":graduate,
+            "totalStudent": total,
+            "currentStudent": current,
+            "juneGraduate": graduate,
             "septemberAdd": plan
         }),
         success: function (response) {
