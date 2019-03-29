@@ -37,17 +37,27 @@ $(document).ready(function () {
             {"data": "code"},
             {"data": "name"},
             {"data": "type"},
+            {"data": "district"},
             {"data": "extra.septemberAdd"},
             {"data": "extra.currentEnrollment"}
         ], "columnDefs": [{
             // 定义操作列,######以下是重点########
-            "targets": 5,//操作按钮目标列
+            "targets": 7,//操作按钮目标列
             "data": null,
             "render": function (data, type, row) {
                 let html = "<a href='javascript:void(0);' onclick='edit(" + row.id + ")' class='view btn btn-default btn-xs'  ><i class='fa fa-edit '></i> 报名</a>";
                 return html;
             }
-        }],
+        },
+            {
+                // 定义操作列,######以下是重点########
+                "targets": 6,//操作按钮目标列
+                "data": null,
+                "render": function (data, type, row) {
+                    let html = row.extra.septemberAdd - row.extra.currentEnrollment;
+                    return html;
+                }
+            }],
     });
 });
 
