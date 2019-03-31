@@ -16,176 +16,177 @@
     <link href="css/sb-admin-2.css" rel="stylesheet">
     <link href="vendor/toastr/toastr.css" rel="stylesheet">
     <style>
-        body{
+        body {
             margin: 50px auto 50px;
             height: 29.6cm;
             width: 21cm;
 
         }
+
         .print-header {
             padding: 1rem 1.25rem;
             margin-bottom: 0;
             border-bottom: 2px dashed #e3e6f0;
         }
-        .print-form{
+
+        .print-form {
             margin: 30px auto 30px;
         }
 
     </style>
 </head>
 <body>
-                <div class="print-form">
-                            <div class="print-header" align="center">
-                               <h4>成都市双流区2019年入城务工随迁子女接受义务教育就读申请表</h4>
-                            </div>
-                            <p>本人申请子女在双流区接受义务教育，我保证提交的材料真实有效，如有虚假，本申请视为无效。本申请一式贰联，申请人留存壹联，登记点留存壹联。</p>
-                            <table class="table">
-                                <tbody>
+<div class="print-form">
+    <div class="print-header" align="center">
+        <h4>成都市双流区2019年入城务工随迁子女接受义务教育就读申请表</h4>
+    </div>
+    <p>本人申请子女在双流区接受义务教育，我保证提交的材料真实有效，如有虚假，本申请视为无效。本申请一式贰联，申请人留存壹联，登记点留存壹联。</p>
+    <table class="table">
+        <tbody>
+        <tr id="id1">
+            <td>证件类别</td>
+            <td id="idType1"></td>
+            <td>居住证编号</td>
+            <td id="jzzid1"></td>
+        </tr>
+        <tr>
+            <td>持证人姓名</td>
+            <td id="guarder1"></td>
+            <td>持证人身份证</td>
+            <td id="guarderId1"></td>
 
-                                <tr>
-                                    <td>证件类别</td>
-                                    <td id="idType1"></td>
-                                    <td>居住证编号</td>
-                                    <td id="jzzid1"></td>
-                                </tr>
-                                <tr>
-                                    <td>持证人姓名</td>
-                                    <td id="guarder1"></td>
-                                    <td>持证人身份证</td>
-                                    <td id="guarderId1"></td>
+        </tr>
+        <tr id="rent1">
+            <td>租房备案号</td>
+            <td id="rentNum1"></td>
+            <td>单位名称及地址</td>
+            <td id="companyNameAddress1"></td>
 
-                                </tr>
-                                <tr>
-                                    <td>租房备案号</td>
-                                    <td id="rentNum1"></td>
-                                    <td>单位名称及地址</td>
-                                    <td id="companyNameAddress1"></td>
+        </tr>
 
-                                </tr>
+        <tr id="totalPoint">
+            <td>总积分</td>
+            <td id="totalPoint1"></td>
+            <td>居住积分和社保积分</td>
+            <td id="point1"></td>
+        </tr>
 
-                                <tr>
-                                    <td>总积分</td>
-                                    <td id="totalPoint1"></td>
-                                    <td>居住积分和社保积分</td>
-                                    <td id="point1"></td>
-                                </tr>
+        <tr>
+            <td>社保编码</td>
+            <td id="socialIdType1"></td>
+            <td>联系电话</td>
+            <td id="telephone1"></td>
 
-                                <tr>
-                                    <td>社保编码</td>
-                                    <td id="socialIdType1"></td>
-                                    <td>联系电话</td>
-                                    <td id="telephone1"></td>
+        </tr>
 
-                                </tr>
+        <tr>
+            <td>学生姓名</td>
+            <td id="xsName1"></td>
+            <td>学生身份证号</td>
+            <td id="xsId1"></td>
+        </tr>
 
-                                <tr>
-                                    <td>学生姓名</td>
-                                    <td id="xsName1"></td>
-                                    <td>学生身份证号</td>
-                                    <td id="xsId1"></td>
-                                </tr>
+        <tr>
+            <td>申请入学年级</td>
+            <td id="grade1"></td>
+            <td>学籍号码</td>
+            <td id="xjh1"></td>
+        </tr>
+        <tr>
+            <td>居住证地址</td>
+            <td colspan="3" id="idAddress1"></td>
+        </tr>
 
-                                <tr>
-                                    <td>申请入学年级</td>
-                                    <td id="grade1"></td>
-                                    <td>学籍号码</td>
-                                    <td id="xjh1"></td>
-                                </tr>
-                                <tr>
-                                    <td>居住证地址</td>
-                                    <td colspan="3" id="idAddress1"></td>
-                                </tr>
+        <tr>
+            <td>原籍地址</td>
+            <td colspan="3" id="target1"></td>
+        </tr>
 
-                                <tr>
-                                    <td>原籍地址</td>
-                                    <td colspan="3" id="target1"></td>
-                                </tr>
+        <tr>
+            <td>登记时间</td>
+            <td id="currentTime1"></td>
+            <td>家长签字</td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 
-                                <tr>
-                                    <td>登记时间</td>
-                                    <td id="currentTime1"></td>
-                                    <td>家长签字</td>
-                                    <td></td>
-                                </tr>
-                                </tbody>
-                            </table>
-                </div>
+<hr style="border: dashed;color: #e3e6f0;">
+<div class="print-form">
+    <div class="print-header" align="center">
+        <h4>成都市双流区2019年入城务工随迁子女接受义务教育就读申请表</h4>
+    </div>
+    <p>本人申请子女在双流区接受义务教育，我保证提交的材料真实有效，如有虚假，本申请视为无效。本申请一式贰联，申请人留存壹联，登记点留存壹 。</p>
+    <table class="table">
+        <tbody>
+        <tr id="id2">
+            <td>证件类别</td>
+            <td id="idType2"></td>
+            <td>居住证编号</td>
+            <td id="jzzid2"></td>
+        </tr>
+        <tr id="guarder">
+            <td>持证人姓名</td>
+            <td id="guarder2"></td>
+            <td>持证人身份证</td>
+            <td id="guarderId2"></td>
 
-                <hr style="border: dashed;color: #e3e6f0;">
-                <div class="print-form">
-                            <div class="print-header" align="center">
-                                <h4>成都市双流区2019年入城务工随迁子女接受义务教育就读申请表</h4>
-                            </div>
-                            <p>本人申请子女在双流区接受义务教育，我保证提交的材料真实有效，如有虚假，本申请视为无效。本申请一式贰联，申请人留存壹联，登记点留存壹 。</p>
-                            <table class="table">
-                                <tbody>
-                                <tr>
-                                    <td>证件类别</td>
-                                    <td id="idType2"></td>
-                                    <td>居住证编号</td>
-                                    <td id="jzzid2"></td>
-                                </tr>
-                                <tr id="guarder">
-                                    <td>持证人姓名</td>
-                                    <td id="guarder2"></td>
-                                    <td>持证人身份证</td>
-                                    <td id="guarderId2"></td>
+        </tr>
+        <tr id="rent2">
+            <td>租房备案号</td>
+            <td id="rentNum2"></td>
+            <td>单位名称及地址</td>
+            <td id="companyNameAddress2"></td>
 
-                                </tr>
-                                <tr id="rent">
-                                    <td>租房备案号</td>
-                                    <td id="rentNum2"></td>
-                                    <td>单位名称及地址</td>
-                                    <td id="companyNameAddress2"></td>
+        </tr>
+        <tr id="totalPoints">
+            <td>总积分</td>
+            <td id="totalPoint2"></td>
+            <td>居住积分和社保积分</td>
+            <td id="point2"></td>
+        </tr>
 
-                                </tr>
-                                <tr id="totalPoints">
-                                    <td>总积分</td>
-                                    <td id="totalPoint2"></td>
-                                    <td>居住积分和社保积分</td>
-                                    <td id="point2"></td>
-                                </tr>
+        <tr>
+            <td>社保编码</td>
+            <td id="socialIdType2"></td>
+            <td>联系电话</td>
+            <td id="telephone2"></td>
 
-                                <tr>
-                                    <td>社保编码</td>
-                                    <td id="socialIdType2"></td>
-                                    <td>联系电话</td>
-                                    <td id="telephone2"></td>
+        </tr>
 
-                                </tr>
+        <tr>
+            <td>学生姓名</td>
+            <td id="xsName2"></td>
+            <td>学生身份证号</td>
+            <td id="xsId2"></td>
+        </tr>
 
-                                <tr>
-                                    <td>学生姓名</td>
-                                    <td id="xsName2"></td>
-                                    <td>学生身份证号</td>
-                                    <td id="xsId2"></td>
-                                </tr>
+        <tr>
+            <td>申请入学年级</td>
+            <td id="grade2"></td>
+            <td>学籍号码</td>
+            <td id="xjh2"></td>
+        </tr>
+        <tr>
+            <td>居住证地址</td>
+            <td colspan="3" id="idAddress2"></td>
+        </tr>
 
-                                <tr>
-                                    <td>申请入学年级</td>
-                                    <td id="grade2"></td>
-                                    <td>学籍号码</td>
-                                    <td id="xjh2"></td>
-                                </tr>
-                                <tr>
-                                    <td>居住证地址</td>
-                                    <td colspan="3" id="idAddress2"></td>
-                                </tr>
+        <tr>
+            <td>原籍地址</td>
+            <td colspan="3" id="target2"></td>
+        </tr>
 
-                                <tr>
-                                    <td>原籍地址</td>
-                                    <td colspan="3" id="target2"></td>
-                                </tr>
-
-                                <tr>
-                                    <td>登记时间</td>
-                                    <td id="currentTime2"></td>
-                                    <td>家长签字</td>
-                                    <td></td>
-                                </tr>
-                                </tbody>
-                            </table>
-                </div>
+        <tr>
+            <td>登记时间</td>
+            <td id="currentTime2"></td>
+            <td>家长签字</td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 
 <!-- Bootstrap core JavaScript-->
 <script src="vendor/jquery/jquery.min.js"></script>
@@ -210,7 +211,7 @@
             method: "GET",
             success: function (response) {
                 console.info(response);
-                $("#idType1,#idType2").text(response.data.residenceType +"(" + response.data.socialSecurityPayMethod +")");
+                $("#idType1,#idType2").text(response.data.residenceType + "(" + response.data.socialSecurityPayMethod + ")");
                 $("#jzzid1,#jzzid2").text(response.data.residenceNumber);
                 $("#guarder1,#guarder2").text(response.data.guarderName);
                 $("#rentNum1,#rentNum2").text(response.data.rentNumber);
@@ -224,15 +225,27 @@
                 $("#xjh1,#xjh2").text(response.data.studentSchoolRoll);
                 $("#idAddress1,#idAddress2").text(response.data.residenceAddress);
                 $("#totalPoint1,#totalPoint2").text(response.data.totalPoint);
-                $("#point1,#point2").text(response.data.livePoint+"+"+response.data.socialPoint);
+                $("#point1,#point2").text(response.data.livePoint + "+" + response.data.socialPoint);
                 let addr = response.data.studentHousehold.split("|");
-                $("#target1,#target2").text(addr[0]+addr[1]+addr[2]);
+                $("#target1,#target2").text(addr[0] + addr[1] + addr[2]);
                 let time = (new Date()).toLocaleString();
                 $('#currentTime1,#currentTime2').text(time);
+                if (response.data.type == '2') {
+                    $("#totalPoint").trigger("onblur");
+                    $("#totalPoint,#totalPoints").show();
+                    $("#rent1,#rent2").hide();
+                    $("#id1,#id2").hide();
+                } else {
+                    $("#rent1").trigger("onblur");
+                    $("#totalPoint,#totalPoints").hide();
+                    $("#rent1,#rent2").show();
+                    $("#id1,#id2").show();
+                }
                 window.print();
             }
         });
     }
+
 </script>
 
 </body>
