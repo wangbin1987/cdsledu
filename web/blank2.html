@@ -292,7 +292,6 @@
             url: window.config.api + '/enrollment/getCompulsoryById/' + id,
             method: "GET",
             success: function (response) {
-
                 if (response.data.type == '2') {
                     $("#points").trigger("click");
                     $("#point").show();
@@ -407,7 +406,7 @@
 
                             htmlStr = htmlStr+  his.createTime +'；'+ his.username + '：' + status +'<br>';
 
-                        })
+                        });
                         $("#comment").after($("<tr><td>操作历史：</td><td colspan='5'>" +htmlStr+ "</td></tr>"))
 
                     }
