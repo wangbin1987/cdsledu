@@ -44,12 +44,13 @@ $(document).ready(function () {
         ], "columnDefs": [{
             // 定义操作列,######以下是重点########
             "targets": 4,//操作按钮目标列
-            "className" : 'class-center',
+            "className": 'class-center',
             "data": null,
             "render": function (data, type, row) {
                 let address = row.rentAddressZone;
+                console.info(address)
                 let html = '-';
-                if (address) {
+                if (address !== null && address !== undefined && address !== '') {
                     html = address.split('|');
                 }
                 return html;
@@ -81,5 +82,5 @@ function edit(id) {
 }
 
 function approve(id) {
-    window.location = "./blank2.html?id=" + id + "&edit=1";
+    window.location = "./blank2.html?id=" + id + "&approve=1";
 }

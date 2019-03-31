@@ -15,6 +15,15 @@
     <link href="vendor/toastr/toastr.css" rel="stylesheet">
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.css" rel="stylesheet">
+    <style>
+        .custom-select {
+            width: auto;
+        }
+
+        .form-control {
+            width: auto;
+        }
+    </style>
 </head>
 
 <body id="page-top">
@@ -91,10 +100,10 @@
                         <td><input name="rentNum" id="rentNum"/></td>
                         <td>住址所属社区</td>
                         <td>
-                            <select id="town" required>
+                            <select id="town" class="custom-select">
                                 <option value="">--请选择--</option>
                             </select>
-                            <select id="village" required>
+                            <select id="village" class="custom-select">
                                 <option value="">--请选择--</option>
                             </select>
                         </td>
@@ -197,13 +206,13 @@
                         <td>户籍地址</td>
                         <td colspan="3">
                             <div id="target" data-toggle="distpicker">
-                                <select data-province="四川省" id="provinceName"></select>
-                                <select data-city="成都市" id="cityName"></select>
-                                <select data-district="双流区" id="districtName"></select>
+                                <select class="custom-select" data-province="四川省" id="provinceName"></select>
+                                <select class="custom-select" data-city="成都市" id="cityName"></select>
+                                <select class="custom-select" data-district="双流区" id="districtName"></select>
                             </div>
                         </td>
                     </tr>
-                    <tr>
+                    <tr id="comment">
                         <td>备注</td>
                         <td colspan="5"><label>
                             <textarea name="bz" id="bz" style="width:500%" maxlength="30"></textarea>
@@ -350,24 +359,59 @@
                 $("#districtName").val(addr[2]);
                 $("#districtName").trigger("change");
 
-                let zone = response.data.rentAddressZone.split("|");
-                $("#town option").each(function () {
-                    let val = $(this).val();
-                    let text = $(this).attr('data-value');
-                    console.info(text);
-                    if (text == zone[0]) {
-                        $("#town").val(val);
+
+                if (response.data.rentAddressZone) {
+                    let zone = response.data.rentAddressZone.split("|");
+                    $("#town option").each(function () {
+                        let val = $(this).val();
+                        let text = $(this).attr('data-value');
+                        console.info(text);
+                        if (text == zone[0]) {
+                            $("#town").val(val);
+                        }
+                    })
+                    $("#town").trigger("change");
+                    $("#village option").each(function () {
+                        let val = $(this).val();
+                        let text = $(this).attr('data-value');
+                        console.info(text);
+                        if (text == zone[1]) {
+                            $("#village").val(val);
+                        }
+                    })
+                }
+
+                let approve = getUrlParam("approve");
+                if (approve) {
+                    $(":input").attr("disabled", "disabled");
+                    $("#last").hide();
+                    let htmlStr = '';
+                    if (response.data.histories) {
+                        response.data.histories.forEach(his => {
+                            let status = '';
+                            if (his.status == 0) {
+                                status = '录入信息';
+                            }
+                            if (his.status == 1) {
+                                status = '审核通过';
+                                if (his.comment) {
+                                    status = status + "；审核意见：" + his.comment;
+                                }
+                            }
+                            if (his.status == 2) {
+                                status = '审核不通过';
+                                if (his.comment) {
+                                    status = status + "；审核意见：" + his.comment;
+                                }
+                            }
+
+                            htmlStr = htmlStr+  his.createTime +'；'+ his.username + '：' + status +'<br>';
+
+                        })
+                        $("#comment").after($("<tr><td>操作历史：</td><td colspan='5'>" +htmlStr+ "</td></tr>"))
+
                     }
-                })
-                $("#town").trigger("change");
-                $("#village option").each(function () {
-                    let val = $(this).val();
-                    let text = $(this).attr('data-value');
-                    console.info(text);
-                    if (text == zone[1]) {
-                        $("#village").val(val);
-                    }
-                })
+                }
 
             }
         });
@@ -620,7 +664,11 @@
                 }),
                 success: function (response) {
                     if (response.errorCode == 200) {
-                        toastr.success("提交成功");
+                        toastr.success(response.message);
+                        alert("打印信息");
+                        if (!id) {
+                            window.location = "./print-confirm.html?id=" + response.data;
+                        }
                     }
                 }
             });
