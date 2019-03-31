@@ -67,7 +67,7 @@ function drawMenu(response) {
         filename = filename.match(reg)[0];
     }
     // console.info("当前页：" + filename);
-    // TODO 如果当前页不在配置的菜单中，提示未授权，无法访问
+    // TODO 如果当前页不在配置的菜单中，提示未授权，无法访问，跳转到index
 
     let ul = $("ul#accordionSidebar");
 
