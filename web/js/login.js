@@ -36,7 +36,7 @@ function doLogin(username, password) {
             // console.info(response);
             if (response.errorCode == 200) {
                 localStorage.setItem(window.config.token, response.data);
-                window.location = "../user-info.html";
+                window.location = "./index.html";
             }
         }
     });

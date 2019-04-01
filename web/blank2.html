@@ -289,8 +289,6 @@
         placeholder: false
     })
 
-    let role = getUserRole();
-
     // 加载住址所属社区数据联动
     $.ajax({
         url: window.config.api + '/system/getDistrict',
@@ -321,17 +319,6 @@
             url: window.config.api + '/enrollment/getCompulsoryById/' + id,
             method: "GET",
             success: function (response) {
-                if (response.data.type == '2') {
-                    $("#points").trigger("click");
-                    $("#point").show();
-                    $("#rent").hide();
-                    $("#company").hide();
-                } else {
-                    $("#rents").trigger("click");
-                    $("#point").hide();
-                    $("#rent").show();
-                    $("#company").show();
-                }
 
                 let view = getUrlParam("view");
                 if (view) {
@@ -445,7 +432,7 @@
                 }
 
                 let approve = getUrlParam("approve");
-                if (approve && (role == '工商局' || role == '公安局')) {
+                if (approve && response.data.canApprove) {
                     $("#headTitle").text("中小学信息审核");
                     $(":input").attr("disabled", "disabled");
                     $("#last").hide();
@@ -455,6 +442,28 @@
                     $("#shenhetj").removeAttr("disabled");
                 } else {
                     setView();
+                }
+
+                let edit = getUrlParam("edit");
+                if (edit && response.data.canEdit) {
+                    $("#headTitle").text("中小学信息修改");
+                    $(":input").removeAttr("disabled")
+                    $("#last").show();
+                    $("#approve").hide();
+                } else {
+                    setView();
+                }
+
+                if (response.data.type == '2') {
+                    $("#points").trigger("click");
+                    $("#point").show();
+                    $("#rent").hide();
+                    $("#company").hide();
+                } else {
+                    $("#rents").trigger("click");
+                    $("#point").hide();
+                    $("#rent").show();
+                    $("#company").show();
                 }
             }
         });
@@ -521,45 +530,37 @@
 
         if ($.trim($("#guarder").val()).length === 0) {
             str += '请输入证件持有人姓名\n';
-            $('#guarder').focus();
         } else {
             if (isChinaName($.trim($('#guarder').val())) === false) {
                 str += '请输入合法的证件持有人姓名\n';
-                $('#guarder').focus();
             }
         }
 
         if ($.trim($('#guarderId').val()).length === 0) {
             str += '请输入证件持有人身份证\n';
-            $('#guarderId').focus();
         } else {
             if (isCardNo($.trim($('#guarderId').val())) === false) {
                 str += '证件持有人身份证格式不正确\n';
-                $('#guarderId').focus();
             }
         }
 
         // 判断手机号码
         if ($.trim($('#telephone').val()).length === 0) {
             str += '请输入联系电话\n';
-            $('#telephone').focus();
         } else {
             if (isPhoneNo($.trim($('#telephone').val()) === false)) {
                 str += '联系电话格式不正确\n';
-                $('#telephone').focus();
             }
         }
 
         // 证件编码
         if ($.trim($('#jzzid').val()).length === 0) {
             str += '请输入证件编码\n';
-            $('#jzzid').focus();
         }
 
         // 证件住址
         if ($.trim($('#idAddress').val()).length === 0) {
             str += '请输入证件住址\n';
-            $('#idAddress').focus();
         }
 
 
@@ -567,7 +568,6 @@
             // 租房备案号
             if ($.trim($('#rentNum').val()).length === 0) {
                 str += '请输入租房备案号\n';
-                $('#rentNum').focus();
             }
             // 住址所属社区
             let town = $("#town").find("option:selected").data("value");
@@ -579,47 +579,39 @@
             // 单位名称
             if ($.trim($('#companyName').val()).length === 0) {
                 str += '请输入单位名称\n';
-                $('#companyName').focus();
             }
 
             // 单位地址
             if ($.trim($('#companyAddress').val()).length === 0) {
                 str += '请输入单位地址\n';
-                $('#companyAddress').focus();
             }
 
             // 社会信用代码
             if ($.trim($('#companyId').val()).length === 0) {
                 str += '请输入社会信用代码\n';
-                $('#companyId').focus();
             }
         }
 
         // 社保编码
         if ($.trim($('#socialId').val()).length === 0) {
             str += '请输入社保编码\n';
-            $('#socialId').focus();
         }
 
         // 判断名称
         if ($.trim($("#xsName").val()).length === 0) {
             str += '请输入学生姓名\n';
-            $('#xsName').focus();
         } else {
             if (isChinaName($.trim($('#xsName').val())) === false) {
                 str += '请输入合法的学生姓名\n';
-                $('#xsName').focus();
             }
         }
 
         // 验证身份证
         if ($.trim($('#xsId').val()).length === 0) {
             str += '学生身份证号码没有输入\n';
-            $('#xsId').focus();
         } else {
             if (isCardNo($.trim($('#xsId').val())) === false) {
                 str += '学生身份证号不正确\n';
-                $('#xsId').focus();
             }
         }
 
@@ -788,7 +780,6 @@
         if (shjg == 2) {
             if (shyj.length == 0) {
                 toastr.warning("请输入审核意见");
-                $("#shyj").focus();
                 return;
             }
         }
