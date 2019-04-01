@@ -87,8 +87,10 @@ function del(id) {
 
 $(document).on("click", "#deleteBtn", function () {
     let id = $('#deleteBtn').attr('dir');
-    $('#deleteModal').modal('hide');
-    deleteData(id);
+    if ($("#deleteInput").val().trim() == '删除') {
+        $('#deleteModal').modal('hide');
+        deleteData(id);
+    }
 });
 
 function deleteData(id) {
@@ -102,5 +104,4 @@ function deleteData(id) {
             }
         }
     });
-
 }
