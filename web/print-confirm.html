@@ -186,6 +186,9 @@
         </tr>
         </tbody>
     </table>
+    <div id="printDiv" style="text-align: center;">
+        <button class="btn btn-primary" type="submit" id="printBtn">打印</button>
+    </div>
 </div>
 
 <!-- Bootstrap core JavaScript-->
@@ -241,10 +244,16 @@
                     $("#rent1,#rent2").show();
                     $("#id1,#id2").show();
                 }
-                window.print();
             }
         });
     }
+
+    $(document).on("click", "#printBtn", function () {
+        $("#printDiv").hide();
+        window.print();
+        $("#printDiv").show();
+    })
+
 
 </script>
 

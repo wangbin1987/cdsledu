@@ -43,6 +43,14 @@ function getUserInfo() {
 }
 
 /**
+ *
+ */
+function getUserRole() {
+    let userJson = localStorage.getItem("user-info");
+    return JSON.parse(userJson).role;
+}
+
+/**
  * 获取菜单信息
  */
 function getMenu() {

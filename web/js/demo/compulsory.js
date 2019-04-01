@@ -1,6 +1,9 @@
 // Call the dataTables jQuery plugin
 $(document).ready(function () {
 
+    let userJson = localStorage.getItem("user-info");
+    let role = getUserRole();
+
     addChieseAsc();
 
     $('#dataTable').DataTable({
@@ -56,10 +59,20 @@ $(document).ready(function () {
             "data": null,
             "render": function (data, type, row) {
                 let id = row.id;
+
+                if (role == '街道办') {
+                    let html = "<a href='javascript:void(0);' onclick='view(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-file'></i> 查看</a>";
+                    html += "<a href='javascript:void(0);' onclick='edit(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-edit'></i> 编辑</a>";
+                    html += "<a href='javascript:void(0);' onclick='del(" + id + ")' class='down btn btn-default btn-xs'><i class='fa fa-times'></i> 删除</a>"
+                    return html;
+                }
+
+                if (role == '公安局' || role == '工商局') {
+                    let html = "<a href='javascript:void(0);' onclick='approve(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-list'></i> 审核</a>";
+                    return html;
+                }
+
                 let html = "<a href='javascript:void(0);' onclick='view(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-file'></i> 查看</a>";
-                html += "<a href='javascript:void(0);' onclick='edit(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-edit'></i> 编辑</a>";
-                html += "<a href='javascript:void(0);' onclick='approve(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-list'></i> 审核</a>";
-                html += "<a href='javascript:void(0);' onclick='del(" + id + ")' class='down btn btn-default btn-xs'><i class='fa fa-times'></i> 删除</a>"
                 return html;
             },
             "bSortable": false

@@ -60,7 +60,7 @@
                 <!-- Page Heading -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h4 class="m-0 font-weight-bold text-primary">中小学信息填报表</h4>
+                        <h4 id="headTitle" class="m-0 font-weight-bold text-primary">中小学信息填写</h4>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -289,6 +289,8 @@
         placeholder: false
     })
 
+    let role = getUserRole();
+
     // 加载住址所属社区数据联动
     $.ajax({
         url: window.config.api + '/system/getDistrict',
@@ -333,8 +335,7 @@
 
                 let view = getUrlParam("view");
                 if (view) {
-                    $(":input").attr("disabled", "disabled");
-                    $("#last").hide();
+                    setView();
                 }
 
                 $("#live_point").val(response.data.livePoint);
@@ -385,7 +386,6 @@
                 $("#districtName").val(addr[2]);
                 $("#districtName").trigger("change");
 
-
                 if (response.data.rentAddressZone) {
                     let zone = response.data.rentAddressZone.split("|");
                     $("#town option").each(function () {
@@ -431,7 +431,13 @@
                             }
                         }
 
-                        htmlStr = htmlStr + his.createTime + '；' + his.username + '：' + status + '<br>';
+                        let username = his.username;
+                        if (username != his.department) {
+                            username = his.department + ' ' + his.username;
+                        }
+
+
+                        htmlStr = htmlStr + his.createTime + '；' + username + '：' + status + '<br>';
 
                     });
                     $("#comment").after($("<tr><td>操作历史：</td><td colspan='5'>" + htmlStr + "</td></tr>"))
@@ -439,17 +445,24 @@
                 }
 
                 let approve = getUrlParam("approve");
-                if (approve) {
+                if (approve && (role == '工商局' || role == '公安局')) {
+                    $("#headTitle").text("中小学信息审核");
                     $(":input").attr("disabled", "disabled");
                     $("#last").hide();
                     $("#approve").show();
                     $("input[type='radio'][name='shjg']").removeAttr("disabled");
                     $("#shyj").removeAttr("disabled");
                     $("#shenhetj").removeAttr("disabled");
+                } else {
+                    setView();
                 }
-
             }
         });
+    }
+
+    function setView() {
+        $(":input").attr("disabled", "disabled");
+        $("#last").hide();
     }
 
     function point() {
@@ -506,17 +519,6 @@
 
         let str = '';
 
-        // 判断名称
-        if ($.trim($("#xsName").val()).length === 0) {
-            str += '请输入学生姓名\n';
-            $('#xsName').focus();
-        } else {
-            if (isChinaName($.trim($('#xsName').val())) === false) {
-                str += '请输入合法的学生姓名\n';
-                $('#xsName').focus();
-            }
-        }
-
         if ($.trim($("#guarder").val()).length === 0) {
             str += '请输入证件持有人姓名\n';
             $('#guarder').focus();
@@ -527,14 +529,86 @@
             }
         }
 
+        if ($.trim($('#guarderId').val()).length === 0) {
+            str += '请输入证件持有人身份证\n';
+            $('#guarderId').focus();
+        } else {
+            if (isCardNo($.trim($('#guarderId').val())) === false) {
+                str += '证件持有人身份证格式不正确\n';
+                $('#guarderId').focus();
+            }
+        }
+
         // 判断手机号码
         if ($.trim($('#telephone').val()).length === 0) {
-            str += '联系电话没有输入\n';
+            str += '请输入联系电话\n';
             $('#telephone').focus();
         } else {
             if (isPhoneNo($.trim($('#telephone').val()) === false)) {
-                str += '请输入合法的联系电话\n';
+                str += '联系电话格式不正确\n';
                 $('#telephone').focus();
+            }
+        }
+
+        // 证件编码
+        if ($.trim($('#jzzid').val()).length === 0) {
+            str += '请输入证件编码\n';
+            $('#jzzid').focus();
+        }
+
+        // 证件住址
+        if ($.trim($('#idAddress').val()).length === 0) {
+            str += '请输入证件住址\n';
+            $('#idAddress').focus();
+        }
+
+
+        if (type == 1) {
+            // 租房备案号
+            if ($.trim($('#rentNum').val()).length === 0) {
+                str += '请输入租房备案号\n';
+                $('#rentNum').focus();
+            }
+            // 住址所属社区
+            let town = $("#town").find("option:selected").data("value");
+            let village = $("#village").find("option:selected").data("value");
+            if (town == undefined || village == undefined) {
+                str += '请选择住址所属社区\n';
+            }
+
+            // 单位名称
+            if ($.trim($('#companyName').val()).length === 0) {
+                str += '请输入单位名称\n';
+                $('#companyName').focus();
+            }
+
+            // 单位地址
+            if ($.trim($('#companyAddress').val()).length === 0) {
+                str += '请输入单位地址\n';
+                $('#companyAddress').focus();
+            }
+
+            // 社会信用代码
+            if ($.trim($('#companyId').val()).length === 0) {
+                str += '请输入社会信用代码\n';
+                $('#companyId').focus();
+            }
+        }
+
+        // 社保编码
+        if ($.trim($('#socialId').val()).length === 0) {
+            str += '请输入社保编码\n';
+            $('#socialId').focus();
+        }
+
+        // 判断名称
+        if ($.trim($("#xsName").val()).length === 0) {
+            str += '请输入学生姓名\n';
+            $('#xsName').focus();
+        } else {
+            if (isChinaName($.trim($('#xsName').val())) === false) {
+                str += '请输入合法的学生姓名\n';
+                $('#xsName').focus();
             }
         }
 
@@ -549,41 +623,12 @@
             }
         }
 
-        if ($.trim($('#guarderId').val()).length === 0) {
-            str += '证件持有人身份证号码没有输入\n';
-            $('#guarderId').focus();
-        } else {
-            if (isCardNo($.trim($('#guarderId').val())) === false) {
-                str += '证件持有人身份证号不正确\n';
-                $('#guarderId').focus();
-            }
+        if ($.trim($('#grade').val()).length === 0) {
+            str += '请选择申请入学年级\n';
         }
 
-        // 验证地址
-        if ($.trim($('#idAddress').val()).length === 0) {
-            str += '请输入证件住址\n';
-            $('#idAddress').focus();
-        }
-
-        // 验证地址
-        if ($.trim($('#socialId').val()).length === 0) {
-            str += '请输入社保编码\n';
-        }
-
-
-        if ($.trim($('#companyAddress').val()).length === 0) {
-            if (type == 1) {
-                str += '请输入单位地址\n';
-                $('#companyAddress').focus();
-            }
-        }
-
-        if (type == 1) {
-            let town = $("#town").find("option:selected").data("value");
-            let village = $("#village").find("option:selected").data("value");
-            if (town == undefined || village == undefined) {
-                str += '请选择住址所属社区\n';
-            }
+        if ($.trim($('#xjh').val()).length === 0) {
+            str += '请输入学籍号\n';
         }
 
         // 如果没有错误则提交
@@ -712,8 +757,14 @@
                     if (response.errorCode == 200) {
                         toastr.success(response.message);
                         if (!id) {
-                            alert("打印信息");
-                            window.location = "./print-confirm.html?id=" + response.data;
+                            let r = confirm("是否打印回执!");
+                            if (r == true) {
+                                window.location = "./print-confirm.html?id=" + response.data;
+                            } else {
+                                window.location = "./compulsory.html";
+                            }
+                        } else {
+                            window.location = "./blank2.html?id=" + id + "&edit=1";
                         }
                     }
                 }
@@ -736,7 +787,7 @@
         let shyj = $("#shyj").val();
         if (shjg == 2) {
             if (shyj.length == 0) {
-                alert("请输入审核意见");
+                toastr.warning("请输入审核意见");
                 $("#shyj").focus();
                 return;
             }
@@ -752,6 +803,9 @@
             success: function (response) {
                 if (response.errorCode == 200) {
                     toastr.success("审核成功");
+                    setTimeout(function () {
+                        window.location = "./blank2.html?id=" + id + "&approve=1";
+                    });
                 }
             }
         });
