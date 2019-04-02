@@ -1,8 +1,10 @@
 // Call the dataTables jQuery plugin
 $(document).ready(function () {
 
-    let userJson = localStorage.getItem("user-info");
     let role = getUserRole();
+    if(role=='街道办'){
+        $("#head").show();
+    }
 
     addChieseAsc();
 
