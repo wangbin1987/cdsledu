@@ -43,11 +43,29 @@ function getUserInfo() {
 }
 
 /**
- *
+ * 获取用户角色
  */
 function getUserRole() {
     let userJson = localStorage.getItem("user-info");
     return JSON.parse(userJson).role;
+}
+
+// 验证中文名称
+function isChinaName(name) {
+    let pattern = /^[\u4E00-\u9FA5]{1,6}$/;
+    return pattern.test(name);
+}
+
+// 验证手机号
+function isPhoneNo(phone) {
+    let pattern = /^1[34578]\d{9}$/;
+    return pattern.test(phone);
+}
+
+// 验证身份证
+function isCardNo(card) {
+    let pattern = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+    return pattern.test(card);
 }
 
 /**

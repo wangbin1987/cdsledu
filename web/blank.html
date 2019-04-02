@@ -68,26 +68,26 @@
                                 <tbody>
                                 <tr>
                                     <td>学生姓名</td>
-                                    <td><input class="form-control" name="xsname"/></td>
-                                    <td>身份证号码</td>
-                                    <td><input class="form-control" name="xsid"/></td>
+                                    <td><input class="form-control" name="xsName" id="xsName"/></td>
+                                    <td>学生身份证</td>
+                                    <td><input class="form-control" name="xsId" id="xsId"/></td>
                                     <td>学生性别</td>
                                     <td>
                                         <label class="radio-inline">
-                                            <input type="radio" name="xssex" value="male">男
+                                            <input type="radio" name="xsSex" value="male" checked>男
                                         </label>
                                         <label class="radio-inline">
-                                            <input type="radio" name="xssex" value="female">女
+                                            <input type="radio" name="xsSex" value="female">女
                                         </label>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>监护人姓名</td>
-                                    <td><input class="form-control" name="guarder"/></td>
+                                    <td><input class="form-control" name="guarder" id="guarder"/></td>
                                     <td>监护人身份证</td>
-                                    <td><input class="form-control" name="guarderid"/></td>
+                                    <td><input class="form-control" name="guarderId" id="guarderId"/></td>
                                     <td>联系电话</td>
-                                    <td><input class="form-control" name="telephone"/></td>
+                                    <td><input class="form-control" name="telephone" id="telephone"/></td>
                                 </tr>
 
 
@@ -118,14 +118,14 @@
                                     </select>
                                     </td>
                                     <td>户籍归属</td>
-                                    <td><input type="radio" name="district" value="qyn">区域内<input type="radio"
-                                                                                                  name="district"
-                                                                                                  value="yzgb">援藏干部
+                                    <td><input type="radio" name="district" value="qyn" checked>区域内
+                                        <input type="radio" name="district" value="yzgb">援藏干部
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="6" align="center"><input class="btn btn-primary" type="submit"
-                                                                          style="width: 15%" value="提交表单"></td>
+                                    <td colspan="6" align="center">
+                                        <input class="btn btn-primary" type="submit" id="submit" style="width: 15%"
+                                               value="提交"></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -198,6 +198,221 @@
                 });
             }
         })
+
+        $('#submit').on('click', function () {
+            formValidate();
+        });
+
+        function formValidate() {
+
+            let str = '';
+
+            // 学生姓名
+            if ($.trim($("#xsName").val()).length === 0) {
+                str += '请输入学生姓名\n';
+            } else {
+                if (isChinaName($.trim($('#xsName').val())) === false) {
+                    str += '请输入合法的学生姓名\n';
+                }
+            }
+
+            // 身份证号码
+            if ($.trim($('#xsId').val()).length === 0) {
+                str += '请输入学生身份证\n';
+            } else {
+                if (isCardNo($.trim($('#xsId').val())) === false) {
+                    str += '学生身份证格式不正确\n';
+                }
+            }
+
+            // 监护人姓名
+            if ($.trim($("#guarder").val()).length === 0) {
+                str += '请输入监护人姓名\n';
+            } else {
+                if (isChinaName($.trim($('#guarder').val())) === false) {
+                    str += '请输入合法的监护人姓名\n';
+                }
+            }
+
+            // 监护人身份证
+            if ($.trim($('#guarderId').val()).length === 0) {
+                str += '请输入监护人身份证\n';
+            } else {
+                if (isCardNo($.trim($('#guarderId').val())) === false) {
+                    str += '监护人身份证格式不正确\n';
+                }
+            }
+
+            // 联系电话
+            if ($.trim($('#telephone').val()).length === 0) {
+                str += '请输入联系电话\n';
+            } else {
+                if (isPhoneNo($.trim($('#telephone').val()) === false)) {
+                    str += '联系电话格式不正确\n';
+                }
+            }
+
+            // 所在区域
+            let district = $("#district").find("option:selected").data("value");
+            if (district == undefined || district == '') {
+                str += '请选择所在区域\n';
+            }
+
+            // 公办幼儿园
+            let gbSchool = $("#gbSchool").find("option:selected").data("value");
+            if (gbSchool == undefined || gbSchool == '') {
+                str += '请选择公办幼儿园\n';
+            }
+
+            // 公益幼儿园
+            let gySchool = $("#gySchool").find("option:selected").data("value");
+            if (gySchool == undefined || gySchool == '') {
+                str += '请选公益幼儿园\n';
+            }
+
+
+            // 如果没有错误则提交
+            if (str !== '') {
+                alert(str);
+                return false;
+            } else {
+                console.info("提交数据");
+
+                // 就读方式：1居住就读，2积分就读
+                let type = $("input[type='radio'][name='jdfs']:checked").val();
+                if (type === 'rents') {
+                    type = 1;
+                } else {
+                    type = 2;
+                }
+                let guarderName = $("#guarder").val();
+                let guarderIdentityNumber = $("#guarderId").val();
+                let telephone = $("#telephone").val();
+                let residenceType = $("input[type='radio'][name='idType']:checked").val();
+                if (residenceType === 'jzz') {
+                    residenceType = '居住证';
+                } else {
+                    residenceType = '居住登记证明';
+                }
+                // 居住证件编码
+                let residenceNumber = $("#jzzid").val();
+                let residenceAddress = $("#idAddress").val();
+
+                let guarderType = $("input[type='radio'][name='workType']:checked").val();
+                if (guarderType === 'dwzg') {
+                    guarderType = '单位职工';
+                } else {
+                    guarderType = '个体工商户';
+                }
+                let rentNumber = $("#rentNum").val();
+                let rentAddressZone = $("#town").find("option:selected").data("value") + "|" + $("#village").find("option:selected").data("value");
+                let livePoint = $("#live_point").val();
+                let socialPoint = $("#social_point").val();
+                let totalPoint = $("#total_point").val();
+                let company = $("#companyName").val();
+                let companyAddress = $("#companyAddress").val();
+                let companySocialId = $("#companyId").val();
+                let socialSecurityId = $("#socialId").val();
+                let socialSecurityPayMethod = $("input[type='radio'][name='payMethod']:checked").val();
+                if (socialSecurityPayMethod == 'dw') {
+                    socialSecurityPayMethod = '单位';
+                } else {
+                    socialSecurityPayMethod = '个人';
+                }
+                let studentName = $("#xsName").val();
+                let studentIdentityNumber = $("#xsId").val();
+                let studentGender = $("input[type='radio'][name='xsGender']:checked").val();
+                if (studentGender == 'male') {
+                    studentGender = '男'
+                } else {
+                    studentGender = '女'
+                }
+                let studentGrade = $("#grade").val();
+                let studentSchoolRoll = $("#xjh").val();
+                let studentHousehold = $("#provinceName").val() + "|" + $("#cityName").val() + "|" + $("#districtName").val();
+                let comment = $("#bz").val();
+                console.info("id:" + id);
+                console.info("就读方式：" + type);
+                console.info("证件持有人姓名：" + guarderName)
+                console.info("证件持有人身份证：" + guarderIdentityNumber)
+                console.info("联系电话：" + telephone)
+                console.info("居住证件类型：" + residenceType)
+                console.info("居住证件编码：" + residenceNumber)
+                console.info("居住证上所写住址：" + residenceAddress)
+                console.info("人员类型：" + guarderType)
+                console.info("租房备案号：" + rentNumber)
+                console.info("住址所属社区：" + rentAddressZone)
+                console.info("居住积分:" + livePoint)
+                console.info("社保积分:" + socialPoint)
+                console.info("总积分:" + totalPoint)
+                console.info("单位名称:" + company)
+                console.info("单位地址:" + companyAddress)
+                console.info("单位社会信用代码:" + companySocialId)
+                console.info("社保编码:" + socialSecurityId)
+                console.info("社保缴纳方式:" + socialSecurityPayMethod)
+                console.info("学生姓名:" + studentName)
+                console.info("学生身份证号:" + studentIdentityNumber)
+                console.info("学生性别:" + studentGender)
+                console.info("申请入学年级:" + studentGrade)
+                console.info("学籍号:" + studentSchoolRoll)
+                console.info("户籍地址:" + studentHousehold)
+                console.info("备注:" + comment)
+
+                if (type == 2) {
+                    rentAddressZone = '';
+                }
+
+                $.ajax({
+                    url: window.config.api + '/enrollment/addCompulsory',
+                    method: "POST",
+                    data: JSON.stringify({
+                        "id": id,
+                        "type": type,
+                        "guarderName": guarderName,
+                        "guarderIdentityNumber": guarderIdentityNumber,
+                        "telephone": telephone,
+                        "residenceType": residenceType,
+                        "residenceNumber": residenceNumber,
+                        "residenceAddress": residenceAddress,
+                        "guarderType": guarderType,
+                        "rentNumber": rentNumber,
+                        "rentAddressZone": rentAddressZone,
+                        "livePoint": livePoint,
+                        "socialPoint": socialPoint,
+                        "totalPoint": totalPoint,
+                        "company": company,
+                        "companyAddress": companyAddress,
+                        "companySocialId": companySocialId,
+                        "socialSecurityId": socialSecurityId,
+                        "socialSecurityPayMethod": socialSecurityPayMethod,
+                        "studentName": studentName,
+                        "studentIdentityNumber": studentIdentityNumber,
+                        "studentGender": studentGender,
+                        "studentGrade": studentGrade,
+                        "studentSchoolRoll": studentSchoolRoll,
+                        "studentHousehold": studentHousehold,
+                        "comment": comment
+                    }),
+                    success: function (response) {
+                        if (response.errorCode == 200) {
+                            toastr.success(response.message);
+                            if (!id) {
+                                let r = confirm("是否打印回执!");
+                                if (r == true) {
+                                    window.location = "./print-confirm.html?id=" + response.data;
+                                } else {
+                                    window.location = "./compulsory.html";
+                                }
+                            } else {
+                                window.location = "./blank2.html?id=" + id + "&edit=1";
+                            }
+                        }
+                    }
+                });
+
+            }
+        }
+
 
     });
 </script>

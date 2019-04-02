@@ -61,7 +61,8 @@ $(document).ready(function () {
                 let id = row.id;
 
                 if (role == '街道办') {
-                    let html = "<a href='javascript:void(0);' onclick='view(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-file'></i> 查看</a>";
+                    let html = "<a href='javascript:void(0);' onclick='printIt(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-print'></i> 打印</a>";
+                    html += "<a href='javascript:void(0);' onclick='view(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-file'></i> 查看</a>";
                     html += "<a href='javascript:void(0);' onclick='edit(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-edit'></i> 编辑</a>";
                     html += "<a href='javascript:void(0);' onclick='del(" + id + ")' class='down btn btn-default btn-xs'><i class='fa fa-times'></i> 删除</a>"
                     return html;
@@ -80,16 +81,20 @@ $(document).ready(function () {
     });
 });
 
+function printIt(id) {
+    window.open("./print-confirm.html?id=" + id);
+}
+
 function view(id) {
-    window.location = "./blank2.html?id=" + id + "&view=1";
+    window.location = "./blank2.html?id=" + id + "&type=view";
 }
 
 function edit(id) {
-    window.location = "./blank2.html?id=" + id + "&edit=1";
+    window.location = "./blank2.html?id=" + id + "&type=edit";
 }
 
 function approve(id) {
-    window.location = "./blank2.html?id=" + id + "&approve=1";
+    window.location = "./blank2.html?id=" + id + "&type=approve";
 }
 
 function del(id) {
