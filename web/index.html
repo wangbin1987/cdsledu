@@ -19,23 +19,26 @@
     <link href="vendor/toastr/toastr.css" rel="stylesheet">
 
     <style>
-        .content-top{
-            height:40px;
+        .content-top {
+            height: 40px;
             margin: 0 20px;
-            vertical-align:middle;
+            vertical-align: middle;
         }
-        .content-top-words{
-            padding:10px 60px;
+
+        .content-top-words {
+            padding: 10px 60px;
             font-weight: bolder;
             color: #000;
         }
-        #content-middle{
+
+        #content-middle {
             margin: 30px 0 30px 50px;
-            color:#000;
-         }
-        .content-middle1{
-            float:left;
-            width:150px;
+            color: #000;
+        }
+
+        .content-middle1 {
+            float: left;
+            width: 150px;
             text-align: center;
             padding: 1rem;
         }
@@ -70,45 +73,60 @@
     </ul>
 
     <!-- Content Wrapper -->
+    <!-- 左侧菜单结束 -->
     <div id="content-wrapper" class="d-flex flex-column">
-
         <!-- Main Content -->
         <div id="content">
-            <!-- Topbar -->
-            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top " id="top"></nav>
-            <!-- End of Topbar -->
-                <div class="content-top" style="background: url(./img/hi1.png) no-repeat left center;">
-                    <h5 class="content-top-words">XXXX老师，欢迎您登陆双流区教育管理系统</h5>
-                </div>
-            <hr>
-                <div class="content-top" style="background: url(./img/time.png) no-repeat left center;">
-                    <h5 class="content-top-words" id="time"></h5>
-                </div>
-            <hr>
-                <div id="content-middle">
-                    <div class="content-middle1">
-                        <a href="forgot-password.html"><img src="./img/pw.png"></a>
-                        <p>修改密码</p>
+            <!-- 顶部信息 -->
+            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow" id="top"></nav>
+            <!-- 顶部信息 -->
+
+            <!-- 页面内容 -->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card mb-12">
+                            <div class="card-header">
+                                首页
+                            </div>
+                            <div class="card-body">
+                                <div class="content-top" style="background: url(./img/hi1.png) no-repeat left center;">
+                                    <h6 class="content-top-words">XXXX老师，欢迎您登陆双流区教育管理系统</h6>
+                                </div>
+                                <hr>
+                                <div class="content-top" style="background: url(./img/time.png) no-repeat left center;">
+                                    <h6 class="content-top-words" id="time"></h6>
+                                </div>
+                                <hr>
+                                <div id="content-middle">
+                                    <div class="content-middle1">
+                                        <a href="forgot-password.html"><img src="./img/pw.png"></a>
+                                        <p>修改密码</p>
+                                    </div>
+                                    <div class="content-middle1">
+                                        <a href="user-info.html"><img src="./img/user.png"></a>
+                                        <p>用户信息</p>
+                                    </div>
+                                    <div class="content-middle1">
+                                        <a href="http://www.cdsledu.net" target="_blank"><img src="./img/web.png"></a>
+                                        <p>教育业务系统</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
-                    <div class="content-middle1">
-                        <a href="user-info.html"><img src="./img/user.png"></a>
-                        <p>用户信息</p>
-                    </div>
-                    <div class="content-middle1">
-                        <a href="http://www.cdsledu.net" target="_blank"><img src="./img/web.png"></a>
-                        <p>教育业务系统</p>
-                    </div>
+
                 </div>
+
+            </div>
+            <!-- 页面内容 -->
         </div>
 
-        <!-- End of Main Content -->
-
-        <!-- Footer -->
+        <!-- 尾部信息 -->
         <footer class="sticky-footer bg-white" id="footer">
-
         </footer>
-        <!-- End of Footer -->
-
+        <!-- 尾部信息 -->
     </div>
     <!-- End of Content Wrapper -->
 
@@ -129,17 +147,11 @@
 <!-- Custom scripts for all pages-->
 <script src="js/sb-admin-2.min.js"></script>
 
-<!-- Page level plugins -->
-<script src="vendor/chart.js/Chart.min.js"></script>
-
-<!-- Page level custom scripts -->
-<script src="js/demo/chart-area-demo.js"></script>
-<script src="js/demo/chart-pie-demo.js"></script>
 <script src="js/config.js"></script>
 <script src="js/common.js"></script>
 <script src="js/user-info-menu.js"></script>
 <script>
-    $(function() {
+    $(function () {
         let myDate = new Date;
         let year = myDate.getFullYear(); //获取当前年
         let mon = myDate.getMonth() + 1; //获取当前月
@@ -147,9 +159,9 @@
         let week = myDate.getDay();
         let weeks = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
         console.log(year, mon, date, weeks[week])
-        $("#time").html(year + "年" + mon + "月" + date + "日" + '，'+weeks[week]);
-        })
-    </script>
+        $("#time").html(year + "年" + mon + "月" + date + "日" + '，' + weeks[week]);
+    })
+</script>
 </body>
 
 </html>

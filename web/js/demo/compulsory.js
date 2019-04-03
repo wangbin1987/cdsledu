@@ -2,7 +2,7 @@
 $(document).ready(function () {
 
     let role = getUserRole();
-    if(role=='街道办'){
+    if (role == '街道办') {
         $("#head").show();
     }
 
@@ -64,9 +64,9 @@ $(document).ready(function () {
 
                 if (role == '街道办') {
                     let html = "<a href='javascript:void(0);' onclick='printIt(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-print'></i> 打印</a>";
-                    html += "<a href='javascript:void(0);' onclick='view(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-file'></i> 查看</a>";
+                    html += "<a href='javascript:void(0);' onclick='view(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-file-alt'></i> 查看</a>";
                     html += "<a href='javascript:void(0);' onclick='edit(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-edit'></i> 编辑</a>";
-                    html += "<a href='javascript:void(0);' onclick='del(" + id + ")' class='down btn btn-default btn-xs'><i class='fa fa-times'></i> 删除</a>"
+                    html += "<a href='javascript:void(0);' onclick='del(" + id + ")' class='down btn btn-default btn-xs'><i class='fa fa-trash-alt'></i> 删除</a>"
                     return html;
                 }
 

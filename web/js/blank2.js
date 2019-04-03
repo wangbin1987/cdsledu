@@ -31,6 +31,10 @@ let type = getUrlParam("type");
 
 if (type == undefined || type == null) {
     $("#editTr").show();
+    if (getUserRole() != '街道办') {
+        $("#submit").text("无权操作")
+        $("#submit").attr("disabled", "disabled")
+    }
 }
 
 $("#point").hide();
@@ -58,6 +62,10 @@ if (id) {
 
             if (response.errorCode != 200) {
                 $("#editTr").show();
+                if (getUserRole() != '街道办') {
+                    $("#submit").text("无权操作")
+                    $("#submit").attr("disabled", "disabled")
+                }
                 return;
             }
 
