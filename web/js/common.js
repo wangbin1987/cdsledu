@@ -23,6 +23,7 @@ function getUserInfo() {
     $.ajax({
         url: window.config.api + '/user/getUserInfo',
         method: "GET",
+        sync: true,
         success: function (response) {
             if (response.errorCode == 401) {
                 toastr.warning(response.message);
@@ -75,16 +76,15 @@ function getMenu() {
     $.ajax({
         url: window.config.api + '/user/getMenu',
         method: "GET",
+        sync: true,
         success: function (response) {
-            // console.info(response);
-            $('#postionHave').remove();
+            $('#placeholder').remove();
             drawMenu(response);
         }
     });
 }
 
 function drawMenu(response) {
-
     let a;
     let filename = location.href;
     filename = filename.substr(filename.lastIndexOf('/') + 1);
@@ -158,7 +158,6 @@ function drawMenu(response) {
 }
 
 $(document).on("click", "li.nav-item", function () {
-
     if ($(this).children('div').length > 0) {
         if ($(this).children('div').first().attr('class').indexOf('show') <= 0) {
             $(this).children('div').first().addClass('show');

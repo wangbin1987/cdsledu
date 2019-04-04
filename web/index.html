@@ -61,7 +61,7 @@
             <div class="sidebar-brand-text mx-3" id="productName">SB Admin <sup>2</sup></div>
         </a>
         <!-- 一个占位符，不加占位符左侧菜单回缩小 -->
-        <li class="nav-item active" id='postionHave'>
+        <li class="nav-item active" id='placeholder'>
             <a class="nav-link" href="user-info.html">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Dashboard</span></a>
@@ -91,7 +91,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="content-top" style="background: url(./img/hi1.png) no-repeat left center;">
-                                    <h6 class="content-top-words">XXXX老师，欢迎您登陆双流区教育管理系统</h6>
+                                    <h6 class="content-top-words"><span id="welcome"></span>，欢迎您登陆双流区教育管理系统</h6>
                                 </div>
                                 <hr>
                                 <div class="content-top" style="background: url(./img/time.png) no-repeat left center;">
@@ -152,6 +152,22 @@
 <script src="js/user-info-menu.js"></script>
 <script>
     $(function () {
+
+        let welcome = '';
+        let userJson = localStorage.getItem("user-info");
+        let nickname = JSON.parse(userJson).nickname;
+        if (typeof nickname == "undefined" || nickname == null || nickname == "") {
+            welcome += JSON.parse(userJson).username;
+        } else {
+            welcome += nickname;
+        }
+        let role = JSON.parse(userJson).role;
+        if (typeof role == "undefined" || role == null || role == "") {
+        } else {
+            welcome = welcome+" ["+role+"] "
+        }
+        $("#welcome").text(welcome);
+
         let myDate = new Date;
         let year = myDate.getFullYear(); //获取当前年
         let mon = myDate.getMonth() + 1; //获取当前月
@@ -160,6 +176,7 @@
         let weeks = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
         console.log(year, mon, date, weeks[week])
         $("#time").html(year + "年" + mon + "月" + date + "日" + '，' + weeks[week]);
+
     })
 </script>
 </body>

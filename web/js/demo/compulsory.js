@@ -3,7 +3,7 @@ $(document).ready(function () {
 
     let role = getUserRole();
     if (role == '街道办') {
-        $("#head").show();
+        // $("#head").show();
     }
 
     addChieseAsc();
@@ -75,7 +75,7 @@ $(document).ready(function () {
                     return html;
                 }
 
-                let html = "<a href='javascript:void(0);' onclick='view(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-file'></i> 查看</a>";
+                let html = "<a href='javascript:void(0);' onclick='view(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-file-alt'></i> 查看</a>";
                 return html;
             },
             "bSortable": false

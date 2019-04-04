@@ -43,10 +43,21 @@ $("input[type=radio][name=jdfs]").change(function () {
         $("#point").show();
         $("#rent").hide();
         $("#company").hide();
+        // 居住登记证明
+        $("input[type='radio'][name='idType']").parent().parent().hide();
+        $("#socialId").parent().hide();
+        $("#socialId").parent().prev().hide();
+        $("input[type='radio'][name='payMethod']").parent().hide();
+        $("input[type='radio'][name='payMethod']").parent().prev().hide();
     } else if (this.value === "rents") {
         $("#point").hide();
         $("#rent").show();
         $("#company").show();
+        $("input[type='radio'][name='idType']").parent().parent().show();
+        $("#socialId").parent().show();
+        $("#socialId").parent().prev().show();
+        $("input[type='radio'][name='payMethod']").parent().show();
+        $("input[type='radio'][name='payMethod']").parent().prev().show();
     }
 });
 
@@ -122,7 +133,7 @@ if (id) {
                 $("#town option").each(function () {
                     let val = $(this).val();
                     let text = $(this).attr('data-value');
-                    console.info(text);
+                    // console.info(text);
                     if (text == zone[0]) {
                         $("#town").val(val);
                     }
@@ -131,7 +142,7 @@ if (id) {
                 $("#village option").each(function () {
                     let val = $(this).val();
                     let text = $(this).attr('data-value');
-                    console.info(text);
+                    // console.info(text);
                     if (text == zone[1]) {
                         $("#village").val(val);
                     }
@@ -186,9 +197,20 @@ if (id) {
             if (type == 'edit') {
                 $("#editTr").show();
                 if (response.data.canEdit) {
-                    $(":input").removeAttr("disabled")
+                    $(":input").removeAttr("disabled");
+                    if (response.data.status == 0) {
+                        $("#submit").show();
+                    }
+                    if (response.data.approveCount > 3) {
+                        $("#submit").hide();
+                        $("#submitApprove").text(response.data.editBtn);
+                    }
                 } else {
                     $("#submit").text(response.data.editBtn);
+                    $("#submitApprove").text(response.data.editBtn);
+                    if (response.data.status == 1) {
+                        $("#submit").hide();
+                    }
                     setView();
                 }
             } else if (type == 'approve') {
@@ -222,7 +244,7 @@ function point() {
 }
 
 // 验证函数
-function formValidate() {
+function formValidate(submit) {
 
     let type = $("input[type='radio'][name='jdfs']:checked").val();
     if (type === 'rents') {
@@ -258,18 +280,18 @@ function formValidate() {
         }
     }
 
-    // 证件编码
-    if ($.trim($('#jzzid').val()).length === 0) {
-        str += '请输入证件编码\n';
-    }
-
-    // 证件住址
-    if ($.trim($('#idAddress').val()).length === 0) {
-        str += '请输入证件住址\n';
-    }
-
-
     if (type == 1) {
+
+        // 证件编码
+        if ($.trim($('#jzzid').val()).length === 0) {
+            str += '请输入证件编码\n';
+        }
+
+        // 证件住址
+        if ($.trim($('#idAddress').val()).length === 0) {
+            str += '请输入证件住址\n';
+        }
+
         // 租房备案号
         if ($.trim($('#rentNum').val()).length === 0) {
             str += '请输入租房备案号\n';
@@ -295,12 +317,13 @@ function formValidate() {
         if ($.trim($('#companyId').val()).length === 0) {
             str += '请输入社会信用代码\n';
         }
+
+        // 社保编码
+        if ($.trim($('#socialId').val()).length === 0) {
+            str += '请输入社保编码\n';
+        }
     }
 
-    // 社保编码
-    if ($.trim($('#socialId').val()).length === 0) {
-        str += '请输入社保编码\n';
-    }
 
     // 判断名称
     if ($.trim($("#xsName").val()).length === 0) {
@@ -424,6 +447,7 @@ function formValidate() {
             method: "POST",
             data: JSON.stringify({
                 "id": id,
+                "submit": submit,
                 "type": type,
                 "guarderName": guarderName,
                 "guarderIdentityNumber": guarderIdentityNumber,
@@ -454,10 +478,12 @@ function formValidate() {
                 if (response.errorCode == 200) {
                     toastr.success(response.message);
                     if (!id) {
-                        let r = confirm("是否打印回执!");
-                        if (r == true) {
-                            // window.location.replace("./blank2.html?id=" + response.data + "&type=edit");
-                            window.open("./print-confirm.html?id=" + response.data);
+                        if (submit == 1) {
+                            let r = confirm("是否打印回执!");
+                            if (r == true) {
+                                // window.location.replace("./blank2.html?id=" + response.data + "&type=edit");
+                                window.open("./print-confirm.html?id=" + response.data);
+                            }
                         }
                         window.location.replace("./compulsory.html");
                     } else {
@@ -471,7 +497,11 @@ function formValidate() {
 }
 
 $('#submit').on('click', function () {
-    formValidate();
+    formValidate(0);
+});
+
+$('#submitApprove').on('click', function () {
+    formValidate(1);
 });
 
 $('#shenhetj').on('click', function () {
