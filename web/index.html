@@ -150,35 +150,7 @@
 <script src="js/config.js"></script>
 <script src="js/common.js"></script>
 <script src="js/user-info-menu.js"></script>
-<script>
-    $(function () {
-
-        let welcome = '';
-        let userJson = localStorage.getItem("user-info");
-        let nickname = JSON.parse(userJson).nickname;
-        if (typeof nickname == "undefined" || nickname == null || nickname == "") {
-            welcome += JSON.parse(userJson).username;
-        } else {
-            welcome += nickname;
-        }
-        let role = JSON.parse(userJson).role;
-        if (typeof role == "undefined" || role == null || role == "") {
-        } else {
-            welcome = welcome+" ["+role+"] "
-        }
-        $("#welcome").text(welcome);
-
-        let myDate = new Date;
-        let year = myDate.getFullYear(); //获取当前年
-        let mon = myDate.getMonth() + 1; //获取当前月
-        let date = myDate.getDate(); //获取当前日
-        let week = myDate.getDay();
-        let weeks = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
-        console.log(year, mon, date, weeks[week])
-        $("#time").html(year + "年" + mon + "月" + date + "日" + '，' + weeks[week]);
-
-    })
-</script>
+<script src="js/index.js"></script>
 </body>
 
 </html>

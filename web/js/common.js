@@ -23,20 +23,13 @@ function getUserInfo() {
     $.ajax({
         url: window.config.api + '/user/getUserInfo',
         method: "GET",
-        sync: true,
+        async: false,
         success: function (response) {
             if (response.errorCode == 401) {
                 toastr.warning(response.message);
                 setTimeout(function () {
                     window.location = "./login.html";
                 }, 1500)
-            }
-            // console.info(response)
-            let nickname = response.data.nickname;
-            if (typeof nickname == "undefined" || nickname == null || nickname == "") {
-                $("#nickname").text(response.data.username);
-            } else {
-                $("#nickname").text(nickname);
             }
             localStorage.setItem("user-info", JSON.stringify(response.data));
         }
@@ -76,7 +69,7 @@ function getMenu() {
     $.ajax({
         url: window.config.api + '/user/getMenu',
         method: "GET",
-        sync: true,
+        async: false,
         success: function (response) {
             $('#placeholder').remove();
             drawMenu(response);

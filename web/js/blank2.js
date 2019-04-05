@@ -535,5 +535,6 @@ function submitApprove() {
             }
         }
     });
-
 }
+
+$("#logoutModal").children(".btn").removeAttr("disabled");
