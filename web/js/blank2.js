@@ -172,6 +172,9 @@ if (id) {
                     if (his.status == 3) {
                         status = '修改信息';
                     }
+                    if (his.status == 4) {
+                        status = '提交重审';
+                    }
                     if (his.status == 1) {
                         status = '审核通过';
                         if (his.comment) {
