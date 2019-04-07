@@ -2,13 +2,13 @@ $(function () {
     let welcome = '';
     let userJsonStr = localStorage.getItem("user-info");
     console.info("userJsonStr：" + userJsonStr)
-    if (typeof userJsonStr == "undefined" || userJsonStr == null || userJsonStr == "") {
-        getUserInfo();
+    if (isEmpty(userJsonStr)) {
+        window.location.reload();
     }
     userJsonStr = localStorage.getItem("user-info");
     let user = JSON.parse(userJsonStr);
     let nickname = user.nickname;
-    if (typeof nickname == "undefined" || nickname == null || nickname == "") {
+    if (isEmpty(nickname)) {
         welcome += user.username;
     } else {
         welcome += nickname;

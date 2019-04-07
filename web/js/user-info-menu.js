@@ -7,7 +7,7 @@ $(function () {
         getUserInfo();
         let userJson = JSON.parse(localStorage.getItem("user-info"));
         let nickname = userJson.nickname;
-        if (typeof nickname == "undefined" || nickname == null || nickname == "") {
+        if (isEmpty(nickname)) {
             $("#nickname").text(userJson.username);
         } else {
             $("#nickname").text(nickname);

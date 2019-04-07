@@ -247,7 +247,7 @@
             if ($.trim($('#telephone').val()).length === 0) {
                 str += '请输入联系电话\n';
             } else {
-                if (isPhoneNo($.trim($('#telephone').val()) === false)) {
+                if (isTelephone($.trim($('#telephone').val()) === false)) {
                     str += '联系电话格式不正确\n';
                 }
             }

@@ -34,6 +34,7 @@ if (type == undefined || type == null) {
     if (getUserRole() != '街道办') {
         $("#submit").text("无权操作")
         $("#submit").attr("disabled", "disabled")
+        $("#submitApprove").hide();
     }
 }
 
@@ -246,6 +247,15 @@ function point() {
     $("#total_point").val(total_point);
 }
 
+$("#live_point,#social_point").keyup(function () {
+    let value = $(this).val();
+    console.info(value);
+    if (!isNumber(value)) {
+        toastr.warning('只能输入正整数');
+        $(this).val('');
+    }
+});
+
 // 验证函数
 function formValidate(submit) {
 
@@ -278,7 +288,7 @@ function formValidate(submit) {
     if ($.trim($('#telephone').val()).length === 0) {
         str += '请输入联系电话\n';
     } else {
-        if (isPhoneNo($.trim($('#telephone').val()) === false)) {
+        if (isTelephone($.trim($('#telephone').val()) === false)) {
             str += '联系电话格式不正确\n';
         }
     }
@@ -302,7 +312,7 @@ function formValidate(submit) {
         // 住址所属社区
         let town = $("#town").find("option:selected").data("value");
         let village = $("#village").find("option:selected").data("value");
-        if (town == undefined || village == undefined) {
+        if (isEmpty(town) || isEmpty(village)) {
             str += '请选择住址所属社区\n';
         }
 
