@@ -3,7 +3,10 @@ $(function () {
     let userJsonStr = localStorage.getItem("user-info");
     console.info("userJsonStr：" + userJsonStr)
     if (isEmpty(userJsonStr)) {
-        window.location.reload();
+        getUserInfo();
+        if (!isEmpty(localStorage.getItem("user-info"))) {
+            window.location.reload();
+        }
     }
     userJsonStr = localStorage.getItem("user-info");
     let user = JSON.parse(userJsonStr);

@@ -74,10 +74,10 @@
                                     <td>学生性别</td>
                                     <td>
                                         <label class="radio-inline">
-                                            <input type="radio" name="xsSex" value="male" checked>男
+                                            <input type="radio" name="xsGender" value="male" checked>男
                                         </label>
                                         <label class="radio-inline">
-                                            <input type="radio" name="xsSex" value="female">女
+                                            <input type="radio" name="xsGender" value="female">女
                                         </label>
                                     </td>
                                 </tr>
@@ -118,14 +118,22 @@
                                     </select>
                                     </td>
                                     <td>户籍归属</td>
-                                    <td><input type="radio" name="district" value="qyn" checked>区域内
-                                        <input type="radio" name="district" value="yzgb">援藏干部
+                                    <td><input type="radio" name="hjgs" value="qyn" checked>区域内
+                                        <input type="radio" name="hjgs" value="yzgb">援藏干部
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td colspan="6" align="center">
-                                        <input class="btn btn-primary" type="submit" id="submit" style="width: 15%"
-                                               value="提交"></td>
+                                <tr id="editTr">
+                                    <td>操作</td>
+                                    <td align="left" colspan="5">
+                                        <button class="btn btn-primary" type="submit" id="submit"
+                                                style="width: 20%;margin-right: 2rem;">
+                                            保存
+                                        </button>
+                                        <button class="btn btn-primary" type="submit" id="submitApprove"
+                                                style="width: 20%">
+                                            保存并提交
+                                        </button>
+                                    </td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -172,7 +180,6 @@
             method: "GET",
             async: false,
             success: function (response) {
-                console.info(response);
                 for (let i = 0; i < response.data.length; i++) {
                     $("#district").append($("<option data-value=" + response.data[i].name + "></option>").val(i + 1).html(response.data[i].name));
                 }
@@ -198,6 +205,9 @@
                 });
             }
         })
+
+
+        let id = getUrlParam("id");
 
         $('#submit').on('click', function () {
             formValidate();
@@ -278,47 +288,6 @@
             } else {
                 console.info("提交数据");
 
-                // 就读方式：1居住就读，2积分就读
-                let type = $("input[type='radio'][name='jdfs']:checked").val();
-                if (type === 'rents') {
-                    type = 1;
-                } else {
-                    type = 2;
-                }
-                let guarderName = $("#guarder").val();
-                let guarderIdentityNumber = $("#guarderId").val();
-                let telephone = $("#telephone").val();
-                let residenceType = $("input[type='radio'][name='idType']:checked").val();
-                if (residenceType === 'jzz') {
-                    residenceType = '居住证';
-                } else {
-                    residenceType = '居住登记证明';
-                }
-                // 居住证件编码
-                let residenceNumber = $("#jzzid").val();
-                let residenceAddress = $("#idAddress").val();
-
-                let guarderType = $("input[type='radio'][name='workType']:checked").val();
-                if (guarderType === 'dwzg') {
-                    guarderType = '单位职工';
-                } else {
-                    guarderType = '个体工商户';
-                }
-                let rentNumber = $("#rentNum").val();
-                let rentAddressZone = $("#town").find("option:selected").data("value") + "|" + $("#village").find("option:selected").data("value");
-                let livePoint = $("#live_point").val();
-                let socialPoint = $("#social_point").val();
-                let totalPoint = $("#total_point").val();
-                let company = $("#companyName").val();
-                let companyAddress = $("#companyAddress").val();
-                let companySocialId = $("#companyId").val();
-                let socialSecurityId = $("#socialId").val();
-                let socialSecurityPayMethod = $("input[type='radio'][name='payMethod']:checked").val();
-                if (socialSecurityPayMethod == 'dw') {
-                    socialSecurityPayMethod = '单位';
-                } else {
-                    socialSecurityPayMethod = '个人';
-                }
                 let studentName = $("#xsName").val();
                 let studentIdentityNumber = $("#xsId").val();
                 let studentGender = $("input[type='radio'][name='xsGender']:checked").val();
@@ -327,92 +296,76 @@
                 } else {
                     studentGender = '女'
                 }
-                let studentGrade = $("#grade").val();
-                let studentSchoolRoll = $("#xjh").val();
-                let studentHousehold = $("#provinceName").val() + "|" + $("#cityName").val() + "|" + $("#districtName").val();
-                let comment = $("#bz").val();
+
+                let guarderName = $("#guarder").val();
+                let guarderIdentityNumber = $("#guarderId").val();
+                let telephone = $("#telephone").val();
+                // 所在区域
+                let district = $("#district").find("option:selected").data("value");
+                // 户籍地址
+                let studentHousehold = $("#province").val() + "|" + $("#city").val() + "|" + $("#county").val();
+                let gbSchool = $("#gbSchool").find("option:selected").data("value");
+                let gySchool = $("#gySchool").find("option:selected").data("value");
+                let hjgs = $("input[type='radio'][name='hjgs']:checked").val();
+                if (hjgs == 'yzgb') {
+                    hjgs = '援藏干部'
+                } else {
+                    hjgs = '区域内'
+                }
+
                 console.info("id:" + id);
-                console.info("就读方式：" + type);
-                console.info("证件持有人姓名：" + guarderName)
-                console.info("证件持有人身份证：" + guarderIdentityNumber)
-                console.info("联系电话：" + telephone)
-                console.info("居住证件类型：" + residenceType)
-                console.info("居住证件编码：" + residenceNumber)
-                console.info("居住证上所写住址：" + residenceAddress)
-                console.info("人员类型：" + guarderType)
-                console.info("租房备案号：" + rentNumber)
-                console.info("住址所属社区：" + rentAddressZone)
-                console.info("居住积分:" + livePoint)
-                console.info("社保积分:" + socialPoint)
-                console.info("总积分:" + totalPoint)
-                console.info("单位名称:" + company)
-                console.info("单位地址:" + companyAddress)
-                console.info("单位社会信用代码:" + companySocialId)
-                console.info("社保编码:" + socialSecurityId)
-                console.info("社保缴纳方式:" + socialSecurityPayMethod)
                 console.info("学生姓名:" + studentName)
                 console.info("学生身份证号:" + studentIdentityNumber)
                 console.info("学生性别:" + studentGender)
-                console.info("申请入学年级:" + studentGrade)
-                console.info("学籍号:" + studentSchoolRoll)
+
+                console.info("监护人姓名：" + guarderName)
+                console.info("监护人身份证：" + guarderIdentityNumber)
+                console.info("联系电话：" + telephone)
+
+
+                console.info("所在区域:" + district)
                 console.info("户籍地址:" + studentHousehold)
-                console.info("备注:" + comment)
+                console.info("公办幼儿园:" + gbSchool)
+                console.info("公益幼儿园:" + gySchool)
+                console.info("户籍归属:" + hjgs)
 
-                if (type == 2) {
-                    rentAddressZone = '';
-                }
 
-                $.ajax({
-                    url: window.config.api + '/enrollment/addCompulsory',
-                    method: "POST",
-                    data: JSON.stringify({
-                        "id": id,
-                        "type": type,
-                        "guarderName": guarderName,
-                        "guarderIdentityNumber": guarderIdentityNumber,
-                        "telephone": telephone,
-                        "residenceType": residenceType,
-                        "residenceNumber": residenceNumber,
-                        "residenceAddress": residenceAddress,
-                        "guarderType": guarderType,
-                        "rentNumber": rentNumber,
-                        "rentAddressZone": rentAddressZone,
-                        "livePoint": livePoint,
-                        "socialPoint": socialPoint,
-                        "totalPoint": totalPoint,
-                        "company": company,
-                        "companyAddress": companyAddress,
-                        "companySocialId": companySocialId,
-                        "socialSecurityId": socialSecurityId,
-                        "socialSecurityPayMethod": socialSecurityPayMethod,
-                        "studentName": studentName,
-                        "studentIdentityNumber": studentIdentityNumber,
-                        "studentGender": studentGender,
-                        "studentGrade": studentGrade,
-                        "studentSchoolRoll": studentSchoolRoll,
-                        "studentHousehold": studentHousehold,
-                        "comment": comment
-                    }),
-                    success: function (response) {
-                        if (response.errorCode == 200) {
-                            toastr.success(response.message);
-                            if (!id) {
-                                let r = confirm("是否打印回执!");
-                                if (r == true) {
-                                    window.location = "./print-confirm.html?id=" + response.data;
-                                } else {
-                                    window.location = "./compulsory.html";
-                                }
-                            } else {
-                                window.location = "./blank2.html?id=" + id + "&edit=1";
-                            }
-                        }
-                    }
-                });
+                // $.ajax({
+                //     url: window.config.api + '/enrollment/addCompulsory',
+                //     method: "POST",
+                //     data: JSON.stringify({
+                //         "id": id,
+                //         "studentName": studentName,
+                //         "studentIdentityNumber": studentIdentityNumber,
+                //         "studentGender": studentGender,
+                //         "guarderName": guarderName,
+                //         "guarderIdentityNumber": guarderIdentityNumber,
+                //         "telephone": telephone,
+                //         "district": district,
+                //         "studentHousehold": studentHousehold,
+                //         "gbSchool": gbSchool,
+                //         "gySchool": gySchool,
+                //         "hjgs": hjgs
+                //     }),
+                //     success: function (response) {
+                //         if (response.errorCode == 200) {
+                //             toastr.success(response.message);
+                //             if (!id) {
+                //                 let r = confirm("是否打印回执!");
+                //                 if (r == true) {
+                //                     window.location = "./print-confirm.html?id=" + response.data;
+                //                 } else {
+                //                     window.location = "./compulsory.html";
+                //                 }
+                //             } else {
+                //                 window.location = "./blank2.html?id=" + id + "&edit=1";
+                //             }
+                //         }
+                //     }
+                // });
 
             }
         }
-
 
     });
 </script>

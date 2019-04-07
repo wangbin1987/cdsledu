@@ -29,7 +29,7 @@ $.ajax({
 
 let type = getUrlParam("type");
 
-if (type == undefined || type == null) {
+if (isEmpty(type)) {
     $("#editTr").show();
     if (getUserRole() != '街道办') {
         $("#submit").text("无权操作")
@@ -334,6 +334,14 @@ function formValidate(submit) {
         // 社保编码
         if ($.trim($('#socialId').val()).length === 0) {
             str += '请输入社保编码\n';
+        }
+    } else {
+        if ($.trim($('#live_point').val()).length === 0) {
+            str += '请输入居住积分\n';
+        }
+
+        if ($.trim($('#social_point').val()).length === 0) {
+            str += '请输入社保积分\n';
         }
     }
 
