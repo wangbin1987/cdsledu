@@ -81,15 +81,11 @@ $(document).ready(function () {
 
 
 function view(id) {
-    window.location = "./blank2.html?id=" + id + "&type=view";
+    window.location = "./blank.html?id=" + id + "&type=view";
 }
 
 function edit(id) {
-    window.location = "./blank2.html?id=" + id + "&type=edit";
-}
-
-function approve(id) {
-    window.location = "./blank2.html?id=" + id + "&type=approve";
+    window.location = "./blank.html?id=" + id + "&type=edit";
 }
 
 function del(id) {
