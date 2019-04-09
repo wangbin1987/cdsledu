@@ -330,39 +330,30 @@
                 console.info("户籍归属:" + hjgs)
 
 
-                // $.ajax({
-                //     url: window.config.api + '/enrollment/addCompulsory',
-                //     method: "POST",
-                //     data: JSON.stringify({
-                //         "id": id,
-                //         "studentName": studentName,
-                //         "studentIdentityNumber": studentIdentityNumber,
-                //         "studentGender": studentGender,
-                //         "guarderName": guarderName,
-                //         "guarderIdentityNumber": guarderIdentityNumber,
-                //         "telephone": telephone,
-                //         "district": district,
-                //         "studentHousehold": studentHousehold,
-                //         "gbSchool": gbSchool,
-                //         "gySchool": gySchool,
-                //         "hjgs": hjgs
-                //     }),
-                //     success: function (response) {
-                //         if (response.errorCode == 200) {
-                //             toastr.success(response.message);
-                //             if (!id) {
-                //                 let r = confirm("是否打印回执!");
-                //                 if (r == true) {
-                //                     window.location = "./print-confirm.html?id=" + response.data;
-                //                 } else {
-                //                     window.location = "./compulsory.html";
-                //                 }
-                //             } else {
-                //                 window.location = "./blank2.html?id=" + id + "&edit=1";
-                //             }
-                //         }
-                //     }
-                // });
+                $.ajax({
+                    url: window.config.api + '/primary/saveKindergarten',
+                    method: "POST",
+                    data: JSON.stringify({
+                        "id": id,
+                        "studentName": studentName,
+                        "studentIdentityNumber": studentIdentityNumber,
+                        "studentGender": studentGender,
+                        "guarderName": guarderName,
+                        "guarderIdentityNumber": guarderIdentityNumber,
+                        "telephone": telephone,
+                        "residenceArea": district,
+                        "studentHousehold": studentHousehold,
+                        "gbKindergarten": gbSchool,
+                        "gyKindergarten": gySchool,
+                        "householdType": hjgs
+                    }),
+                    success: function (response) {
+                        if (response.errorCode == 200) {
+                            toastr.success(response.message);
+                            window.location = "./kindergarten.html";
+                        }
+                    }
+                });
 
             }
         }
