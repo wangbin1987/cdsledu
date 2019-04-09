@@ -45,7 +45,6 @@ $(document).ready(function () {
             {"data": "createTime"},
             {"data": "gbKindergarten"},
             {"data": "gyKindergarten"},
-            // {"data": "rentAddressZone"},
             {"data": "status"}
         ], "columnDefs": [
             // {
@@ -59,32 +58,21 @@ $(document).ready(function () {
             // },
             {
                 // 定义操作列,######以下是重点########
-                "targets": 5,//操作按钮目标列
+                "targets": 6,//操作按钮目标列
                 "className": 'class-center',
                 "data": null,
                 "render": function (data, type, row) {
                     let id = row.id;
 
-                    if (role == '街道办') {
-                        let html = "<a href='javascript:void(0);' onclick='printIt(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-print'></i> 打印</a>";
-                        html += "<a href='javascript:void(0);' onclick='view(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-file-alt'></i> 查看</a>";
+                    if (row.operation == 1) {
+                        let html = "<a href='javascript:void(0);' onclick='view(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-file-alt'></i> 查看</a>";
                         html += "<a href='javascript:void(0);' onclick='edit(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-edit'></i> 编辑</a>";
                         html += "<a href='javascript:void(0);' onclick='del(" + id + ")' class='down btn btn-default btn-xs'><i class='fa fa-trash-alt'></i> 删除</a>"
                         return html;
-                    }
-
-                    if (row.operation == 0) {
+                    } else {
                         let html = "<a href='javascript:void(0);' onclick='view(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-file-alt'></i> 查看</a>";
                         return html;
                     }
-
-                    if (role == '公安局' || role == '工商局' || role == '小教科' || role == '中教科') {
-                        let html = "<a href='javascript:void(0);' onclick='approve(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-list'></i> 审核</a>";
-                        return html;
-                    }
-
-                    let html = "<a href='javascript:void(0);' onclick='view(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-file-alt'></i> 查看</a>";
-                    return html;
                 },
                 "bSortable": false
             }],
