@@ -15,7 +15,8 @@ $($.ajaxSetup({
     },
     dataType: "json",
     complete: function (xhr) {
-        // console.log("ajax complete");
+        console.log("ajax complete");
+        console.log(xhr.responseJSON);
         if (xhr.status == 200) {
             if (xhr.responseJSON) {
                 if (xhr.responseJSON.errorCode != 200) {
@@ -36,6 +37,8 @@ $($.ajaxSetup({
 
 // 消息提示全局设置
 toastr.options = {
+    maxOpened: 1,
+    autoDismiss: true,
     "closeButton": false,
     "debug": false,
     "newestOnTop": false,

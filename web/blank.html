@@ -122,14 +122,15 @@
                                         <input type="radio" name="hjgs" value="yzgb">援藏干部
                                     </td>
                                 </tr>
-                                <tr id="editTr">
+                                <tr id="editTr" style="display: none;">
                                     <td>操作</td>
                                     <td align="left" colspan="5">
                                         <button class="btn btn-primary" type="submit" id="submit"
-                                                style="width: 20%;margin-right: 2rem;">
+                                                style="width: 20%;margin-right: 1rem;">
                                             保存
                                         </button>
-                                        <button class="btn btn-primary" type="submit" id="submitApprove"
+                                        <button style="display: none;" class="btn btn-primary" type="submit"
+                                                id="submitApprove"
                                                 style="width: 20%">
                                             保存并提交
                                         </button>
@@ -175,6 +176,7 @@
             placeholder: false
         })
 
+        // 初始化地区学校信息
         $.ajax({
             url: window.config.api + '/system/getDistrictWithSchool',
             method: "GET",
@@ -206,8 +208,100 @@
             }
         })
 
-
         let id = getUrlParam("id");
+        if (id) {
+            $.ajax({
+                url: window.config.api + '/primary/getKindergarten/' + id,
+                method: "GET",
+                async: false,
+                success: function (response) {
+                    console.info(response);
+                    $("#xsName").val(response.data.studentName);
+                    $("#xsId").val(response.data.studentIdentityNumber)
+
+                    if (response.data.studentGender == '男') {
+                        $("input[name='xsGender'][value='male']").attr("checked", true);
+                    } else {
+                        $("input[name='xsGender'][value='female']").attr("checked", true);
+                    }
+
+                    $("#guarder").val(response.data.guarderName);
+                    $("#guarderId").val(response.data.guarderIdentityNumber)
+                    $("#telephone").val(response.data.telephone)
+
+                    // 省市区
+                    let addr = response.data.studentHousehold.split("|");
+                    $("#province").val(addr[0]);
+                    $("#province").trigger("change");
+                    $("#city").val(addr[1]);
+                    $("#city").trigger("change");
+                    $("#county").val(addr[2]);
+                    $("#county").trigger("change");
+
+                    if (response.data.residenceArea) {
+                        let district = response.data.residenceArea;
+                        $("#district option").each(function () {
+                            let val = $(this).val();
+                            let text = $(this).attr('data-value');
+                            // console.info(text);
+                            if (text == district) {
+                                $("#district").val(val);
+                            }
+                        })
+                        $("#district").trigger("change");
+                    }
+
+                    if (response.data.gbKindergarten) {
+                        let gbSchool = response.data.gbKindergarten;
+                        $("#gbSchool option").each(function () {
+                            let val = $(this).val();
+                            let text = $(this).attr('data-value');
+                            // console.info(text);
+                            if (text == gbSchool) {
+                                $("#gbSchool").val(val);
+                            }
+                        })
+                    }
+
+                    if (response.data.gyKindergarten) {
+                        let gySchool = response.data.gyKindergarten;
+                        $("#gySchool option").each(function () {
+                            let val = $(this).val();
+                            let text = $(this).attr('data-value');
+                            // console.info(text);
+                            if (text == gySchool) {
+                                $("#gySchool").val(val);
+                            }
+                        })
+                    }
+
+                    if (response.data.householdType == '援藏干部') {
+                        $("input[name='hjgs'][value='yzgb']").attr("checked", true);
+                    } else {
+                        $("input[name='hjgs'][value='qyn']").attr("checked", true);
+                    }
+
+                    if (!response.data.canEdit) {
+                        $("#submit").attr("disabled", "disabled");
+                        $("#submit").text(response.data.showStatus);
+                    } else {
+                        $("#submitApprove").show();
+                    }
+
+                }
+            })
+        }
+
+        let type = getUrlParam("type");
+        if (type == 'view') {
+            $(":input").attr("disabled", "disabled");
+        } else if (type == 'edit') {
+            $("#editTr").show();
+        } else {
+            $("#editTr").show();
+            $("#submitApprove").show()
+            $("#submitApprove").css('width',"20%");
+        }
 
         $('#submit').on('click', function () {
             formValidate();

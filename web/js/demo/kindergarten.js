@@ -45,7 +45,7 @@ $(document).ready(function () {
             {"data": "createTime"},
             {"data": "gbKindergarten"},
             {"data": "gyKindergarten"},
-            {"data": "status"}
+            {"data": "showStatus"}
         ], "columnDefs": [
             // {
             //     // 定义操作列,######以下是重点########
@@ -67,7 +67,9 @@ $(document).ready(function () {
                     if (row.operation == 1) {
                         let html = "<a href='javascript:void(0);' onclick='view(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-file-alt'></i> 查看</a>";
                         html += "<a href='javascript:void(0);' onclick='edit(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-edit'></i> 编辑</a>";
-                        html += "<a href='javascript:void(0);' onclick='del(" + id + ")' class='down btn btn-default btn-xs'><i class='fa fa-trash-alt'></i> 删除</a>"
+                        if (row.creatorId == getUserInfo().id) {
+                            html += "<a href='javascript:void(0);' onclick='del(" + id + ")' class='down btn btn-default btn-xs'><i class='fa fa-trash-alt'></i> 删除</a>"
+                        }
                         return html;
                     } else {
                         let html = "<a href='javascript:void(0);' onclick='view(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-file-alt'></i> 查看</a>";
@@ -104,7 +106,7 @@ $(document).on("click", "#deleteBtn", function () {
 
 function deleteData(id) {
     $.ajax({
-        url: window.config.api + '/enrollment/deleteCompulsoryById/' + id,
+        url: window.config.api + '/primary/deleteKindergarten/' + id,
         method: "POST",
         success: function (response) {
             if (response.errorCode == 200) {

@@ -1,62 +1,47 @@
-$("div#productName").html(window.config.appName);
+// datatable 添加中文排序
+function addChieseAsc() {
+    jQuery.fn.dataTableExt.oSort['chinese-asc'] = function (x, y) {
+        x = (x instanceof Array) ? x[0] : x == '-' ? 'z' : x; //z的ASCII码值最大
+        y = (y instanceof Array) ? y[0] : y == '-' ? 'z' : y;
+        //javascript自带的中文比较函数，具体用法可自行查阅了解
+        return x.localeCompare(y);
+    };
 
-$(document).on("click", "button#logoutBtn", function () {
-    logout();
-})
+    jQuery.fn.dataTableExt.oSort['chinese-desc'] = function (x, y) {
+        x = (x instanceof Array) ? x[0] : x == '-' ? 'z' : x;
+        y = (y instanceof Array) ? y[0] : y == '-' ? 'z' : y;
+        return y.localeCompare(x);
+    };
 
-function logout() {
-    $.ajax({
-        url: window.config.api + '/user/logout',
-        method: "POST",
-        success: function (response) {
-            localStorage.removeItem("user-info");
-            localStorage.removeItem(window.config.token);
-            window.location = "./login.html";
+    // aTypes是插件存放表格内容类型的数组
+    // reg赋值的正则表达式，用来判断是否是中文字符
+    // 返回值push到aTypes数组，排序时扫描该数组，'chinese'则调用上面两个方法。返回null默认是'string'
+    jQuery.fn.dataTableExt.aTypes.push(function (sData) {
+        let reg = /^[\u4e00-\u9fa5]*$/;
+        if (reg.test(sData)) {
+            return 'chinese';
         }
+        return null;
     });
 }
 
 /**
- * 获取用户信息
+ * 获取地址栏参数
+ * @param key 参数名称
+ * @returns {*}
  */
-function getUserInfo() {
-    $.ajax({
-        url: window.config.api + '/user/getUserInfo',
-        method: "GET",
-        async: false,
-        success: function (response) {
-            if (response.errorCode == 401) {
-                toastr.warning(response.message);
-                setTimeout(function () {
-                    window.location = "./login.html";
-                }, 1500)
-            }
-            localStorage.setItem("user-info", JSON.stringify(response.data));
-        }
-    });
-}
-
-/**
- * 获取用户角色
- */
-function getUserRole() {
-    let userJson = localStorage.getItem("user-info");
-    return JSON.parse(userJson).role;
-}
-
-// 获取地址栏的参数
-function getUrlParam(name) {
+function getUrlParam(key) {
     // 未传参，返回空
-    if (!name) return null;
+    if (!key) return null;
     // 查询参数：先通过search取值，如果取不到就通过hash来取
     let after = window.location.search;
     after = after.substr(1) || window.location.hash.split('?')[1];
     // 地址栏URL没有查询参数，返回空
     if (!after) return null;
     // 如果查询参数中没有"name"，返回空
-    if (after.indexOf(name) === -1) return null;
+    if (after.indexOf(key) === -1) return null;
 
-    let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)');
+    let reg = new RegExp('(^|&)' + key + '=([^&]*)(&|$)');
     // 当地址栏参数存在中文时，需要解码，不然会乱码
     let r = decodeURI(after).match(reg);
     // 如果url中"name"没有值，返回空
@@ -64,10 +49,9 @@ function getUrlParam(name) {
     return r[2];
 }
 
-
-// 验证中文名称
+// 验证中文名称，包括藏族人名
 function isChinaName(name) {
-    let pattern = /^[\u4E00-\u9FA5]{1,6}$/;
+    let pattern = /^[\u4e00-\u9fa5]+·?[\u4e00-\u9fa5]+$/;
     return pattern.test(name);
 }
 
@@ -97,31 +81,56 @@ function isEmpty(str) {
     }
 }
 
-// datatable 添加中文排序
-function addChieseAsc() {
-    jQuery.fn.dataTableExt.oSort['chinese-asc'] = function (x, y) {
-        x = (x instanceof Array) ? x[0] : x == '-' ? 'z' : x; //z的ASCII码值最大
-        y = (y instanceof Array) ? y[0] : y == '-' ? 'z' : y;
-        //javascript自带的中文比较函数，具体用法可自行查阅了解
-        return x.localeCompare(y);
-    };
 
-    jQuery.fn.dataTableExt.oSort['chinese-desc'] = function (x, y) {
-        x = (x instanceof Array) ? x[0] : x == '-' ? 'z' : x;
-        y = (y instanceof Array) ? y[0] : y == '-' ? 'z' : y;
-        return y.localeCompare(x);
-    };
+// 产品名称
+$("div#productName").html(window.config.appName);
 
-    // aTypes是插件存放表格内容类型的数组
-    // reg赋值的正则表达式，用来判断是否是中文字符
-    // 返回值push到aTypes数组，排序时扫描该数组，'chinese'则调用上面两个方法。返回null默认是'string'
-    jQuery.fn.dataTableExt.aTypes.push(function (sData) {
-        let reg = /^[\u4e00-\u9fa5]*$/;
-        if (reg.test(sData)) {
-            return 'chinese';
+// 退出登录
+$(document).on("click", "button#logoutBtn", function () {
+    logout();
+})
+
+function logout() {
+    $.ajax({
+        url: window.config.api + '/user/logout',
+        method: "POST",
+        success: function (response) {
+            localStorage.removeItem("user-info");
+            localStorage.removeItem(window.config.token);
+            window.location = "./login.html";
         }
-        return null;
     });
+}
+
+/**
+ * 获取用户信息
+ */
+function getUserInfo() {
+    let userJsonStr = localStorage.getItem("user-info");
+    if (isEmpty(userJsonStr)) {
+        $.ajax({
+            url: window.config.api + '/user/getUserInfo',
+            method: "GET",
+            async: false,
+            success: function (response) {
+                if (response.errorCode == 401) {
+                    toastr.warning(response.message);
+                    window.location = "./login.html";
+                }
+                localStorage.setItem("user-info", JSON.stringify(response.data));
+                return response.data;
+            }
+        });
+    } else {
+        return JSON.parse(userJsonStr);
+    }
+}
+
+/**
+ * 获取用户角色
+ */
+function getUserRole() {
+    return getUserInfo.role;
 }
 
 /**
@@ -133,8 +142,10 @@ function getMenu() {
         method: "GET",
         async: false,
         success: function (response) {
-            $('#placeholder').remove();
-            drawMenu(response);
+            if (response.errorCode == 200) {
+                $('#placeholder').remove();
+                drawMenu(response);
+            }
         }
     });
 }
@@ -224,6 +235,9 @@ $(document).on("click", "li.nav-item", function () {
     }
 })
 
+/**
+ * 为菜单绑定事件
+ */
 $(document).on('click', "#sidebarToggle, #sidebarToggleTop", function () {
     $("body").toggleClass("sidebar-toggled");
     $(".sidebar").toggleClass("toggled");
