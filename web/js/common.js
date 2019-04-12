@@ -69,7 +69,7 @@ function isNumber(number) {
 
 // 验证身份证
 function isCardNo(card) {
-    let pattern = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+    let pattern = /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([\d|x|X])$/;
     return pattern.test(card);
 }
 
