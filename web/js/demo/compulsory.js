@@ -1,7 +1,7 @@
 // Call the dataTables jQuery plugin
 $(document).ready(function () {
 
-    let role = getUserRole();
+    let role = getUserInfo().role;
     if (role == '街道办') {
         // $("#head").show();
     }

@@ -19,9 +19,38 @@ $().ready(function () {
         submitHandler: function () {
             let username = $("#username").val().trim();
             let password = $("#password").val().trim();
+            rememberUsername();
             doLogin(username, password);
         }
     });
+
+    console.info("记住我cookie:" + $.cookie("rememberMe"));
+    if ($.cookie("rememberMe") == "true") {
+        $("#rememberMe").attr("checked", true);
+        $("#username").val($.cookie("usernameCookie"));
+    }
+
+    // 记住用户名
+    function rememberUsername() {
+        // 如果选中了记住我
+        if ($('#rememberMe').is(':checked') == true) {
+            let usernameCookie = $("#username").val().trim();
+            $.cookie("rememberMe", "true", {
+                expires: 7
+            }); // 存储一个带7天期限的 cookie
+            $.cookie("usernameCookie", usernameCookie, {
+                expires: 7
+            }); // 存储一个带7天期限的 cookie
+        } else {
+            $.cookie("rememberMe", "false", {
+                expires: -1
+            });
+            $.cookie("usernameCookie", "", {
+                expires: -1
+            });
+        }
+    }
+
 });
 
 function doLogin(username, password) {

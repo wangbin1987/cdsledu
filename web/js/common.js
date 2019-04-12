@@ -127,13 +127,6 @@ function getUserInfo() {
 }
 
 /**
- * 获取用户角色
- */
-function getUserRole() {
-    return getUserInfo.role;
-}
-
-/**
  * 获取菜单信息
  */
 function getMenu() {

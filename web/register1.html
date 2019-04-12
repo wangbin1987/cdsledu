@@ -18,36 +18,7 @@
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.css" rel="stylesheet">
 
-    <style>
-        a:hover {
-            color: #be3633;
-            text-decoration: none;
-        }
-
-        .top {
-            background: rgba(255, 255, 255, 0.8);
-            padding: 5px;
-
-        }
-
-        .top-img {
-            position: relative;
-            left: 10px;
-        }
-
-        .top-link {
-            position: absolute;
-            top: 20px;
-            right: 50px;
-            font-family: 微软雅黑, serif;
-            font-size: 24px;
-            color: #000;
-        }
-
-        label.error {
-            margin: 0.2rem 1rem
-        }
-    </style>
+    <link href="css/not-login.css" rel="stylesheet">
 
 </head>
 
@@ -91,7 +62,7 @@
                                     </div>
                                     <div class="form-group row">
                                         <div class="col-sm-6 mb-3 mb-sm-0">
-                                            <input type="password" class="form-control form-control-user"
+                                            <input type="text" class="form-control form-control-user"
                                                    id="code" name="code"
                                                    placeholder="验证码">
                                         </div>
@@ -217,10 +188,22 @@
         if (isEmpty(idCard)) {
             $("#idCard").focus();
             return;
+        } else {
+            if (!isCardNo(idCard)) {
+                toastr.warning("身份证格式不正确");
+                $("#idCard").focus();
+                return;
+            }
         }
         if (isEmpty(telephone)) {
             $("#telephone").focus();
             return;
+        } else {
+            if (!isTelephone(telephone)) {
+                toastr.warning("手机号格式不正确");
+                $("#telephone").focus();
+                return;
+            }
         }
         if (isEmpty(code)) {
             $("#code").focus();

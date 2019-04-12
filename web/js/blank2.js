@@ -31,7 +31,7 @@ let type = getUrlParam("type");
 
 if (isEmpty(type)) {
     $("#editTr").show();
-    if (getUserRole() != '街道办') {
+    if (getUserInfo().role != '街道办') {
         $("#submit").text("无权操作")
         $("#submit").attr("disabled", "disabled")
         $("#submitApprove").hide();
@@ -74,7 +74,7 @@ if (id) {
 
             if (response.errorCode != 200) {
                 $("#editTr").show();
-                if (getUserRole() != '街道办') {
+                if (getUserInfo().role != '街道办') {
                     $("#submit").text("无权操作")
                     $("#submit").attr("disabled", "disabled")
                 }

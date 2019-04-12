@@ -54,7 +54,13 @@ $(document).ready(function () {
 });
 
 function edit(id) {
-    alert(id);
+    // alert(id);
+    if (getUserInfo()) {
+        window.location = "./blank.html?schoolId=" + id;
+    } else {
+        alert("登录后进行报名")
+    }
+
 // 通过ajxa获取再显示数据
 }
 

@@ -16,37 +16,7 @@
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.css" rel="stylesheet">
-    <style>
-
-        a:hover {
-            color: #be3633;
-            text-decoration: none;
-        }
-
-        .top {
-            background: rgba(255, 255, 255, 0.8);
-            padding: 5px;
-
-        }
-
-        .top-img {
-            position: relative;
-            left: 10px;
-        }
-
-        .top-link {
-            position: absolute;
-            top: 20px;
-            right: 50px;
-            font-family: 微软雅黑, serif;
-            font-size: 24px;
-            color: #000;
-        }
-
-        label.error {
-            margin: 0.2rem 1rem
-        }
-    </style>
+    <link href="css/not-login.css" rel="stylesheet">
 
 </head>
 
@@ -85,8 +55,8 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="custom-control custom-checkbox small">
-                                            <input type="checkbox" class="custom-control-input" id="customCheck">
-                                            <label class="custom-control-label" for="customCheck">记住我</label>
+                                            <input type="checkbox" class="custom-control-input" id="rememberMe">
+                                            <label class="custom-control-label" for="rememberMe">记住我</label>
                                         </div>
                                     </div>
                                     <input class="btn btn-primary btn-block" type="submit" value="登录">
@@ -116,12 +86,14 @@
 <script src="vendor/jquery-validation/jquery.validate.js"></script>
 <script src="vendor/jquery-validation/messages_zh.js"></script>
 <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="vendor/jquery-cookie/jquery.cookie.js"></script>
 <script src="vendor/toastr/toastr.min.js"></script>
 
 <!-- Custom scripts for all pages-->
 <script src="js/sb-admin-2.min.js"></script>
 <script src="js/config.js"></script>
 <script src="js/login.js"></script>
+
 
 </body>
 

@@ -209,7 +209,7 @@
         })
 
         let id = getUrlParam("id");
-        if (id) {
+        if (!isEmpty(id)) {
             $.ajax({
                 url: window.config.api + '/primary/getKindergarten/' + id,
                 method: "GET",
@@ -290,6 +290,54 @@
 
                 }
             })
+        } else {
+
+            let schoolId = getUrlParam("schoolId");
+            if (!isEmpty(schoolId)) {
+                $.ajax({
+                    url: window.config.api + '/primary/enrolPlan/' + schoolId,
+                    method: "GET",
+                    success: function (response) {
+                        console.info(response);
+                        if (response.errorCode == 200) {
+                            if (response.data.district) {
+                                let district = response.data.district;
+                                $("#district option").each(function () {
+                                    let val = $(this).val();
+                                    let text = $(this).attr('data-value');
+                                    // console.info(text);
+                                    if (text == district) {
+                                        $("#district").val(val);
+                                    }
+                                })
+                                $("#district").trigger("change");
+                            }
+
+                            if (response.data.name) {
+                                let school = response.data.name;
+                                $("#gbSchool option").each(function () {
+                                    let val = $(this).val();
+                                    let text = $(this).attr('data-value');
+                                    // console.info(text);
+                                    if (text == school) {
+                                        $("#gbSchool").val(val);
+                                    }
+                                })
+                                $("#gySchool option").each(function () {
+                                    let val = $(this).val();
+                                    let text = $(this).attr('data-value');
+                                    // console.info(text);
+                                    if (text == school) {
+                                        $("#gySchool").val(val);
+                                    }
+                                })
+                            }
+
+                        }
+                    }
+                })
+            }
+
         }
 
         let type = getUrlParam("type");
@@ -303,17 +351,17 @@
             $("#submitApprove").css('width', "20%");
             let user = getUserInfo();
             if (isEmpty($("#guarder").val())) {
-                if(!isEmpty(user.nickname)){
+                if (!isEmpty(user.nickname)) {
                     $("#guarder").val(user.nickname);
                 }
             }
             if (isEmpty($("#guarderId").val())) {
-                if(!isEmpty(user.idCardNumber)) {
+                if (!isEmpty(user.idCardNumber)) {
                     $("#guarderId").val(user.idCardNumber);
                 }
             }
             if (isEmpty($("#telephone").val())) {
-                if(!isEmpty(user.telephone)){
+                if (!isEmpty(user.telephone)) {
                     $("#telephone").val(user.telephone);
                 }
             }

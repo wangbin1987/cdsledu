@@ -3,6 +3,8 @@ $(document).ready(function () {
 
     addChieseAsc();
 
+    let role = getUserInfo().role;
+
     $('#dataTable').DataTable({
         language: {
             "sProcessing": "处理中...",
@@ -38,18 +40,26 @@ $(document).ready(function () {
             {"data": "name"},
             {"data": "type"},
             {"data": "district"},
-            {"data": "extra.septemberAdd"}
+            {"data": "extra.septemberAdd"},
+            {"data": "extra.left"}
         ], "columnDefs": [{
             // 定义操作列,######以下是重点########
-            "targets": 5,//操作按钮目标列
+            "targets": 6,//操作按钮目标列
             "data": null,
             "render": function (data, type, row) {
-                let html = "<a href='javascript:void(0);' onclick='edit(" + row.id + ")' class='view btn btn-default btn-xs'  ><i class='fa fa-edit '></i> 修改</a>";
+                let html = "<a href='javascript:void(0);' onclick='register(" + row.id + ")' class='view btn btn-default btn-xs'  ><i class='fa fa-check-square '></i> 报名</a>";
+                if (role == '系统管理员') {
+                    html += "<a href='javascript:void(0);' onclick='edit(" + row.id + ")' class='view btn btn-default btn-xs'  ><i class='fa fa-edit '></i> 修改</a>";
+                }
                 return html;
             }
         }],
     });
 });
+
+function register(id) {
+    window.location = "./blank.html?schoolId=" + id;
+}
 
 function edit(id) {
     // alert(id);
