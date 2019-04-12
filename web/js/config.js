@@ -25,7 +25,7 @@ $($.ajaxSetup({
                         toastr.warning(xhr.responseJSON.message);
                         setTimeout(function () {
                             window.location = "./login.html";
-                        }, 1000);
+                        }, 700);
                     } else {
                         toastr.warning(xhr.responseJSON.message);
                     }

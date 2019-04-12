@@ -3,114 +3,142 @@
 
 <head>
 
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-  <title>SB Admin 2 - Register</title>
+    <title>SB Admin 2 - Register</title>
 
-  <!-- Custom fonts for this template-->
-  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 
-  <!-- Custom styles for this template-->
-  <link href="css/sb-admin-2.css" rel="stylesheet">
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin-2.css" rel="stylesheet">
 
-  <style>
-    div.container {
-      padding-top: 2rem;
-    }
+    <style>
+        div.row.justify-content-center {
+            margin-top: 2rem;
+        }
 
-    #toast-container > div {
-      margin: 12px;
-    }
+        a:hover {
+            color: #be3633;
+            text-decoration: none;
+        }
 
-    label.error {
-      color: #f6c23e;
-      margin: 0.5rem;
-    }
-  </style>
+        .top {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 5px;
+
+        }
+
+        .top-img {
+            position: relative;
+            left: 10px;
+        }
+
+        .top-link {
+            position: absolute;
+            top: 20px;
+            right: 50px;
+            font-family: 微软雅黑, serif;
+            font-size: 24px;
+            color: #000;
+        }
+
+        label.error {
+            margin: 0.2rem 1rem
+        }
+    </style>
 
 </head>
 
 <body class="bg-gradient-primary">
+<nav class="top" id="top">
+    <img src="./img/logo.png" alt="logo" class="top-img">
+    <a href="./scheme-show.html" target="_blank" class="top-link">幼儿园招生计划</a>
+</nav>
+<div class="container">
 
-  <div class="container">
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
 
-    <div class="card o-hidden border-0 shadow-lg my-5">
-      <div class="card-body p-0">
-        <!-- Nested Row within Card Body -->
-        <div class="row">
-          <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
-          <div class="col-lg-7">
-            <div class="p-5">
-              <div class="text-center">
-                <h1 class="h4 text-gray-900 mb-4">注册账户</h1>
-              </div>
-              <form class="user">
-                <div class="form-group">
-                  <input type="text" id="idCard" name="idCard" autocomplete="off" class="form-control form-control-user"
-                    placeholder="IdCard">
+        <div class="col-xl-10 col-lg-12 col-md-9">
+
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <div class="row">
+                        <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                        <div class="col-lg-6">
+                            <div class="p-5">
+                                <div class="text-center">
+                                    <h1 class="h4 text-gray-900 mb-4">注册账号</h1>
+                                </div>
+                                <form class="user">
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <input type="text" id="nickname" name="username" autocomplete="off"
+                                                   class="form-control form-control-user" id="username"
+                                                   placeholder="姓名">
+                                        </div>
+                                        <input type="text" id="idCard" name="idCard" autocomplete="off"
+                                               class="form-control form-control-user"
+                                               placeholder="身份证">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" id="telephone" name="telephone" autocomplete="off"
+                                               class="form-control form-control-user"
+                                               placeholder="手机号码">
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-6 mb-3 mb-sm-0">
+                                            <input type="password" class="form-control form-control-user"
+                                                   id="code"
+                                                   placeholder="验证码">
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <button class="btn btn-primary btn-user btn-block">
+                                                获取验证码
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <!--<div class="form-group row">-->
+                                    <!--<div class="col-sm-6 mb-3 mb-sm-0">-->
+                                    <!--<input type="password" id="password" name="password" autocomplete="off" class="form-control form-control-user" id="exampleInputPassword"-->
+                                    <!--placeholder="密码">-->
+                                    <!--</div>-->
+                                    <!--<div class="col-sm-6">-->
+                                    <!--<input type="password" id="repassword" name="repassword" autocomplete="off" class="form-control form-control-user"-->
+                                    <!--placeholder="再次输入密码">-->
+                                    <!--</div>-->
+                                    <!--</div>-->
+                                    <input class="btn btn-primary btn-block" type="submit" value="注册">
+                                </form>
+                                <hr>
+                                <div>
+                                    <a style="float:left" class="small" href="forgot-password.html">忘记密码</a>
+                                    <a style="float:right" class="small" href="login.html">已有账号，登录</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                  <input type="text" id="username" name="username" autocomplete="off" class="form-control form-control-user" id="username"
-                         placeholder="用户名">
-                </div>
-                <div class="form-group row">
-                  <div class="col-sm-6 mb-3 mb-sm-0">
-                    <input type="password" id="password" name="password" autocomplete="off" class="form-control form-control-user" id="exampleInputPassword"
-                      placeholder="密码">
-                  </div>
-                  <div class="col-sm-6">
-                    <input type="password" id="repassword" name="repassword" autocomplete="off" class="form-control form-control-user"
-                      placeholder="再次输入密码">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <input type="text" id="telephone" name="telephone" autocomplete="off" class="form-control form-control-user"
-                         placeholder="手机号码">
-                </div>
-                <div class="form-group row">
-                  <div class="col-sm-6 mb-3 mb-sm-0">
-                    <input type="password" class="form-control form-control-user"
-                           id="code"
-                           placeholder="验证码">
-                  </div>
-                  <div class="col-sm-6">
-                    <button class="btn btn-primary btn-user btn-block">
-                      获取验证码
-                    </button>
-                  </div>
-                </div>
-                <a href="login.html" class="btn btn-primary btn-user btn-block">
-                 注册
-                </a>
-              </form>
-              <hr>
-              <div class="text-center">
-                <a class="small" href="forgot-password.html">忘记密码?</a>
-              </div>
-              <div class="text-center">
-                <a class="small" href="login.html">已有系统账户？请登录!</a>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
+</div>
 
-  </div>
+<!-- Bootstrap core JavaScript-->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Core plugin JavaScript-->
+<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-  <!-- Core plugin JavaScript-->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-  <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin-2.min.js"></script>
+<!-- Custom scripts for all pages-->
+<script src="js/sb-admin-2.min.js"></script>
 
 </body>
 

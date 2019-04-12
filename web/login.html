@@ -21,30 +21,33 @@
             margin-top: 2rem;
         }
 
-        #toast-container > div {
-            margin: 12px;
-        }
-        a:hover{
+        a:hover {
             color: #be3633;
             text-decoration: none;
         }
 
-        .top{
-            background:rgba(255,255,255,0.8);
+        .top {
+            background: rgba(255, 255, 255, 0.8);
             padding: 5px;
 
         }
-        .top-img{
-            position:relative;
-            left:10px;
+
+        .top-img {
+            position: relative;
+            left: 10px;
         }
-        .top-link{
-            position:absolute;
-            top:20px;
+
+        .top-link {
+            position: absolute;
+            top: 20px;
             right: 50px;
-            font-family: 微软雅黑,serif;
+            font-family: 微软雅黑, serif;
             font-size: 24px;
-            color:#000;
+            color: #000;
+        }
+
+        label.error {
+            margin: 0.2rem 1rem
         }
     </style>
 
@@ -55,7 +58,7 @@
     <img src="./img/logo.png" alt="logo" class="top-img">
     <a href="./scheme-show.html" target="_blank" class="top-link">幼儿园招生计划</a>
 </nav>
-    <div class="container">
+<div class="container">
 
     <!-- Outer Row -->
     <div class="row justify-content-center">
@@ -70,33 +73,31 @@
                         <div class="col-lg-6">
                             <div class="p-5">
                                 <div class="text-center">
-                                    <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                    <h1 class="h4 text-gray-900 mb-4">用户登录</h1>
                                 </div>
                                 <form class="user" id="loginForm">
                                     <div class="form-group">
                                         <input type="input" class="form-control form-control-user" id="username"
                                                name="username"
-                                               placeholder="Enter Username">
+                                               placeholder="手机号或用户名">
                                     </div>
                                     <div class="form-group">
                                         <input type="password" class="form-control form-control-user" id="password"
                                                name="password"
-                                               placeholder="Password">
+                                               placeholder="密码">
                                     </div>
                                     <div class="form-group">
                                         <div class="custom-control custom-checkbox small">
                                             <input type="checkbox" class="custom-control-input" id="customCheck">
-                                            <label class="custom-control-label" for="customCheck">Remember Me</label>
+                                            <label class="custom-control-label" for="customCheck">记住我</label>
                                         </div>
                                     </div>
                                     <input class="btn btn-primary btn-block" type="submit" value="登录">
                                 </form>
                                 <hr>
-                                <div class="text-center">
-                                    <a class="small" href="forgot-password.html">Forgot Password?</a>
-                                </div>
-                                <div class="text-center">
-                                    <a class="small" href="register.html">Create an Account!</a>
+                                <div>
+                                    <a style="float:left" class="small" href="forgot-password.html">忘记密码</a>
+                                    <a style="float:right" class="small" href="register1.html">立即注册</a>
                                 </div>
                             </div>
                         </div>

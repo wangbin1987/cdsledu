@@ -300,14 +300,34 @@
         } else {
             $("#editTr").show();
             $("#submitApprove").show()
-            $("#submitApprove").css('width',"20%");
+            $("#submitApprove").css('width', "20%");
+            let user = getUserInfo();
+            if (isEmpty($("#guarder").val())) {
+                if(!isEmpty(user.nickname)){
+                    $("#guarder").val(user.nickname);
+                }
+            }
+            if (isEmpty($("#guarderId").val())) {
+                if(!isEmpty(user.idCardNumber)) {
+                    $("#guarderId").val(user.idCardNumber);
+                }
+            }
+            if (isEmpty($("#telephone").val())) {
+                if(!isEmpty(user.telephone)){
+                    $("#telephone").val(user.telephone);
+                }
+            }
         }
 
         $('#submit').on('click', function () {
-            formValidate();
+            formValidate(0);
         });
 
-        function formValidate() {
+        $('#submitApprove').on('click', function () {
+            formValidate(1);
+        });
+
+        function formValidate(submit) {
 
             let str = '';
 
@@ -429,6 +449,7 @@
                     method: "POST",
                     data: JSON.stringify({
                         "id": id,
+                        "submit": submit,
                         "studentName": studentName,
                         "studentIdentityNumber": studentIdentityNumber,
                         "studentGender": studentGender,
