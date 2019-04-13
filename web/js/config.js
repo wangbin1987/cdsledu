@@ -3,7 +3,10 @@ window.config = {
     api: 'http://118.112.189.117/api',
     token: 'ACCESS-TOKEN',
     userInfo: 'user-info',
-    appName: 'SB Admin <sup>2</sup>'
+    appName: '<div class="sidebar-brand-icon">\n' +
+        '                <i class="fas fa-graduation-cap"></i>\n' +
+        '            </div>\n' +
+        '            <div class="sidebar-brand-text mx-3" id="productName">双流教育</div>'
 }
 
 // ajax全局设置，统一添加ACCESS-TOKEN，统一拦截错误信息

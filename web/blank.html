@@ -192,7 +192,7 @@
                     if (response.data[index]) {
                         for (let i = 0; i < response.data[index].kindergartens.length; i++) {//重新为市赋值
                             if (response.data[index].kindergartens[i].type == '公办幼儿园') {
-                                $("#gbSchool").append($("<option data-value=" + response.data[index].kindergartens[i].name + "></option>").val(i + 1).html(response.data[index].kindergartens[i].name));
+                                $("#gbSchool").append($("<option data-value=" + response.data[index].kindergartens[i].code + "></option>").val(i + 1).html(response.data[index].kindergartens[i].name));
                             }
                         }
                     }
@@ -200,7 +200,7 @@
                     if (response.data[index]) {
                         for (let i = 0; i < response.data[index].kindergartens.length; i++) {//重新为市赋值
                             if (response.data[index].kindergartens[i].type == '公益幼儿园') {
-                                $("#gySchool").append($("<option data-value=" + response.data[index].kindergartens[i].name + "></option>").val(i + 1).html(response.data[index].kindergartens[i].name));
+                                $("#gySchool").append($("<option data-value=" + response.data[index].kindergartens[i].code + "></option>").val(i + 1).html(response.data[index].kindergartens[i].name));
                             }
                         }
                     }
@@ -313,8 +313,8 @@
                                 $("#district").trigger("change");
                             }
 
-                            if (response.data.name) {
-                                let school = response.data.name;
+                            if (response.data.code) {
+                                let school = response.data.code;
                                 $("#gbSchool option").each(function () {
                                     let val = $(this).val();
                                     let text = $(this).attr('data-value');
