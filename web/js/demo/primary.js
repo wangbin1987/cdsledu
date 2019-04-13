@@ -41,7 +41,7 @@ $(document).ready(function () {
             {"data": "type"},
             {"data": "district"},
             {"data": "extra.septemberAdd"},
-            {"data": "extra.left"}
+            {"data": "extra.currentEnrollment"}
         ], "columnDefs": [{
             // 定义操作列,######以下是重点########
             "targets": 6,//操作按钮目标列

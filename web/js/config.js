@@ -2,6 +2,7 @@
 window.config = {
     api: 'http://118.112.189.117/api',
     token: 'ACCESS-TOKEN',
+    userInfo: 'user-info',
     appName: 'SB Admin <sup>2</sup>'
 }
 
@@ -22,10 +23,11 @@ $($.ajaxSetup({
                 if (xhr.responseJSON.errorCode != 200) {
                     if (xhr.responseJSON.errorCode == 401) {
                         // console.log("未登录");
+                        localStorage.removeItem(window.config.userInfo);
                         toastr.warning(xhr.responseJSON.message);
                         setTimeout(function () {
                             window.location = "./login.html";
-                        }, 700);
+                        }, 1000);
                     } else {
                         toastr.warning(xhr.responseJSON.message);
                     }

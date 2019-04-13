@@ -117,7 +117,7 @@ function getUserInfo() {
                     toastr.warning(response.message);
                     window.location = "./login.html";
                 }
-                localStorage.setItem("user-info", JSON.stringify(response.data));
+                localStorage.setItem(window.config.userInfo, JSON.stringify(response.data));
                 return response.data;
             }
         });

@@ -40,10 +40,10 @@ $(document).ready(function () {
             {"data": "district"},
             {"data": "extra.septemberAdd"},
             {"data": "extra.currentEnrollment"},
-            {"data": "extra.left"}
+            // {"data": "extra.left"}
         ], "columnDefs": [{
             // 定义操作列,######以下是重点########
-            "targets": 7,//操作按钮目标列
+            "targets": 6,//操作按钮目标列
             "data": null,
             "render": function (data, type, row) {
                 let html = "<a href='javascript:void(0);' onclick='edit(" + row.id + ")' class='view btn btn-default btn-xs'  ><i class='fa fa-check-square '></i> 报名</a>";

@@ -15,6 +15,15 @@
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.css" rel="stylesheet">
     <link href="vendor/toastr/toastr.css" rel="stylesheet">
+    <style>
+        .custom-select {
+            width: auto;
+        }
+
+        .form-control {
+            width: auto;
+        }
+    </style>
 </head>
 
 <body id="page-top">
@@ -49,86 +58,109 @@
             <!-- 页面内容 -->
             <div class="container-fluid">
                 <div class="row">
+
                     <div class="col-lg-6">
-                        <div class="card shadow mb-12">
-                            <div class="card-header py-3">
+                        <!-- Dropdown Card Example -->
+                        <div class="card shadow mb-4">
+                            <!-- Card Header - Dropdown -->
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 <h6 class="m-0 font-weight-bold text-primary">个人信息</h6>
                             </div>
+                            <!-- Card Body -->
                             <div class="card-body">
-                                <form class="form-horizontal" role="form">
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">用户名</label>
-                                        <div class="col-sm-10">
-                                            <p class="form-control-static" id="username">email@example.com</p>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="telephone" class="col-sm-2 control-label">姓名</label>
-                                        <div class="col-sm-12">
-                                            <input type="text" class="form-control" id="nickname">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="telephone" class="col-sm-2 control-label">身份证</label>
-                                        <div class="col-sm-12">
-                                            <input type="text" class="form-control" id="idCard">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="telephone" class="col-sm-2 control-label">电话</label>
-                                        <div class="col-sm-12">
-                                            <input type="text" class="form-control" id="telephone">
-                                        </div>
-                                    </div>
-                                    <!--<div class="form-group">-->
-                                    <!--<label for="telephone" class="col-sm-2 control-label">电子邮件</label>-->
-                                    <!--<div class="col-sm-12">-->
-                                    <!--<input type="text" class="form-control" id="emial">-->
-                                    <!--</div>-->
-                                    <!--</div>-->
-                                    <div class="form-group">
-                                        <div class="col-sm-12">
-                                            <input style="width: 20%;" class="btn btn-primary btn-block" type="button"
-                                                   value="修改信息">
-                                        </div>
-                                    </div>
-                                </form>
+                                <table class="table">
+                                    <tbody>
+                                    <tr>
+                                        <td>用户名</td>
+                                        <td><span id="username"></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>姓名</td>
+                                        <td><span id="nickname"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>身份证</td>
+                                        <td><span id="idCard"></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>手机号</td>
+                                        <td><span id="telephone"></span></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
                             </div>
                         </div>
+
+                        <!-- Collapsable Card Example -->
+                        <div class="card shadow mb-4">
+                            <!-- Card Header - Accordion -->
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">修改手机</h6>
+                            </div>
+                            <!-- Card Content - Collapse -->
+                            <div class="collapse show">
+                                <div class="card-body">
+                                    <table class="table">
+                                        <tbody>
+                                        <tr>
+                                            <td>新手机号</td>
+                                            <td><input id="newTelephone" type="text" class="form-control"
+                                                       placeholder="请输入新手机号"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <button class="btn btn-outline-primary btn-sm" id="getTelephoneCode">
+                                                    获取验证码
+                                                </button>
+                                            </td>
+                                            <td><input id="code" type="text" class="form-control" placeholder="请输入验证码">
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <button class="btn btn-primary" type="submit" id="updateTelBtn">
+                                        修改手机
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="col-lg-6">
-                        <div class="card shadow mb-12">
-                            <div class="card-header py-3">
+                        <!-- Collapsable Card Example -->
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 <h6 class="m-0 font-weight-bold text-primary">修改密码</h6>
                             </div>
-                            <div class="card-body">
-                                <form class="form-horizontal" role="form">
-                                    <div class="form-group">
-                                        <label for="telephone" class="col-sm-3 control-label">原密码</label>
-                                        <div class="col-sm-12">
-                                            <input type="text" class="form-control" id="password">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="telephone" class="col-sm-3 control-label">新密码</label>
-                                        <div class="col-sm-12">
-                                            <input type="text" class="form-control" id="newPassword">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="telephone" class="col-sm-3 control-label">重复新密码</label>
-                                        <div class="col-sm-12">
-                                            <input type="text" class="form-control" id="reNewPassword">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-12">
-                                            <input style="width: 20%;" class="btn btn-primary btn-block" type="button"
-                                                   value="重置密码">
-                                        </div>
-                                    </div>
+                            <!-- Card Content - Collapse -->
+                            <div class="collapse show">
+                                <div class="card-body">
+                                    <table class="table">
+                                        <tbody>
 
-                                </form>
+                                        <tr>
+                                            <td>当前密码</td>
+                                            <td><input id="password" type="password" class="form-control"
+                                                       placeholder="请输入当前密码"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>新密码</td>
+                                            <td><input id="newPassword" type="password" class="form-control"
+                                                       placeholder="请输入新密码"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>重复密码</td>
+                                            <td><input id="reNewPassword" type="password" class="form-control"
+                                                       placeholder="请再次输入新密码"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <button class="btn btn-primary" type="submit" id="updatePwdBtn">
+                                        修改密码
+                                    </button>
+                                </div>
                             </div>
                         </div>
 
@@ -166,10 +198,142 @@
 
     let user = getUserInfo();
     $("#username").text(user.username);
-    $("#nickname").val(user.nickname);
-    $("#telephone").val(user.telephone);
-    $("#idCard").val(user.idCardNumber);
+    $("#nickname").text(user.nickname);
+    $("#telephone").text(user.telephone);
+    $("#idCard").text(user.idCardNumber);
     // $("#email").val(user.email);
+
+    let wait = 60;
+
+    function time(btn) {
+        if (wait == 0) {
+            btn.removeAttribute("disabled");
+            btn.innerHTML = "获取验证码";
+            wait = 60;
+        } else {
+            btn.setAttribute("disabled", true);
+            btn.innerHTML = "重新发送(" + wait + ")";
+            wait--;
+            setTimeout(function () {
+                    time(btn)
+                },
+                1000)
+        }
+    }
+
+    $("#getTelephoneCode").click(function () {
+        let telephone = $("#newTelephone").val().trim();
+        if (telephone.length == 0) {
+            toastr.warning("请输入新手机号");
+            $("#newTelephone").focus();
+            return;
+        } else {
+            if (!isTelephone(telephone)) {
+                toastr.warning("手机号格式不对");
+                $("#newTelephone").focus();
+                return;
+            }
+        }
+        time(this);
+        getRegisterCode('telephone', telephone);
+    })
+
+    function getRegisterCode(type, key) {
+        let url = window.config.api + '/sms/getCode';
+        if (type == 'email') {
+            url = window.config.api + '/email/getCode';
+        }
+        $.ajax({
+            url: url,
+            method: "POST",
+            data: JSON.stringify({
+                "type": "register",
+                "value": key
+            }),
+            success: function (response) {
+                // console.info(response);
+                if (response.errorCode == 200) {
+                    toastr.success(response.message);
+                }
+            }
+        });
+    }
+
+
+    $("#updateTelBtn").click(function () {
+        let telephone = $("#newTelephone").val();
+        let code = $("#code").val();
+        if (isEmpty(telephone)) {
+            $("#newTelephone").focus();
+            return;
+        }
+        if (!isTelephone(telephone)) {
+            toastr.warning("手机号格式不对");
+            $("#newTelephone").focus();
+            return;
+        }
+        if (isEmpty(code)) {
+            $("#code").focus();
+            return;
+        }
+        $.ajax({
+            url: window.config.api + '/user/updateTelephone',
+            method: "POST",
+            data: JSON.stringify({
+                "telephone": telephone,
+                "code": code
+            }),
+            success: function (response) {
+                // console.info(response);
+                if (response.errorCode == 200) {
+                    toastr.success(response.message);
+                    $("#telephone").text(telephone);
+                    localStorage.removeItem(window.config.userInfo);
+                }
+            }
+        });
+    })
+
+
+    $("#updatePwdBtn").click(function () {
+        let pwd = $("#password").val();
+        let newPwd = $("#newPassword").val();
+        let reNewPwd = $("#reNewPassword").val();
+        if (isEmpty(pwd)) {
+            $("#password").focus();
+            return;
+        }
+        if (isEmpty(newPwd)) {
+            $("#newPassword").focus();
+            return;
+        }
+        if (newPwd.length < 6) {
+            toastr.warning("密码长度应该大于6位")
+            return;
+        }
+        if (isEmpty(reNewPwd)) {
+            $("#reNewPassword").focus();
+            return;
+        }
+        if (newPwd != reNewPwd) {
+            toastr.warning("重复密码与新密码不一致")
+            return;
+        }
+        $.ajax({
+            url: window.config.api + '/user/resetPassword',
+            method: "POST",
+            data: JSON.stringify({
+                "password": pwd,
+                "newPassword": newPwd
+            }),
+            success: function (response) {
+                // console.info(response);
+                if (response.errorCode == 200) {
+                    toastr.success(response.message);
+                }
+            }
+        });
+    })
 
 </script>
 

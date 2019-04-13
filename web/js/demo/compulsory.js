@@ -79,7 +79,7 @@ $(document).ready(function () {
                     }
 
                     if (role == '公安局' || role == '工商局' || role == '小教科' || role == '中教科') {
-                        let html = "<a href='javascript:void(0);' onclick='approve(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-list'></i> 审核</a>";
+                        let html = "<a href='javascript:void(0);' onclick='approve(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-sitemap'></i> 审核</a>";
                         return html;
                     }
 
