@@ -75,6 +75,10 @@
                                         <td><span id="username"></span></td>
                                     </tr>
                                     <tr>
+                                        <td>单位</td>
+                                        <td><span id="department"></span></td>
+                                    </tr>
+                                    <tr>
                                         <td>姓名</td>
                                         <td><span id="nickname"></span>
                                         </td>
@@ -202,6 +206,9 @@
     $("#nickname").text(user.nickname);
     $("#telephone").text(user.telephone);
     $("#idCard").text(user.idCardNumber);
+    if(user.department){
+        $("#department").text(user.department.name)
+    }
     // $("#email").val(user.email);
 
     let wait = 60;
@@ -289,7 +296,7 @@
                 if (response.errorCode == 200) {
                     toastr.success(response.message);
                     $("#telephone").text(telephone);
-                    localStorage.removeItem(window.config.userInfo);
+                    // localStorage.removeItem(window.config.userInfo);
                 }
             }
         });

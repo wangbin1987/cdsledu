@@ -223,6 +223,9 @@
                 // console.info(response);
                 if (response.errorCode == 200) {
                     toastr.success(response.message);
+                    setTimeout(function () {
+                        window.location = "./login.html";
+                    }, 1500);
                 }
             }
         });
