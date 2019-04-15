@@ -92,36 +92,27 @@ $("#updateBtn").click(function () {
     let current = $("#currentStudent").val();
     let graduate = $("#juneGraduate").val();
     let plan = $("#plan").val();
-    if (total.length == 0) {
-        toastr.warning("请输入设计学位总数");
-        return;
-    }
-    if (!(/(^[1-9]\d*$)/.test(total))) {
+    if (!isEmpty(total) && !isNumber(total)) {
         toastr.warning("设计学位总数必须是正整数");
+        $("#totalStudent").focus()
         return;
     }
-    if (current.length == 0) {
-        toastr.warning("请输入现有学生人数");
-        return;
-    }
-    if (!(/(^[1-9]\d*$)/.test(current))) {
+    if (!isEmpty(current) && !isNumber(current)) {
         toastr.warning("现有学生人数必须是正整数");
+        $("#currentStudent").focus();
         return;
     }
-    if (graduate.length == 0) {
-        toastr.warning("请输入六月毕业学生人数");
-        return;
-    }
-    if (!(/(^[1-9]\d*$)/.test(graduate))) {
+    if (!isEmpty(graduate) && !isNumber(graduate)) {
         toastr.warning("六月毕业学生人数必须是正整数");
+        $("#juneGraduate").focus();
         return;
     }
-    if (plan.length == 0) {
-        toastr.warning("请输入计划招生人数");
-        return;
-    }
-    if (!(/(^[1-9]\d*$)/.test(plan))) {
+    if (!isEmpty(plan) && !isNumber(plan)) {
         toastr.warning("计划招生人数必须是正整数");
+        $("#plan").focus();
+        return;
+    }
+    if (isEmpty(total) && isEmpty(current) && isEmpty(graduate) && isEmpty(plan)) {
         return;
     }
 

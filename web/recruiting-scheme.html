@@ -17,6 +17,15 @@
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.css" rel="stylesheet">
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <style>
+        .form-left{
+            width: auto;
+            display: inline;
+        }
+        .label-right{
+            width: 8rem;
+        }
+    </style>
 </head>
 
 <body id="page-top">
@@ -65,23 +74,23 @@
                             <label>学校性质：</label><label id="schoolType"></label>
                         </div>
                         <div class="form-group">
-                            <label>设计学位总数：</label>
-                            <input type="text" id="totalStudent" class="form-control">
+                            <label class="label-right">设计学位总数：</label>
+                            <input type="text" id="totalStudent" class="form-control form-left">
                         </div>
                         <div class="form-group">
-                            <label>现有学生：</label>
-                            <input type="text" id="currentStudent" class="form-control">
+                            <label class="label-right">现有学生：</label>
+                            <input type="text" id="currentStudent" class="form-control form-left">
                         </div>
                         <div class="form-group">
-                            <label>六月毕业学生：</label>
-                            <input type="text" id="juneGraduate" class="form-control">
+                            <label class="label-right">六月毕业学生：</label>
+                            <input type="text" id="juneGraduate" class="form-control form-left">
                         </div>
                         <div class="form-group">
-                            <label>计划招生人数：</label>
-                            <input type="text" id="plan" class="form-control">
+                            <label class="label-right">计划招生人数：</label>
+                            <input type="text" id="plan" class="form-control form-left">
                         </div>
                         <div class="form-group">
-                            <label>目前报名人数：</label>
+                            <label class="label-right">目前报名人数：</label>
                             <label id="currentSigned"></label>
                         </div>
                     </form>

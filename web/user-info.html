@@ -206,7 +206,7 @@
     $("#nickname").text(user.nickname);
     $("#telephone").text(user.telephone);
     $("#idCard").text(user.idCardNumber);
-    if(user.department){
+    if (user.department) {
         $("#department").text(user.department.name)
     }
     // $("#email").val(user.email);
@@ -255,7 +255,7 @@
             url: url,
             method: "POST",
             data: JSON.stringify({
-                "type": "register",
+                "type": "update",
                 "value": key
             }),
             success: function (response) {
@@ -296,7 +296,12 @@
                 if (response.errorCode == 200) {
                     toastr.success(response.message);
                     $("#telephone").text(telephone);
-                    // localStorage.removeItem(window.config.userInfo);
+                    if (isTelephone(user.username)) {
+                        $("#username").text(telephone);
+                        user.username = telephone;
+                    }
+                    user.telephone = telephone;
+                    localStorage.setItem(window.config.userInfo, JSON.stringify(user));
                 }
             }
         });
