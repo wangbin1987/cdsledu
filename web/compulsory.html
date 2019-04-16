@@ -27,6 +27,12 @@
             display: inline;
             margin-right: 1rem;
         }
+
+        .form-right {
+            float: right;
+            width: 15%;
+            padding: 0;
+        }
     </style>
 </head>
 
@@ -71,18 +77,28 @@
 
                         <div style="margin: 0 0 1rem 0">
                             <label class="control-label">审核状态：</label>
-                            <select class="form-control form-left">
+                            <select class="form-control form-control-sm form-left">
                                 <option>全部</option>
                                 <option>待审核</option>
                                 <option>审核通过</option>
                                 <option>审核不通过</option>
                             </select>
                             <label class="control-label">就读方式：</label>
-                            <select class="form-control form-left">
+                            <select class="form-control form-control-sm form-left">
                                 <option>全部</option>
                                 <option>积分就读</option>
                                 <option>居住就读</option>
                             </select>
+                            <label class="control-label">录入街道：</label>
+                            <select class="form-control form-control-sm form-left">
+                                <option>全部</option>
+                                <option>积分就读</option>
+                                <option>居住就读</option>
+                            </select>
+                            <button class="btn btn-outline-primary form-control form-control-sm form-right"
+                                    type="button" id="search">
+                                查询数据
+                            </button>
                         </div>
 
                         <div class="table-responsive">
