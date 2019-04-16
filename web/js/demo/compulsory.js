@@ -6,6 +6,19 @@ $(document).ready(function () {
         // $("#head").show();
     }
 
+    // 加载住址所属社区数据联动
+    $.ajax({
+        url: window.config.api + '/system/getDistrict',
+        method: "GET",
+        async: false,
+        success: function (response) {
+            console.info(response);
+            for (let i = 0; i < response.data.length; i++) {
+                $("#town").append($("<option data-value=" + response.data[i].name + "></option>").val(i + 1).html(response.data[i].name));
+            }
+        }
+    })
+
     addChieseAsc();
 
     $('#dataTable').DataTable({
@@ -36,7 +49,13 @@ $(document).ready(function () {
         "serverSide": false,
         ajax: {
             url: window.config.api + '/enrollment/getCompulsory',
-            type: 'GET'
+            method: 'POST',
+            data: function (data) {
+                data.approveStatus = $("#approveStatus").val();
+                data.readType = $("#readType").val();
+                data.town = $("#town").find("option:selected").data("value")
+                return JSON.stringify(data)
+            }
         },
         "aaSorting": [[2, "asc"]],
         "columns": [
@@ -133,3 +152,8 @@ function deleteData(id) {
         }
     });
 }
+
+$("#search").click(function () {
+    // console.info("search");
+    $('#dataTable').DataTable().ajax.reload();
+})
