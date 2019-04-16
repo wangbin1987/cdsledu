@@ -466,6 +466,7 @@ function formValidate(submit) {
         $.ajax({
             url: window.config.api + '/enrollment/addCompulsory',
             method: "POST",
+            async: false,
             data: JSON.stringify({
                 "id": id,
                 "submit": submit,
