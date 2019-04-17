@@ -553,7 +553,7 @@ function submitApprove() {
                 toastr.success("审核成功");
                 setTimeout(function () {
                     window.location = "./blank2.html?id=" + id + "&type=approve";
-                });
+                }, 1500);
             }
         }
     });
