@@ -114,6 +114,7 @@ function getUserInfo() {
             async: false,
             success: function (response) {
                 if (response.errorCode == 401) {
+                    localStorage.removeItem(window.config.userInfo);
                     toastr.warning(response.message);
                     window.location = "./login.html";
                 }
