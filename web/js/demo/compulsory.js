@@ -61,6 +61,7 @@ $(document).ready(function () {
         "columns": [
             {"data": "studentName"},
             {"data": "studentIdentityNumber"},
+            {"data":"serialNumber"},
             {"data": "createTime"},
             {"data": "applyType"},
             // {"data": "rentAddressZone"},
@@ -78,7 +79,7 @@ $(document).ready(function () {
             // },
             {
                 // 定义操作列,######以下是重点########
-                "targets": 5,//操作按钮目标列
+                "targets": 6,//操作按钮目标列
                 "className": 'class-center',
                 "data": null,
                 "render": function (data, type, row) {
