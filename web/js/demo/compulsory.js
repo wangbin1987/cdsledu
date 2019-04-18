@@ -54,6 +54,9 @@ $(document).ready(function () {
                 data.readType = $("#readType").val();
                 data.town = $("#town").find("option:selected").data("value")
                 return JSON.stringify(data)
+            },
+            error: function (xhr) {
+                toastr.warning(xhr.responseJSON.message);
             }
         },
         "aaSorting": [[2, "asc"]],

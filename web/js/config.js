@@ -19,10 +19,10 @@ $($.ajaxSetup({
     },
     dataType: "json",
     complete: function (xhr) {
-        console.info("请求地址：" + this.url);
-        if (xhr.responseJSON) {
-            console.info(xhr.responseJSON);
-        }
+        // console.info("请求地址：" + this.url);
+        // if (xhr.responseJSON) {
+        //     console.info(xhr.responseJSON);
+        // }
         if (xhr.readyState == 4 && xhr.status == 200) {
             if (xhr.responseJSON) {
                 if (xhr.responseJSON.errorCode != 200) {
@@ -37,6 +37,20 @@ $($.ajaxSetup({
                     } else {
                         toastr.warning(xhr.responseJSON.message);
                     }
+                }
+            }
+        }
+    },
+    error: function (xhr, textStatus, errorThrown) {
+        // 未授权无法访问会返回在这里
+        if (xhr.responseJSON) {
+            toastr.warning(xhr.responseJSON.message);
+        } else {
+            if (xhr.status == 404) {
+                toastr.warning("404找不到请求地址");
+            } else {
+                if (errorThrown.code == 19) {
+                    toastr.warning("网络错误");
                 }
             }
         }
