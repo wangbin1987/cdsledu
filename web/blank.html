@@ -28,6 +28,19 @@
             line-height: 1.5;
             border-radius: 0.2rem;
         }
+        #disSelect select{
+            margin-right: 10px;
+            width: 15%;
+            float: left;
+        }
+        #disSelect input{
+            width: 30%;
+            float: left;
+            height: 35px;
+            margin: auto;
+        }
+
+
     </style>
 </head>
 
@@ -96,17 +109,15 @@
                                 </tr>
                                 <tr>
                                     <td>户籍地址</td>
-                                    <td colspan="3" id="disSelect">
-                                        <select class="custom-select col-md-4" id="province"
+                                    <td colspan="5" id="disSelect">
+                                        <select class="custom-select col-md-3" id="province"
                                                 data-province="四川省"></select>
                                         <select class="custom-select col-md-3" id="city" data-city="成都市"></select>
                                         <select class="custom-select col-md-3" id="county" data-district="双流区"></select>
-                                    </td>
-                                    <td>所在街镇</td>
-                                    <td>
-                                        <select class="custom-select col-10" id="district">
+                                        <select class="custom-select col-md-3" id="district">
                                             <option value="">---请选择---</option>
                                         </select>
+                                        <input class="form-control" name="address" id="address"/>
                                     </td>
                                 </tr>
                                 <tr>
@@ -121,7 +132,7 @@
                                     </select>
                                     </td>
                                     <td>户籍归属</td>
-                                    <td><input type="radio" name="hjgs" value="qyn" checked>区域内
+                                    <td><input type="radio" name="hjgs" value="qyn" checked>双流区
                                         <input type="radio" name="hjgs" value="yzgb">援藏干部
                                     </td>
                                 </tr>
@@ -475,7 +486,7 @@
                 if (hjgs == 'yzgb') {
                     hjgs = '援藏干部'
                 } else {
-                    hjgs = '区域内'
+                    hjgs = '双流区'
                 }
 
                 console.info("id:" + id);
