@@ -6,6 +6,18 @@ $(document).ready(function () {
         // $("#head").show();
     }
 
+    // 加载住址所属社区数据联动
+    $.ajax({
+        url: window.config.api + '/system/getDistrict',
+        method: "GET",
+        async: false,
+        success: function (response) {
+            for (let i = 0; i < response.data.length; i++) {
+                $("#town").append($("<option data-value=" + response.data[i].name + "></option>").val(i + 1).html(response.data[i].name));
+            }
+        }
+    })
+
     addChieseAsc();
 
     $('#dataTable').DataTable({
@@ -36,18 +48,29 @@ $(document).ready(function () {
         "serverSide": false,
         ajax: {
             url: window.config.api + '/enrollment/getCompulsory',
-            type: 'GET'
+            method: 'POST',
+            data: function (data) {
+                data.approveStatus = $("#approveStatus").val();
+                data.readType = $("#readType").val();
+                data.town = $("#town").find("option:selected").data("value")
+                return JSON.stringify(data)
+            },
+            error: function (xhr) {
+                toastr.warning(xhr.responseJSON.message);
+            }
         },
         "aaSorting": [[2, "asc"]],
         "columns": [
             {"data": "studentName"},
             {"data": "studentIdentityNumber"},
+            {"data": "serialNumber"},
             {"data": "createTime"},
             {"data": "applyType"},
             // {"data": "rentAddressZone"},
             {"data": "showStatus"},
             {"data": "status"}
-        ], "columnDefs": [
+        ],
+        "columnDefs": [
             // {
             //     // 定义操作列,######以下是重点########
             //     "targets": 4,//操作按钮目标列
@@ -59,7 +82,7 @@ $(document).ready(function () {
             // },
             {
                 // 定义操作列,######以下是重点########
-                "targets": 5,//操作按钮目标列
+                "targets": 6,//操作按钮目标列
                 "className": 'class-center',
                 "data": null,
                 "render": function (data, type, row) {
@@ -133,3 +156,8 @@ function deleteData(id) {
         }
     });
 }
+
+$("#search").click(function () {
+    // console.info("search");
+    $('#dataTable').DataTable().ajax.reload();
+})

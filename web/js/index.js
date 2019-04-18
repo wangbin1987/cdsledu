@@ -4,15 +4,14 @@ $(function () {
     if (isEmpty(user)) {
         user = getUserInfo();
     }
-    console.info("首页用户信息：" + JSON.stringify(user));
+    // console.info("首页用户信息：" + JSON.stringify(user));
     if (isEmpty(user.nickname)) {
         welcome += user.username;
     } else {
         welcome += user.nickname;
     }
     let role = user.role;
-    if (typeof role == "undefined" || role == null || role == "") {
-    } else {
+    if (!isEmpty(role)) {
         welcome = welcome + " [" + role + "] "
     }
     $("#welcome").text(welcome);

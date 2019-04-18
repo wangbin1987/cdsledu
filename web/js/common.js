@@ -94,11 +94,15 @@ function logout() {
     $.ajax({
         url: window.config.api + '/user/logout',
         method: "POST",
-        success: function (response) {
-            localStorage.removeItem("user-info");
+        success: function () {
             localStorage.removeItem(window.config.token);
+            localStorage.removeItem(window.config.userInfo);
             window.location = "./login.html";
         }
+    }).fail(function () {
+        localStorage.removeItem(window.config.token);
+        localStorage.removeItem(window.config.userInfo);
+        window.location = "./login.html";
     });
 }
 
@@ -114,6 +118,7 @@ function getUserInfo() {
             async: false,
             success: function (response) {
                 if (response.errorCode == 401) {
+                    localStorage.removeItem(window.config.userInfo);
                     toastr.warning(response.message);
                     window.location = "./login.html";
                 }

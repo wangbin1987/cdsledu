@@ -4,9 +4,9 @@ window.config = {
     token: 'ACCESS-TOKEN',
     userInfo: 'user-info',
     appName: '<div class="sidebar-brand-icon">' +
-                '<i class="fas fa-graduation-cap"></i>' +
-             '</div>' +
-             '<div class="sidebar-brand-text mx-3" id="productName">双流教育</div>'
+        '<i class="fas fa-graduation-cap"></i>' +
+        '</div>' +
+        '<div class="sidebar-brand-text mx-3" id="productName">双流教育</div>'
 }
 
 // ajax全局设置，统一添加ACCESS-TOKEN，统一拦截错误信息
@@ -19,21 +19,38 @@ $($.ajaxSetup({
     },
     dataType: "json",
     complete: function (xhr) {
-        console.log("ajax complete");
-        console.log(xhr.responseJSON);
-        if (xhr.status == 200) {
+        // console.info("请求地址：" + this.url);
+        // if (xhr.responseJSON) {
+        //     console.info(xhr.responseJSON);
+        // }
+        if (xhr.readyState == 4 && xhr.status == 200) {
             if (xhr.responseJSON) {
                 if (xhr.responseJSON.errorCode != 200) {
                     if (xhr.responseJSON.errorCode == 401) {
                         // console.log("未登录");
+                        localStorage.removeItem(window.config.token);
                         localStorage.removeItem(window.config.userInfo);
                         toastr.warning(xhr.responseJSON.message);
                         setTimeout(function () {
                             window.location = "./login.html";
-                        }, 1000);
+                        }, 1500);
                     } else {
                         toastr.warning(xhr.responseJSON.message);
                     }
+                }
+            }
+        }
+    },
+    error: function (xhr, textStatus, errorThrown) {
+        // 未授权无法访问会返回在这里
+        if (xhr.responseJSON) {
+            toastr.warning(xhr.responseJSON.message);
+        } else {
+            if (xhr.status == 404) {
+                toastr.warning("404找不到请求地址");
+            } else {
+                if (errorThrown.code == 19) {
+                    toastr.warning("网络错误");
                 }
             }
         }

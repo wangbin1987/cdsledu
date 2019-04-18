@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
+    <title>中小学入学登记列表</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -77,23 +77,21 @@
 
                         <div style="margin: 0 0 1rem 0">
                             <label class="control-label">审核状态：</label>
-                            <select class="form-control form-control-sm form-left">
-                                <option>全部</option>
-                                <option>待审核</option>
-                                <option>审核通过</option>
-                                <option>审核不通过</option>
+                            <select id="approveStatus" class="form-control form-control-sm form-left">
+                                <option value="0">全部</option>
+                                <option value="1">待审核</option>
+                                <option value="2">审核通过</option>
+                                <option value="3">审核不通过</option>
                             </select>
                             <label class="control-label">就读方式：</label>
-                            <select class="form-control form-control-sm form-left">
-                                <option>全部</option>
-                                <option>积分就读</option>
-                                <option>居住就读</option>
+                            <select id="readType" class="form-control form-control-sm form-left">
+                                <option value="0">全部</option>
+                                <option value="1">居住就读</option>
+                                <option value="2">积分就读</option>
                             </select>
                             <label class="control-label">录入街道：</label>
-                            <select class="form-control form-control-sm form-left">
-                                <option>全部</option>
-                                <option>积分就读</option>
-                                <option>居住就读</option>
+                            <select id="town" class="form-control form-control-sm form-left">
+                                <option data-value="">全部</option>
                             </select>
                             <button class="btn btn-outline-primary form-control form-control-sm form-right"
                                     type="button" id="search">
@@ -107,6 +105,7 @@
                                 <tr>
                                     <th>学生姓名</th>
                                     <th>学生身份证</th>
+                                    <th>档案编号</th>
                                     <th>申请时间</th>
                                     <th>就读方式</th>
                                     <!--<th>所属街道</th>-->

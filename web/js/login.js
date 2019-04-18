@@ -64,6 +64,8 @@ function doLogin(username, password) {
         success: function (response) {
             // console.info(response);
             if (response.errorCode == 200) {
+                localStorage.removeItem(window.config.userInfo);
+                localStorage.removeItem(window.config.token);
                 localStorage.setItem(window.config.token, response.data);
                 window.location = "./index.html";
             }
