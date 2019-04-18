@@ -12,7 +12,6 @@ $(document).ready(function () {
         method: "GET",
         async: false,
         success: function (response) {
-            console.info(response);
             for (let i = 0; i < response.data.length; i++) {
                 $("#town").append($("<option data-value=" + response.data[i].name + "></option>").val(i + 1).html(response.data[i].name));
             }
@@ -61,13 +60,14 @@ $(document).ready(function () {
         "columns": [
             {"data": "studentName"},
             {"data": "studentIdentityNumber"},
-            {"data":"serialNumber"},
+            {"data": "serialNumber"},
             {"data": "createTime"},
             {"data": "applyType"},
             // {"data": "rentAddressZone"},
             {"data": "showStatus"},
             {"data": "status"}
-        ], "columnDefs": [
+        ],
+        "columnDefs": [
             // {
             //     // 定义操作列,######以下是重点########
             //     "targets": 4,//操作按钮目标列
