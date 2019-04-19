@@ -305,10 +305,6 @@ function formValidate(submit) {
             str += '请输入证件住址\n';
         }
 
-        // 租房备案号
-        if ($.trim($('#rentNum').val()).length === 0) {
-            str += '请输入租房备案号\n';
-        }
         // 住址所属社区
         let town = $("#town").find("option:selected").data("value");
         let village = $("#village").find("option:selected").data("value");
@@ -368,9 +364,6 @@ function formValidate(submit) {
         str += '请选择申请入学年级\n';
     }
 
-    if ($.trim($('#xjh').val()).length === 0) {
-        str += '请输入学籍号\n';
-    }
 
     // 如果没有错误则提交
     if (str !== '') {
