@@ -50,7 +50,7 @@ $($.ajaxSetup({
                 toastr.warning("404找不到请求地址");
             } else {
                 if (errorThrown.code == 19) {
-                    toastr.warning("网络错误");
+                    toastr.warning("请求超时");
                 }
             }
         }
