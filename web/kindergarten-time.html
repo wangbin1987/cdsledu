@@ -18,16 +18,6 @@
     <link href="css/sb-admin-2.css" rel="stylesheet">
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/buttons.css" rel="stylesheet">
-    <style>
-        .card-body{
-            margin-top: 10px;
-            font-family: 微软雅黑;
-            font-size: 20px;
-            padding: 10px 20px;
-        }
-    </style>
 </head>
 
 <body id="page-top">
@@ -67,21 +57,21 @@
                         <h4 class="m-0 font-weight-bold text-primary">幼儿园入园登记时间</h4>
                     </div>
                     <div class="card-body">
-                            <span>第一批（公立幼儿园）</span>
-                            <span>从</span>
-                            <input size="16" type="text" value=""  class="datetime" readonly>
-                            <span>到</span>
-                            <input size="16" type="text" value="" class="datetime" readonly>
+                        <span>第一批（公立幼儿园）</span>
+                        <span>从</span>
+                        <input id="glstart" size="16" type="text" value="" class="datetime" readonly>
+                        <span>到</span>
+                        <input id="glend" size="16" type="text" value="" class="datetime" readonly>
                     </div>
                     <div class="card-body">
                         <span>第二批（公益幼儿园）</span>
                         <span>从</span>
-                        <input size="16" type="text" value=""  class="datetime" readonly>
+                        <input id="gystart" size="16" type="text" value="" class="datetime" readonly>
                         <span>到</span>
-                        <input size="16" type="text" value="" class="datetime" readonly>
+                        <input id="gyend" size="16" type="text" value="" class="datetime" readonly>
                     </div>
                     <div class="card-body">
-                        <a href="#" class="button button-raised button-pill button-inverse">确认时间</a>
+                        <button id="confirmUpdateBtn" class="btn btn-sm btn-outline-primary">确认时间</button>
                     </div>
                 </div>
             </div>
@@ -118,12 +108,43 @@
 <script src="js/demo/primary.js"></script>
 <script>
     $('.datetime').datetimepicker({
+        language: 'zh-CN',
         format: 'yyyy-mm-dd hh:ii',
+        weekStart: 1,
+        todayBtn: 1,
         autoclose: true,
-        minuteStep: 60,
-        todayHighlight:true,
-        language:'zh-CN'
+        todayHighlight: 1,
+        startView: 2,
+        forceParse: 0,
+        showMeridian: 1
     });
+
+    $("#confirmUpdateBtn").click(function () {
+        let glstart = $("#glstart").val();
+        let glend = $("#glend").val();
+        let gystart = $("#gystart").val();
+        let gyend = $("#gyend").val();
+
+        if (isEmpty(glstart) || isEmpty(glend)) {
+            toastr.warning("请选择公立幼儿园的开始结束时间");
+            return;
+        } else {
+            if (glstart >= glend) {
+                toastr.warning("公立幼儿园的开始时间不能在结束时间之后");
+                return;
+            }
+        }
+        if (isEmpty(gystart) || isEmpty(gyend)) {
+            toastr.warning("请选择公益幼儿园的开始结束时间");
+            return;
+        } else {
+            if (gystart >= gyend) {
+                toastr.warning("公益幼儿园的开始时间不能在结束时间之后");
+                return;
+            }
+        }
+
+    })
 </script>
 
 
