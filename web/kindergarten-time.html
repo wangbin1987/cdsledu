@@ -16,8 +16,18 @@
     <link href="vendor/toastr/toastr.css" rel="stylesheet">
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.css" rel="stylesheet">
-    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-    <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <link href="vendor/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <style>
+        .form-control {
+            width: auto;
+            height: calc(1.5em + 0.5rem + 2px);
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            border-radius: 0.2rem;
+            display:inline;
+        }
+    </style>
 </head>
 
 <body id="page-top">
@@ -59,16 +69,16 @@
                     <div class="card-body">
                         <span>第一批（公立幼儿园）</span>
                         <span>从</span>
-                        <input id="glstart" size="16" type="text" value="" class="datetime" readonly>
+                        <input id="glstart" size="16" type="text" value="" class="datetime form-control" readonly>
                         <span>到</span>
-                        <input id="glend" size="16" type="text" value="" class="datetime" readonly>
+                        <input id="glend" size="16" type="text" value="" class="datetime form-control" readonly>
                     </div>
                     <div class="card-body">
                         <span>第二批（公益幼儿园）</span>
                         <span>从</span>
-                        <input id="gystart" size="16" type="text" value="" class="datetime" readonly>
+                        <input id="gystart" size="16" type="text" value="" class="datetime form-control" readonly>
                         <span>到</span>
-                        <input id="gyend" size="16" type="text" value="" class="datetime" readonly>
+                        <input id="gyend" size="16" type="text" value="" class="datetime form-control" readonly>
                     </div>
                     <div class="card-body">
                         <button id="confirmUpdateBtn" class="btn btn-sm btn-outline-primary">确认时间</button>
@@ -96,16 +106,13 @@
 <script src="js/sb-admin-2.min.js"></script>
 
 <!-- Page level plugins -->
-<script src="js/bootstrap-datetimepicker.min.js"></script>
-<script src="js/bootstrap-datetimepicker.zh-CN.js"></script>
-<script src="vendor/datatables/jquery.dataTables.min.js"></script>
-<script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+<script src="vendor/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script src="vendor/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
 <script src="vendor/toastr/toastr.min.js"></script>
 <!-- Page level custom scripts -->
 <script src="js/config.js"></script>
 <script src="js/common.js"></script>
 <script src="js/user-info-menu.js"></script>
-<script src="js/demo/primary.js"></script>
 <script>
     $('.datetime').datetimepicker({
         language: 'zh-CN',
@@ -117,6 +124,28 @@
         startView: 2,
         forceParse: 0,
         showMeridian: 1
+    });
+
+    $.ajax({
+        url: window.config.api + '/system/getSchoolSignTime',
+        method: "GET",
+        success: function (response) {
+            if (response.errorCode == 200) {
+                if (response.data) {
+                    response.data.forEach(data => {
+                        if (data.schoolType == 'gb_kindergarten') {
+                            $("#glstart").val(data.signStartTime);
+                            $("#glend").val(data.signEndTime);
+                        }
+                        if (data.schoolType == 'gy_kindergarten') {
+                            $("#gystart").val(data.signStartTime);
+                            $("#gyend").val(data.signEndTime);
+                        }
+
+                    })
+                }
+            }
+        }
     });
 
     $("#confirmUpdateBtn").click(function () {
@@ -143,6 +172,22 @@
                 return;
             }
         }
+
+        let datas = [
+            {type: "gb_kindergarten", start: glstart + ":00", end: glend + ":00"},
+            {type: "gy_kindergarten", start: gystart + ":00", end: gyend + ":00"},
+        ];
+        $.ajax({
+            url: window.config.api + '/system/updateKindergartenSignTime',
+            method: "POST",
+            data: JSON.stringify(datas),
+            success: function (response) {
+                // console.info(response);
+                if (response.errorCode == 200) {
+                    toastr.success(response.message);
+                }
+            }
+        });
 
     })
 </script>

@@ -10,7 +10,6 @@ $.ajax({
     method: "GET",
     async: false,
     success: function (response) {
-        console.info(response);
         for (let i = 0; i < response.data.length; i++) {
             $("#town").append($("<option data-value=" + response.data[i].name + "></option>").val(i + 1).html(response.data[i].name));
         }
@@ -32,9 +31,9 @@ let type = getUrlParam("type");
 if (isEmpty(type)) {
     $("#editTr").show();
     if (getUserInfo().role != '街道办') {
-        $("#submit").text("无权操作")
-        $("#submit").attr("disabled", "disabled")
-        $("#submitApprove").hide();
+        $("#submitApprove").text("无权操作")
+        $("#submitApprove").attr("disabled", "disabled")
+        $("#submitApprove").show()
     }
 }
 
