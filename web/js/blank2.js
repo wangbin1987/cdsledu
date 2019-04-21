@@ -26,6 +26,7 @@ $.ajax({
     }
 })
 
+// 当前操作类型，没有type就是新增，view查看，edit修改，approve审核
 let type = getUrlParam("type");
 
 if (isEmpty(type)) {
@@ -37,7 +38,9 @@ if (isEmpty(type)) {
     }
 }
 
+// 默认居住就读
 $("#point").hide();
+// 就读方式改变时显示和隐藏积分就读和居住就读的项
 $("input[type=radio][name=jdfs]").change(function () {
     if (this.value === "points") {
         $("#point").show();
@@ -74,8 +77,8 @@ if (id) {
             if (response.errorCode != 200) {
                 $("#editTr").show();
                 if (getUserInfo().role != '街道办') {
-                    $("#submit").text("无权操作")
-                    $("#submit").attr("disabled", "disabled")
+                    $("#submitApprove").text("无权操作")
+                    $("#submitApprove").attr("disabled", "disabled")
                 }
                 return;
             }
@@ -202,14 +205,14 @@ if (id) {
                 if (response.data.canEdit) {
                     $(":input").removeAttr("disabled");
                     if (response.data.status == 0) {
-                        $("#submit").show();
+                        $("#submitApprove").show();
                     }
                     if (response.data.approveCount > 3) {
-                        $("#submit").hide();
+                        // $("#submit").hide();
                         $("#submitApprove").text(response.data.editBtn);
                     }
                 } else {
-                    $("#submit").text(response.data.editBtn);
+                    // $("#submit").text(response.data.editBtn);
                     $("#submitApprove").text(response.data.editBtn);
                     if (response.data.status == 1) {
                         $("#submit").hide();
@@ -509,6 +512,24 @@ function formValidate(submit) {
 
     }
 }
+
+// 学生身份证校验
+$("#xsId").on('blur', function () {
+    let idNumber = $("#xsId").val().trim();
+    if (!isCardNo(idNumber)) {
+        toastr.warning("学生身份证格式不正确");
+        $("#xsId").focus();
+        return;
+    }
+    let gender = (parseInt(idNumber.substr(16, 1)) % 2 == 1);
+    if (gender) {
+        $("input[name='xsGender'][value='female']").attr("checked", false);
+        $("input[name='xsGender'][value='male']").attr("checked", true);
+    } else {
+        $("input[name='xsGender'][value='male']").attr("checked", false);
+        $("input[name='xsGender'][value='female']").attr("checked", true);
+    }
+})
 
 $('#submit').on('click', function () {
     formValidate(0);
