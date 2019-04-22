@@ -227,7 +227,7 @@
                 $("#xsId1,#xsId2").text(response.data.studentIdentityNumber);
                 $("#grade1,#grade2").text(response.data.studentGrade).attr("selected", true);
                 $("#xjh1,#xjh2").text(response.data.studentSchoolRoll);
-                $("#idAddress1,#idAddress2").text(response.data.residenceAddress);
+                $("#idAddress1,#idAddress2").text((response.data.rentAddressZone.split("|") + response.data.residenceAddress).replace(",",""));
                 $("#totalPoint1,#totalPoint2").text(response.data.totalPoint);
                 $("#point1,#point2").text(response.data.livePoint + "+" + response.data.socialPoint);
                 let addr = response.data.studentHousehold.split("|");

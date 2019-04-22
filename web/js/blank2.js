@@ -4,7 +4,7 @@ $("#target").distpicker({
     placeholder: false
 })
 
-// 住址所属社区 的街道->社区数据联动
+// 居住所属社区 的街道->社区数据联动
 $.ajax({
     url: window.config.api + '/system/getDistrict',
     method: "GET",
@@ -29,25 +29,38 @@ $.ajax({
 // 当前操作类型，没有type就是新增，view查看，edit修改，approve审核
 let type = getUrlParam("type");
 
+// 新增页面
 if (isEmpty(type)) {
     $("#editTr").show();
     if (getUserInfo().role != '街道办') {
-        $("#submitApprove").text("无权操作")
-        $("#submitApprove").attr("disabled", "disabled")
-        $("#submitApprove").show()
+        $("#submitBtn").text("无权操作")
+        $("#submitBtn").attr("disabled", "disabled")
+        $("#submitBtn").show()
     }
 }
 
 // 默认居住就读
+$("#rents").trigger("click");
 $("#point").hide();
-// 就读方式改变时显示和隐藏积分就读和居住就读的项
+
+
+// 就读方式改变时显示和隐藏 积分就读和居住就读的相关数据项
 $("input[type=radio][name=jdfs]").change(function () {
+    // 积分就读
     if (this.value === "points") {
+        // 积分模块
         $("#point").show();
         $("#rent").hide();
         $("#company").hide();
-        // 居住登记证明
-        $("input[type='radio'][name='idType']").parent().parent().hide();
+
+        // 证件类别所在行
+        $("input[type='radio'][name='idType']").parent().hide();
+        $("input[type='radio'][name='idType']").parent().prev().hide();
+        $("#jzzname").text("居住证编号");
+        $("#rentNum").parent().hide();
+        $("#rentNum").parent().prev().hide();
+
+
         $("#socialId").parent().hide();
         $("#socialId").parent().prev().hide();
         $("input[type='radio'][name='payMethod']").parent().hide();
@@ -56,13 +69,35 @@ $("input[type=radio][name=jdfs]").change(function () {
         $("#point").hide();
         $("#rent").show();
         $("#company").show();
-        $("input[type='radio'][name='idType']").parent().parent().show();
+
+        // 证件类别所在行
+        $("input[type='radio'][name='idType']").parent().show();
+        $("input[type='radio'][name='idType']").parent().prev().show();
+        $("#jzzname").text("证件编号");
+        $("#rentNum").parent().show();
+        $("#rentNum").parent().prev().show();
+
+
         $("#socialId").parent().show();
         $("#socialId").parent().prev().show();
         $("input[type='radio'][name='payMethod']").parent().show();
         $("input[type='radio'][name='payMethod']").parent().prev().show();
     }
 });
+
+// 一年级不显示学籍号
+$("#grade").change(function () {
+    let grade = $.trim($("#grade").val());
+    if (!isEmpty(grade)) {
+        if (grade == '一年级') {
+            $("#xjh").parent().hide();
+            $("#xjh").parent().prev().hide();
+        } else {
+            $("#xjh").parent().show();
+            $("#xjh").parent().prev().show();
+        }
+    }
+})
 
 // 根据id获取数据并绑定显示
 let id = getUrlParam("id");
@@ -71,14 +106,12 @@ if (id) {
         url: window.config.api + '/enrollment/getCompulsoryById/' + id,
         method: "GET",
         success: function (response) {
-
             console.info(response);
-
             if (response.errorCode != 200) {
                 $("#editTr").show();
                 if (getUserInfo().role != '街道办') {
-                    $("#submitApprove").text("无权操作")
-                    $("#submitApprove").attr("disabled", "disabled")
+                    $("#submitBtn").text("无权操作")
+                    $("#submitBtn").attr("disabled", "disabled")
                 }
                 return;
             }
@@ -121,6 +154,10 @@ if (id) {
                 $("input[name='xsGender'][value='female']").attr("checked", true);
             }
             $("#grade").find("option:contains(" + response.data.studentGrade + ")").attr("selected", true);
+            if (response.data.studentGrade == '一年级') {
+                $("#xjh").parent().hide();
+                $("#xjh").parent().prev().hide();
+            }
             $("#xjh").val(response.data.studentSchoolRoll);
             $("#bz").val(response.data.comment);
             let addr = response.data.studentHousehold.split("|");
@@ -204,19 +241,9 @@ if (id) {
                 $("#editTr").show();
                 if (response.data.canEdit) {
                     $(":input").removeAttr("disabled");
-                    if (response.data.status == 0) {
-                        $("#submitApprove").show();
-                    }
-                    if (response.data.approveCount > 3) {
-                        // $("#submit").hide();
-                        $("#submitApprove").text(response.data.editBtn);
-                    }
+                    $("#submitBtn").text(response.data.editBtn);
                 } else {
-                    // $("#submit").text(response.data.editBtn);
-                    $("#submitApprove").text(response.data.editBtn);
-                    if (response.data.status == 1) {
-                        $("#submit").hide();
-                    }
+                    $("#submitBtn").text(response.data.editBtn);
                     setView();
                 }
             } else if (type == 'approve') {
@@ -225,9 +252,9 @@ if (id) {
                 if (response.data.canApprove) {
                     $("input[type='radio'][name='shjg']").removeAttr("disabled");
                     $("#shyj").removeAttr("disabled");
-                    $("#shenhetj").removeAttr("disabled");
+                    $("#approveBtn").removeAttr("disabled");
                 } else {
-                    $("#shenhetj").text(response.data.approveBtn);
+                    $("#approveBtn").text(response.data.approveBtn);
                 }
             } else {
                 setView();
@@ -238,8 +265,10 @@ if (id) {
 
 function setView() {
     $(":input").attr("disabled", "disabled");
+    $("#logoutBtn").attr("disabled", false);
 }
 
+// 积分计算
 function point() {
     let livePoint = $("#live_point").val();
     let socialPoint = $("#social_point").val();
@@ -249,12 +278,15 @@ function point() {
     $("#total_point").val(total_point);
 }
 
+// 积分数字校验
 $("#live_point,#social_point").keyup(function () {
     let value = $(this).val();
     console.info(value);
     if (!isNumber(value)) {
-        toastr.warning('只能输入正整数');
-        $(this).val('');
+        if (value.length > 1 && value != '0') {
+            toastr.warning('只能输入数字');
+            $(this).val('');
+        }
     }
 });
 
@@ -268,256 +300,336 @@ function formValidate(submit) {
         type = 2;
     }
 
-    let str = '';
-
-    if ($.trim($("#guarder").val()).length === 0) {
-        str += '请输入证件持有人姓名\n';
+    let guarderName = $.trim($("#guarder").val());
+    if (isEmpty(guarderName)) {
+        toastr.warning("请输入证件持有人姓名");
+        $("#guarder").focus();
+        return;
     } else {
-        if (isChinaName($.trim($('#guarder').val())) === false) {
-            str += '请输入合法的证件持有人姓名\n';
+        if (!isChinaName(guarderName)) {
+            toastr.warning("证件持有人姓名格式不正确");
+            $("#guarder").focus();
+            return;
         }
     }
 
-    if ($.trim($('#guarderId').val()).length === 0) {
-        str += '请输入证件持有人身份证\n';
+    let guarderIdentityNumber = $.trim($("#guarderId").val());
+    if (isEmpty(guarderIdentityNumber)) {
+        toastr.warning("请输入证件持有人身份证");
+        $("#guarderId").focus();
+        return;
     } else {
-        if (isCardNo($.trim($('#guarderId').val())) === false) {
-            str += '证件持有人身份证格式不正确\n';
+        if (!isCardNo(guarderIdentityNumber)) {
+            toastr.warning("证件持有人身份证格式不正确");
+            $("#guarderId").focus();
+            return;
         }
     }
 
-    // 判断手机号码
-    if ($.trim($('#telephone').val()).length === 0) {
-        str += '请输入联系电话\n';
+    let telephone = $.trim($("#telephone").val());
+    if (isEmpty(telephone)) {
+        toastr.warning("请输入联系电话");
+        $("#telephone").focus();
+        return;
     } else {
-        if (isTelephone($.trim($('#telephone').val()) === false)) {
-            str += '联系电话格式不正确\n';
+        if (!isTelephone(telephone)) {
+            toastr.warning("联系电话格式不正确");
+            $("#telephone").focus();
+            return;
         }
     }
+
+    let residenceType = $("input[type='radio'][name='idType']:checked").val();
+    if (residenceType === 'jzz') {
+        residenceType = '居住证';
+    } else {
+        residenceType = '居住登记证明';
+    }
+
+    // 证件编号
+    let residenceNumber = $.trim($("#jzzid").val());
+
+    // 租房备案号 非必填
+    let rentNumber = $.trim($("#rentNum").val());
+
+    // 居住详细地址 社区，街道 ，详细地址 ，租房备案号
+    let town = $("#town").find("option:selected").data("value");
+    let village = $("#village").find("option:selected").data("value");
+    let residenceAddressZone = town + "|" + village;
+
+    let residenceAddress = $.trim($("#idAddress").val());
+
+    // 人员类型
+    let guarderType = $("input[type='radio'][name='workType']:checked").val();
+    if (guarderType === 'dwzg') {
+        guarderType = '单位职工';
+    } else {
+        guarderType = '个体工商户';
+    }
+
+
+    let company = $.trim($("#companyName").val());
+    let companyAddress = $.trim($("#companyAddress").val());
+    let companySocialId = $.trim($("#companyId").val());
+
+
+    let socialSecurityPayMethod = $("input[type='radio'][name='payMethod']:checked").val();
+    if (socialSecurityPayMethod == 'dw') {
+        socialSecurityPayMethod = '单位';
+    } else {
+        socialSecurityPayMethod = '个人';
+    }
+    let socialSecurityId = $.trim($("#socialId").val());
+
+    let livePoint = $.trim($("#live_point").val());
+    let socialPoint = $.trim($("#social_point").val());
+    let totalPoint = $.trim($("#total_point").val());
+
 
     if (type == 1) {
 
-        // 证件编码
-        if ($.trim($('#jzzid').val()).length === 0) {
-            str += '请输入证件编码\n';
+        // 证件编号
+        if (isEmpty(residenceNumber)) {
+            toastr.warning("请输入证件编号");
+            $("#jzzid").focus();
+            return;
         }
 
-        // 证件住址
-        if ($.trim($('#idAddress').val()).length === 0) {
-            str += '请输入证件住址\n';
-        }
-
-        // 住址所属社区
-        let town = $("#town").find("option:selected").data("value");
-        let village = $("#village").find("option:selected").data("value");
+        // 住址
         if (isEmpty(town) || isEmpty(village)) {
-            str += '请选择住址所属社区\n';
+            toastr.warning("请选择住址详细地址");
+            if (isEmpty(town)) {
+                $("#town").focus();
+            } else {
+                $("#village").focus();
+            }
+            return;
+        }
+        if (isEmpty(residenceAddress)) {
+            toastr.warning("请输入住址详细地址");
+            $("#idAddress").focus();
+            return;
         }
 
         // 单位名称
-        if ($.trim($('#companyName').val()).length === 0) {
-            str += '请输入单位名称\n';
+        if (isEmpty(company)) {
+            toastr.warning("请输入单位名称");
+            $("#companyName").focus();
+            return;
         }
 
         // 单位地址
-        if ($.trim($('#companyAddress').val()).length === 0) {
-            str += '请输入单位地址\n';
+        if (isEmpty(companyAddress)) {
+            toastr.warning("请输入单位地址");
+            $("#companyAddress").focus();
+            return;
         }
 
         // 社会信用代码
-        if ($.trim($('#companyId').val()).length === 0) {
-            str += '请输入社会信用代码\n';
+        if (isEmpty(companySocialId)) {
+            toastr.warning("请输入社会信用代码");
+            $("#companyId").focus();
+            return;
         }
 
-        // 社保编码
-        if ($.trim($('#socialId').val()).length === 0) {
-            str += '请输入社保编码\n';
-        }
-    } else {
-        if ($.trim($('#live_point').val()).length === 0) {
-            str += '请输入居住积分\n';
-        }
-
-        if ($.trim($('#social_point').val()).length === 0) {
-            str += '请输入社保积分\n';
-        }
-    }
-
-
-    // 判断名称
-    if ($.trim($("#xsName").val()).length === 0) {
-        str += '请输入学生姓名\n';
-    } else {
-        if (isChinaName($.trim($('#xsName').val())) === false) {
-            str += '请输入合法的学生姓名\n';
-        }
-    }
-
-    // 验证身份证
-    if ($.trim($('#xsId').val()).length === 0) {
-        str += '学生身份证号码没有输入\n';
-    } else {
-        if (isCardNo($.trim($('#xsId').val())) === false) {
-            str += '学生身份证号不正确\n';
-        }
-    }
-
-    if ($.trim($('#grade').val()).length === 0) {
-        str += '请选择申请入学年级\n';
-    }
-
-
-    // 如果没有错误则提交
-    if (str !== '') {
-        alert(str);
-        return false;
-    } else {
-        console.info("提交数据");
-
-        // 就读方式：1居住就读，2积分就读
-        let type = $("input[type='radio'][name='jdfs']:checked").val();
-        if (type === 'rents') {
-            type = 1;
-        } else {
-            type = 2;
-        }
-        let guarderName = $("#guarder").val();
-        let guarderIdentityNumber = $("#guarderId").val();
-        let telephone = $("#telephone").val();
-        let residenceType = $("input[type='radio'][name='idType']:checked").val();
-        if (residenceType === 'jzz') {
-            residenceType = '居住证';
-        } else {
-            residenceType = '居住登记证明';
-        }
-        // 居住证件编码
-        let residenceNumber = $("#jzzid").val();
-        let residenceAddress = $("#idAddress").val();
-
-        let guarderType = $("input[type='radio'][name='workType']:checked").val();
-        if (guarderType === 'dwzg') {
-            guarderType = '单位职工';
-        } else {
-            guarderType = '个体工商户';
-        }
-        let rentNumber = $("#rentNum").val();
-        let rentAddressZone = $("#town").find("option:selected").data("value") + "|" + $("#village").find("option:selected").data("value");
-        let livePoint = $("#live_point").val();
-        let socialPoint = $("#social_point").val();
-        let totalPoint = $("#total_point").val();
-        let company = $("#companyName").val();
-        let companyAddress = $("#companyAddress").val();
-        let companySocialId = $("#companyId").val();
+        // 社保编号
         let socialSecurityId = $("#socialId").val();
-        let socialSecurityPayMethod = $("input[type='radio'][name='payMethod']:checked").val();
-        if (socialSecurityPayMethod == 'dw') {
-            socialSecurityPayMethod = '单位';
-        } else {
-            socialSecurityPayMethod = '个人';
+        if (isEmpty(socialSecurityId)) {
+            toastr.warning("请输入社保编号");
+            $("#socialId").focus();
+            return;
         }
-        let studentName = $("#xsName").val();
-        let studentIdentityNumber = $("#xsId").val();
-        let studentGender = $("input[type='radio'][name='xsGender']:checked").val();
-        if (studentGender == 'male') {
-            studentGender = '男'
-        } else {
-            studentGender = '女'
-        }
-        let studentGrade = $("#grade").val();
-        let studentSchoolRoll = $("#xjh").val();
-        let studentHousehold = $("#provinceName").val() + "|" + $("#cityName").val() + "|" + $("#districtName").val();
-        let comment = $("#bz").val();
-        console.info("id:" + id);
-        console.info("就读方式：" + type);
-        console.info("证件持有人姓名：" + guarderName)
-        console.info("证件持有人身份证：" + guarderIdentityNumber)
-        console.info("联系电话：" + telephone)
-        console.info("居住证件类型：" + residenceType)
-        console.info("居住证件编码：" + residenceNumber)
-        console.info("居住证上所写住址：" + residenceAddress)
-        console.info("人员类型：" + guarderType)
-        console.info("租房备案号：" + rentNumber)
-        console.info("住址所属社区：" + rentAddressZone)
-        console.info("居住积分:" + livePoint)
-        console.info("社保积分:" + socialPoint)
-        console.info("总积分:" + totalPoint)
-        console.info("单位名称:" + company)
-        console.info("单位地址:" + companyAddress)
-        console.info("单位社会信用代码:" + companySocialId)
-        console.info("社保编码:" + socialSecurityId)
-        console.info("社保缴纳方式:" + socialSecurityPayMethod)
-        console.info("学生姓名:" + studentName)
-        console.info("学生身份证号:" + studentIdentityNumber)
-        console.info("学生性别:" + studentGender)
-        console.info("申请入学年级:" + studentGrade)
-        console.info("学籍号:" + studentSchoolRoll)
-        console.info("户籍地址:" + studentHousehold)
-        console.info("备注:" + comment)
+    } else {
 
-        if (type == 2) {
-            rentAddressZone = '';
+        // 居住积分
+        if (isEmpty(livePoint)) {
+            toastr.warning("请输入居住积分");
+            $("#live_point").focus();
+            return;
         }
 
-        $.ajax({
-            url: window.config.api + '/enrollment/addCompulsory',
-            method: "POST",
-            async: false,
-            data: JSON.stringify({
-                "id": id,
-                "submit": submit,
-                "type": type,
-                "guarderName": guarderName,
-                "guarderIdentityNumber": guarderIdentityNumber,
-                "telephone": telephone,
-                "residenceType": residenceType,
-                "residenceNumber": residenceNumber,
-                "residenceAddress": residenceAddress,
-                "guarderType": guarderType,
-                "rentNumber": rentNumber,
-                "rentAddressZone": rentAddressZone,
-                "livePoint": livePoint,
-                "socialPoint": socialPoint,
-                "totalPoint": totalPoint,
-                "company": company,
-                "companyAddress": companyAddress,
-                "companySocialId": companySocialId,
-                "socialSecurityId": socialSecurityId,
-                "socialSecurityPayMethod": socialSecurityPayMethod,
-                "studentName": studentName,
-                "studentIdentityNumber": studentIdentityNumber,
-                "studentGender": studentGender,
-                "studentGrade": studentGrade,
-                "studentSchoolRoll": studentSchoolRoll,
-                "studentHousehold": studentHousehold,
-                "comment": comment
-            }),
-            success: function (response) {
-                if (response.errorCode == 200) {
-                    toastr.success(response.message);
-                    if (!id) {
-                        if (submit == 1) {
-                            let r = confirm("是否打印回执!");
-                            if (r == true) {
-                                // window.location.replace("./blank2.html?id=" + response.data + "&type=edit");
-                                window.open("./print-confirm.html?id=" + response.data);
-                            }
+        // 社保积分
+        if (isEmpty(socialPoint)) {
+            toastr.warning("请输入社保积分");
+            $("#social_point").focus();
+            return;
+        }
+
+        // 人员类型
+        guarderType = '';
+        // 社保缴纳方式
+        socialSecurityPayMethod = '';
+    }
+
+
+    let studentName = $.trim($("#xsName").val());
+    if (isEmpty(studentName)) {
+        toastr.warning("请输入学生姓名");
+        $("#xsName").focus();
+        return;
+    } else {
+        if (!isChinaName(studentName)) {
+            toastr.warning("学生姓名格式不正确");
+            $("#xsName").focus();
+            return;
+        }
+    }
+
+    let studentIdentityNumber = $.trim($("#xsId").val());
+    if (isEmpty(studentIdentityNumber)) {
+        toastr.warning("请输入学生身份证");
+        $("#xsId").focus();
+        return;
+    } else {
+        if (!isCardNo(studentIdentityNumber)) {
+            toastr.warning("学生身份证格式不正确");
+            $("#xsId").focus();
+            return;
+        }
+    }
+
+    let studentGender = $("input[type='radio'][name='xsGender']:checked").val();
+    if (studentGender == 'male') {
+        studentGender = '男'
+    } else {
+        studentGender = '女'
+    }
+
+    let grade = $("#grade").val();
+    if (isEmpty(grade)) {
+        toastr.warning("请选择申请入学年级");
+        $("#grade").focus();
+        return;
+    } else {
+        if (grade == '一年级') {
+            $("#xjh").parent().hide();
+            $("#xjh").parent().prev().hide();
+        } else {
+            $("#xjh").parent().show();
+            $("#xjh").parent().prev().show();
+        }
+    }
+
+    console.info("提交数据");
+    // 下面的到提交的时候才校验
+
+    // 学籍号
+    let studentSchoolRoll = $.trim($("#xjh").val());
+    if (grade != '一年级' && isEmpty(studentSchoolRoll)) {
+        toastr.warning("请输入学籍号");
+        $("#xjh").focus();
+        return;
+    } else {
+        // 一年级出生年月日在2013年8月31日以后的不可以报名
+        let birth = studentIdentityNumber.substring(6, 14);
+        let end = (new Date().getFullYear() - 6) + "0831";
+        if (birth >= end) {
+            toastr.warning("一年级只接收2013年8月31日之前出生的学生");
+            $("#xjh").focus();
+            return;
+        }
+
+    }
+
+    let studentHousehold = $("#provinceName").val() + "|" + $("#cityName").val() + "|" + $("#districtName").val();
+    let comment = $.trim($("#bz").val());
+
+
+    console.info("id:" + id);
+    console.info("就读方式：" + type);
+    console.info("证件持有人姓名：" + guarderName)
+    console.info("证件持有人身份证：" + guarderIdentityNumber)
+    console.info("联系电话：" + telephone)
+    console.info("居住证件类型：" + residenceType)
+    console.info("居住证件编码：" + residenceNumber)
+    console.info("租房备案号：" + rentNumber)
+
+    console.info("住址详细地址联动：" + residenceAddressZone)
+    console.info("住址详细地址+手写：" + residenceAddress)
+
+
+    console.info("居住积分:" + livePoint)
+    console.info("社保积分:" + socialPoint)
+    console.info("总积分:" + totalPoint)
+
+    console.info("人员类型：" + guarderType)
+
+    console.info("单位名称:" + company)
+    console.info("单位地址:" + companyAddress)
+    console.info("单位社会信用代码:" + companySocialId)
+    console.info("社保缴纳方式:" + socialSecurityPayMethod)
+    console.info("社保编码:" + socialSecurityId)
+
+    console.info("学生姓名:" + studentName)
+    console.info("学生身份证号:" + studentIdentityNumber)
+    console.info("学生性别:" + studentGender)
+    console.info("申请入学年级:" + grade)
+    console.info("学籍号:" + studentSchoolRoll)
+    console.info("户籍地址:" + studentHousehold)
+    console.info("备注:" + comment)
+
+
+    $.ajax({
+        url: window.config.api + '/enrollment/addCompulsory',
+        method: "POST",
+        async: false,
+        data: JSON.stringify({
+            "id": id,
+            "submit": submit,
+            "type": type,
+            "guarderName": guarderName,
+            "guarderIdentityNumber": guarderIdentityNumber,
+            "telephone": telephone,
+            "residenceType": residenceType,
+            "residenceNumber": residenceNumber,
+            "residenceAddress": residenceAddress,
+            "guarderType": guarderType,
+            "rentNumber": rentNumber,
+            "rentAddressZone": residenceAddressZone,
+            "livePoint": livePoint,
+            "socialPoint": socialPoint,
+            "totalPoint": totalPoint,
+            "company": company,
+            "companyAddress": companyAddress,
+            "companySocialId": companySocialId,
+            "socialSecurityId": socialSecurityId,
+            "socialSecurityPayMethod": socialSecurityPayMethod,
+            "studentName": studentName,
+            "studentIdentityNumber": studentIdentityNumber,
+            "studentGender": studentGender,
+            "studentGrade": grade,
+            "studentSchoolRoll": studentSchoolRoll,
+            "studentHousehold": studentHousehold,
+            "comment": comment
+        }),
+        success: function (response) {
+            if (response.errorCode == 200) {
+                toastr.success(response.message);
+                if (!id) {
+                    if (submit == 1) {
+                        let r = confirm("是否打印回执!");
+                        if (r == true) {
+                            // window.location.replace("./blank2.html?id=" + response.data + "&type=edit");
+                            window.open("./print-confirm.html?id=" + response.data);
                         }
-                        window.location.replace("./compulsory.html");
-                    } else {
-                        window.location = "./blank2.html?id=" + id + "&type=edit";
                     }
+                    window.location.replace("./compulsory.html");
+                } else {
+                    window.location = "./blank2.html?id=" + id + "&type=edit";
                 }
             }
-        });
-
-    }
+        }
+    });
 }
 
-// 学生身份证校验
+// 学生身份证校验以及和性别联动
 $("#xsId").on('blur', function () {
-    let idNumber = $("#xsId").val().trim();
+    let idNumber = $.trim($("#xsId").val());
+    if (isEmpty(idNumber)) {
+        return;
+    }
     if (!isCardNo(idNumber)) {
-        toastr.warning("学生身份证格式不正确");
+        toastr.warning("学生身份证号格式不正确");
         $("#xsId").focus();
         return;
     }
@@ -531,25 +643,37 @@ $("#xsId").on('blur', function () {
     }
 })
 
-$('#submit').on('click', function () {
-    formValidate(0);
-});
-
-$('#submitApprove').on('click', function () {
+/**
+ * 点击提交按钮
+ */
+$('#submitBtn').on('click', function () {
     formValidate(1);
 });
 
-$('#shenhetj').on('click', function () {
-    submitApprove();
+
+/**
+ * 点击提交审核按钮
+ */
+$('#approveBtn').on('click', function () {
+    if (isEmpty(id)) {
+    } else {
+        submitApprove();
+    }
 });
 
+/**
+ * 提交审核
+ */
 function submitApprove() {
-    console.info("id" + id);
-    let shjg = $("input[type='radio'][name='shjg']:checked").val();
-    let shyj = $("#shyj").val();
-    if (shjg == 2) {
-        if (shyj.length == 0) {
+    console.info("审核的id:" + id);
+    // 审核结果 1通过 2不通过
+    let approveResult = $("input[type='radio'][name='shjg']:checked").val();
+    let approveComment = $.trim($("#shyj").val());
+    // 不通过
+    if (approveResult == '2') {
+        if (isEmpty(approveComment)) {
             toastr.warning("请输入审核意见");
+            $("#shyj").focus();
             return;
         }
     }
@@ -558,8 +682,8 @@ function submitApprove() {
         method: "POST",
         data: JSON.stringify({
             "id": id,
-            "status": shjg,
-            "comment": shyj
+            "status": approveResult,
+            "comment": approveComment
         }),
         success: function (response) {
             if (response.errorCode == 200) {
@@ -572,4 +696,5 @@ function submitApprove() {
     });
 }
 
-$("#logoutModal").children(".btn").removeAttr("disabled");
+// 有时候禁用会导致退出登录的按钮也被禁用
+$("#logoutBtn").attr("disabled", false);
