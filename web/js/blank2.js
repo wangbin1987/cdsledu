@@ -131,6 +131,7 @@ if (id) {
             }
             $("#jzzid").val(response.data.residenceNumber);
             $("#idAddress").val(response.data.residenceAddress);
+            $("#idAddress").attr('title',response.data.residenceAddress);
             if (response.data.guarderType == '单位职工') {
                 $("input[name='workType'][value='dwzg']").attr("checked", true);
             } else {
@@ -138,9 +139,13 @@ if (id) {
             }
             $("#rentNum").val(response.data.rentNumber);
             $("#companyName").val(response.data.company);
+            $("#companyName").attr('title',response.data.company);
             $("#companyAddress").val(response.data.companyAddress);
+            $("#companyAddress").attr('title',response.data.companyAddress);
             $("#companyId").val(response.data.companySocialId);
+            $("#companyId").attr('title',response.data.companySocialId);
             $("#socialId").val(response.data.socialSecurityId);
+            $("#socialId").attr('title',response.data.socialSecurityId);
             if (response.data.socialSecurityPayMethod == '单位') {
                 $("input[name='payMethod'][value='dw']").attr("checked", true);
             } else {
@@ -522,6 +527,7 @@ function formValidate(submit) {
     } else {
         // 一年级出生年月日在2013年8月31日以后的不可以报名
         let birth = studentIdentityNumber.substring(6, 14);
+        console.info("birthday:"+birth);
         let end = (new Date().getFullYear() - 6) + "0831";
         if (birth >= end) {
             toastr.warning("一年级只接收2013年8月31日之前出生的学生");
