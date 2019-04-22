@@ -168,7 +168,7 @@ function drawMenu(response) {
     } else {
         top.attr('href', 'index.html');
     }
-    let topDiv = $('<div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-laugh-wink"></i></div>');
+    let topDiv = $('<div class="sidebar-brand-icon"><i class="fas fa-graduation-cap"></i></div>');
     let topNameDiv = $('<div class="sidebar-brand-text mx-3">' + window.config.appName + '<sup>2</sup></div>');
     top.append(topDiv, topNameDiv);
 
