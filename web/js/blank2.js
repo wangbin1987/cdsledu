@@ -1,10 +1,10 @@
-// 省市区联动
+// 全国省市区 组件联动
 $("#target").distpicker({
     autoSelect: true,
     placeholder: false
 })
 
-// 加载住址所属社区数据联动
+// 住址所属社区 的街道->社区数据联动
 $.ajax({
     url: window.config.api + '/system/getDistrict',
     method: "GET",
