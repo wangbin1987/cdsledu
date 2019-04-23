@@ -33,9 +33,9 @@ let type = getUrlParam("type");
 if (isEmpty(type)) {
     $("#editTr").show();
     if (getUserInfo().role != '街道办') {
+        toastr.warning("无权操作");
+        setView();
         $("#submitBtn").text("无权操作")
-        $("#submitBtn").attr("disabled", "disabled")
-        $("#submitBtn").show()
     }
 }
 
