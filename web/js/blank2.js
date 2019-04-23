@@ -635,7 +635,7 @@ function formValidate(submit) {
                 toastr.success(response.message);
                 if (!id) {
                     if (submit == 1) {
-                        let r = confirm("是否打印回执!");
+                        let r = confirm("信息提交成功，是否打印回执？");
                         if (r == true) {
                             // window.location.replace("./blank2.html?id=" + response.data + "&type=edit");
                             window.open("./print-confirm.html?id=" + response.data);
