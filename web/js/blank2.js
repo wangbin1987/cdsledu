@@ -116,63 +116,28 @@ if (id) {
                 return;
             }
 
-            $("#live_point").val(response.data.livePoint);
-            $("#social_point").val(response.data.socialPoint);
-            $("#total_point").val(response.data.totalPoint);
-
             $("#guarder").val(response.data.guarderName);
+            $("#guarder").attr('title', response.data.guarderName);
             $("#guarderId").val(response.data.guarderIdentityNumber);
+            $("#guarderId").attr('title', response.data.guarderIdentityNumber);
             $("#telephone").val(response.data.telephone);
+            $("#telephone").attr('title', response.data.telephone);
 
             if (response.data.residenceType == '居住证') {
                 $("input[name='idType'][value='jzz']").attr("checked", true);
             } else {
                 $("input[name='idType'][value='jzdjzm']").attr("checked", true);
             }
+            // 证件编号
             $("#jzzid").val(response.data.residenceNumber);
-            $("#idAddress").val(response.data.residenceAddress);
-            $("#idAddress").attr('title',response.data.residenceAddress);
-            if (response.data.guarderType == '单位职工') {
-                $("input[name='workType'][value='dwzg']").attr("checked", true);
-            } else {
-                $("input[name='workType'][value='gtgsh']").attr("checked", true);
-            }
+            $("#jzzid").attr('title', response.data.residenceNumber);
+            // 租房备案号
             $("#rentNum").val(response.data.rentNumber);
-            $("#companyName").val(response.data.company);
-            $("#companyName").attr('title',response.data.company);
-            $("#companyAddress").val(response.data.companyAddress);
-            $("#companyAddress").attr('title',response.data.companyAddress);
-            $("#companyId").val(response.data.companySocialId);
-            $("#companyId").attr('title',response.data.companySocialId);
-            $("#socialId").val(response.data.socialSecurityId);
-            $("#socialId").attr('title',response.data.socialSecurityId);
-            if (response.data.socialSecurityPayMethod == '单位') {
-                $("input[name='payMethod'][value='dw']").attr("checked", true);
-            } else {
-                $("input[name='payMethod'][value='gr']").attr("checked", true);
-            }
-            $("#xsName").val(response.data.studentName);
-            $("#xsId").val(response.data.studentIdentityNumber);
-            if (response.data.studentGender == '男') {
-                $("input[name='xsGender'][value='male']").attr("checked", true);
-            } else {
-                $("input[name='xsGender'][value='female']").attr("checked", true);
-            }
-            $("#grade").find("option:contains(" + response.data.studentGrade + ")").attr("selected", true);
-            if (response.data.studentGrade == '一年级') {
-                $("#xjh").parent().hide();
-                $("#xjh").parent().prev().hide();
-            }
-            $("#xjh").val(response.data.studentSchoolRoll);
-            $("#bz").val(response.data.comment);
-            let addr = response.data.studentHousehold.split("|");
-            $("#provinceName").val(addr[0]);
-            $("#provinceName").trigger("change");
-            $("#cityName").val(addr[1]);
-            $("#cityName").trigger("change");
-            $("#districtName").val(addr[2]);
-            $("#districtName").trigger("change");
+            $("#rentNum").attr('title', response.data.rentNumber);
 
+            // 居住详细地址
+            $("#idAddress").val(response.data.residenceAddress);
+            $("#idAddress").attr('title', response.data.residenceAddress);
             if (response.data.rentAddressZone) {
                 let zone = response.data.rentAddressZone.split("|");
                 $("#town option").each(function () {
@@ -193,17 +158,74 @@ if (id) {
                     }
                 })
             }
+
+            if (response.data.guarderType == '单位职工') {
+                $("input[name='workType'][value='dwzg']").attr("checked", true);
+            } else {
+                $("input[name='workType'][value='gtgsh']").attr("checked", true);
+            }
+
+            // 积分
+            $("#live_point").val(response.data.livePoint);
+            $("#social_point").val(response.data.socialPoint);
+            $("#total_point").val(response.data.totalPoint);
+
+            // 单位名称
+            $("#companyName").val(response.data.company);
+            $("#companyName").attr('title', response.data.company);
+            // 单位地址
+            $("#companyAddress").val(response.data.companyAddress);
+            $("#companyAddress").attr('title', response.data.companyAddress);
+            // 社会信用代码
+            $("#companyId").val(response.data.companySocialId);
+            $("#companyId").attr('title', response.data.companySocialId);
+            // 社保缴纳方式
+            if (response.data.socialSecurityPayMethod == '单位') {
+                $("input[name='payMethod'][value='dw']").attr("checked", true);
+            } else {
+                $("input[name='payMethod'][value='gr']").attr("checked", true);
+            }
+            // 社保编号
+            $("#socialId").val(response.data.socialSecurityId);
+            $("#socialId").attr('title', response.data.socialSecurityId);
+
+            // 学生姓名
+            $("#xsName").val(response.data.studentName);
+            $("#xsName").attr('title', response.data.studentName);
+            $("#xsId").val(response.data.studentIdentityNumber);
+            $("#xsId").attr('title', response.data.studentIdentityNumber);
+            if (response.data.studentGender == '男') {
+                $("input[name='xsGender'][value='male']").attr("checked", true);
+            } else {
+                $("input[name='xsGender'][value='female']").attr("checked", true);
+            }
+
+            // 申请入学年级
+            $("#grade").find("option:contains(" + response.data.studentGrade + ")").attr("selected", true);
+            if (response.data.studentGrade == '一年级') {
+                $("#xjh").parent().hide();
+                $("#xjh").parent().prev().hide();
+            }
+            // 学籍号
+            $("#xjh").val(response.data.studentSchoolRoll);
+            $("#xjh").attr('title', response.data.studentSchoolRoll);
+
+            // 户籍地址
+            let addr = response.data.studentHousehold.split("|");
+            $("#provinceName").val(addr[0]);
+            $("#provinceName").trigger("change");
+            $("#cityName").val(addr[1]);
+            $("#cityName").trigger("change");
+            $("#districtName").val(addr[2]);
+            $("#districtName").trigger("change");
+
+            // 备注
+            $("#bz").val(response.data.comment);
             // 切换就读方式
             if (response.data.type == '2') {
                 $("#points").trigger("click");
-                $("#point").show();
-                $("#rent").hide();
-                $("#company").hide();
             } else {
                 $("#rents").trigger("click");
-                $("#point").hide();
-                $("#rent").show();
-                $("#company").show();
             }
 
             // 显示操作历史
@@ -527,7 +549,7 @@ function formValidate(submit) {
     } else {
         // 一年级出生年月日在2013年8月31日以后的不可以报名
         let birth = studentIdentityNumber.substring(6, 14);
-        console.info("birthday:"+birth);
+        console.info("birthday:" + birth);
         let end = (new Date().getFullYear() - 6) + "0831";
         if (birth >= end) {
             toastr.warning("一年级只接收2013年8月31日之前出生的学生");
