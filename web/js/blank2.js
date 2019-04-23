@@ -310,7 +310,7 @@ $("#live_point,#social_point").keyup(function () {
     let value = $(this).val();
     console.info(value);
     if (!isNumber(value)) {
-        if (value.length > 1 && value != '0') {
+        if (value.length >= 1 && value != '0') {
             toastr.warning('只能输入数字');
             $(this).val('');
         }
@@ -386,6 +386,22 @@ function formValidate(submit) {
 
     let residenceAddress = $.trim($("#idAddress").val());
 
+    // 住址
+    if (isEmpty(town) || isEmpty(village)) {
+        toastr.warning("请选择住址详细地址");
+        if (isEmpty(town)) {
+            $("#town").focus();
+        } else {
+            $("#village").focus();
+        }
+        return;
+    }
+    if (isEmpty(residenceAddress)) {
+        toastr.warning("请输入住址详细地址");
+        $("#idAddress").focus();
+        return;
+    }
+
     // 人员类型
     let guarderType = $("input[type='radio'][name='workType']:checked").val();
     if (guarderType === 'dwzg') {
@@ -393,7 +409,6 @@ function formValidate(submit) {
     } else {
         guarderType = '个体工商户';
     }
-
 
     let company = $.trim($("#companyName").val());
     let companyAddress = $.trim($("#companyAddress").val());
@@ -419,22 +434,6 @@ function formValidate(submit) {
         if (isEmpty(residenceNumber)) {
             toastr.warning("请输入证件编号");
             $("#jzzid").focus();
-            return;
-        }
-
-        // 住址
-        if (isEmpty(town) || isEmpty(village)) {
-            toastr.warning("请选择住址详细地址");
-            if (isEmpty(town)) {
-                $("#town").focus();
-            } else {
-                $("#village").focus();
-            }
-            return;
-        }
-        if (isEmpty(residenceAddress)) {
-            toastr.warning("请输入住址详细地址");
-            $("#idAddress").focus();
             return;
         }
 
@@ -657,7 +656,7 @@ $("#xsId").on('blur', function () {
         return;
     }
     if (!isCardNo(idNumber)) {
-        toastr.warning("学生身份证号格式不正确");
+        toastr.warning("学生身份证格式不正确");
         $("#xsId").focus();
         return;
     }
