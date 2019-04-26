@@ -29,21 +29,12 @@ $(function () {
     welcome += ("今天是" + year + "年" + mon + "月" + date + "日" + '，' + weeks[week] + "</p>");
 
     $.ajax({
-        url: window.config.api + '/system/getSchoolSignTime',
+        url: window.config.api + '/system/isKindergartenSign',
         method: "GET",
         async: false,
         success: function (response) {
             if (response.errorCode == 200) {
-                if (response.data) {
-                    response.data.forEach(data => {
-                        if (data.schoolType == 'gb_kindergarten') {
-                            welcome += ("公立幼儿园报名时间：" + data.signStartTime + "到" + data.signEndTime + "<br>");
-                        }
-                        if (data.schoolType == 'gy_kindergarten') {
-                            welcome += ("公益幼儿园报名时间：" + data.signStartTime + "到" + data.signEndTime + "<br>");
-                        }
-                    })
-                }
+                welcome += (response.data.gbMessage + "<br>" + response.data.gyMessage);
             }
         }
     });
