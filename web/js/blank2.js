@@ -551,7 +551,7 @@ function formValidate(submit) {
         console.info("birthday:" + birth);
         let end = (new Date().getFullYear() - 6) + "0831";
         if (birth >= end) {
-            toastr.warning("一年级只接收2013年8月31日之前出生的学生");
+            toastr.warning("一年级只接收"+(new Date().getFullYear() - 6)+"年8月31日之前出生的学生");
             $("#xjh").focus();
             return;
         }

@@ -15,7 +15,7 @@ $(function () {
         welcome = welcome + " [" + role + "]"
     }
 
-    welcome += " 欢迎您登陆双流区教育管理系统</p>";
+    welcome += "，欢迎您登陆双流区教育管理系统</p>";
 
     let myDate = new Date;
     let year = myDate.getFullYear(); //获取当前年

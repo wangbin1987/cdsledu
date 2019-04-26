@@ -75,7 +75,7 @@
 
                 <div class="card shadow mb-4">
                     <div class="card-body">
-                        <div class="card-body" id="message" style="display: none; padding-left: 0;">
+                        <div class="card-body" id="message" style="display: none; padding: 0 0 1rem 0;">
                         </div>
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -113,7 +113,7 @@
                                         <select class="custom-select col-md-3" id="district">
                                             <option value="">---请选择---</option>
                                         </select>
-                                        <input style="display: inline-block; margin-left: 1rem; font-size: 1rem; width:38%"
+                                        <input style="display: table-cell; margin-left: 1rem; font-size: 1rem; width:30%"
                                                class="form-control" name="address" id="address"/>
                                     </td>
                                 </tr>
@@ -139,12 +139,11 @@
                                     <td>操作</td>
                                     <td align="left" colspan="5">
                                         <button class="btn btn-primary" type="submit" id="submit"
-                                                style="width: 20%;margin-right: 1rem;">
+                                                style="width: 15%;margin-right: 1rem;">
                                             保存
                                         </button>
-                                        <button style="display: none;" class="btn btn-primary" type="submit"
-                                                id="submitApprove"
-                                                style="width: 20%">
+                                        <button style="display: none;width: 15%" class="btn btn-primary" type="submit"
+                                                id="submitApprove">
                                             保存并提交
                                         </button>
                                     </td>
@@ -349,7 +348,6 @@
                     }
                 })
             }
-
         }
 
         let type = getUrlParam("type");
@@ -389,148 +387,175 @@
 
         function formValidate(submit) {
 
-            let str = '';
-
-            // 学生姓名
-            if ($.trim($("#xsName").val()).length === 0) {
-                str += '请输入学生姓名\n';
+            let studentName = $.trim($("#xsName").val());
+            if (isEmpty(studentName)) {
+                toastr.warning("请输入幼儿姓名");
+                $("#xsName").focus();
+                return;
             } else {
-                if (isChinaName($.trim($('#xsName').val())) === false) {
-                    str += '请输入合法的学生姓名\n';
+                if (!isChinaName(studentName)) {
+                    toastr.warning("幼儿姓名格式不正确");
+                    $("#xsName").focus();
+                    return;
                 }
             }
 
-            // 身份证号码
-            if ($.trim($('#xsId').val()).length === 0) {
-                str += '请输入学生身份证\n';
+            let studentIdentityNumber = $.trim($("#xsId").val());
+            if (isEmpty(studentIdentityNumber)) {
+                toastr.warning("请输入幼儿身份证");
+                $("#xsId").focus();
+                return;
             } else {
-                if (isCardNo($.trim($('#xsId').val())) === false) {
-                    str += '学生身份证格式不正确\n';
+                if (!isCardNo(studentIdentityNumber)) {
+                    toastr.warning("幼儿身份证格式不正确");
+                    $("#xsId").focus();
+                    return;
+                } else {
+                    // 一年级出生年月日在2013年8月31日以后的不可以报名
+                    let birth = studentIdentityNumber.substring(6, 14);
+                    console.info("birthday:" + birth);
+                    let end = (new Date().getFullYear() - 3) + "0831";
+                    let begin = (new Date().getFullYear() - 7) + "0831";
+                    if (birth >= end) {
+                        toastr.warning("幼儿园只接收" + (new Date().getFullYear() - 3) + "年8月31日之前出生的学生");
+                        $("#xjh").focus();
+                        return;
+                    }
+                    if (birth <= begin) {
+                        toastr.warning("幼儿园不接收" + (new Date().getFullYear() - 7) + "年8月31日之前出生的学生");
+                        $("#xjh").focus();
+                        return;
+                    }
                 }
             }
 
-            // 监护人姓名
-            if ($.trim($("#guarder").val()).length === 0) {
-                str += '请输入监护人姓名\n';
+            let studentGender = $("input[type='radio'][name='xsGender']:checked").val();
+            if (studentGender == 'male') {
+                studentGender = '男'
             } else {
-                if (isChinaName($.trim($('#guarder').val())) === false) {
-                    str += '请输入合法的监护人姓名\n';
+                studentGender = '女'
+            }
+
+            let guarderName = $.trim($("#guarder").val());
+            if (isEmpty(guarderName)) {
+                toastr.warning("请输入监护人姓名");
+                $("#guarder").focus();
+                return;
+            } else {
+                if (!isChinaName(guarderName)) {
+                    toastr.warning("监护人姓名格式不正确");
+                    $("#guarder").focus();
+                    return;
                 }
             }
 
-            // 监护人身份证
-            if ($.trim($('#guarderId').val()).length === 0) {
-                str += '请输入监护人身份证\n';
+            let guarderIdentityNumber = $.trim($("#guarderId").val());
+            if (isEmpty(guarderIdentityNumber)) {
+                toastr.warning("请输入监护人身份证");
+                $("#guarderId").focus();
+                return;
             } else {
-                if (isCardNo($.trim($('#guarderId').val())) === false) {
-                    str += '监护人身份证格式不正确\n';
+                if (!isCardNo(guarderIdentityNumber)) {
+                    toastr.warning("监护人身份证格式不正确");
+                    $("#guarderId").focus();
+                    return;
                 }
             }
 
-            // 联系电话
-            if ($.trim($('#telephone').val()).length === 0) {
-                str += '请输入联系电话\n';
+            let telephone = $.trim($("#telephone").val());
+            if (isEmpty(telephone)) {
+                toastr.warning("请输入联系电话");
+                $("#telephone").focus();
+                return;
             } else {
-                if (isTelephone($.trim($('#telephone').val()) === false)) {
-                    str += '联系电话格式不正确\n';
+                if (!isTelephone(telephone)) {
+                    toastr.warning("联系电话格式不正确");
+                    $("#telephone").focus();
+                    return;
                 }
             }
 
-            // 所在区域
             let district = $("#district").find("option:selected").data("value");
-            if (district == undefined || district == '') {
-                str += '请选择所在区域\n';
+            let address = $.trim($("#address").val());
+            // 户籍地址
+            if (isEmpty(district)) {
+                toastr.warning("请选择户籍地址所在街道/镇");
+                $("#district").focus();
+                return;
+            }
+            if (isEmpty(address)) {
+                toastr.warning("请输入户籍详细地址");
+                $("#address").focus();
+                return;
             }
 
             // 公办幼儿园
             let gbSchool = $("#gbSchool").find("option:selected").data("value");
-            if (gbSchool == undefined || gbSchool == '') {
-                str += '请选择公办幼儿园\n';
-            }
 
             // 公益幼儿园
             let gySchool = $("#gySchool").find("option:selected").data("value");
-            if (gySchool == undefined || gySchool == '') {
-                str += '请选公益幼儿园\n';
+
+            if (isEmpty(gbSchool) && isEmpty(gySchool)) {
+                toastr.warning("请选择幼儿园");
+                return;
             }
 
+            console.info("提交数据");
 
-            // 如果没有错误则提交
-            if (str !== '') {
-                alert(str);
-                return false;
+            // 户籍地址
+            let studentHousehold = $("#province").val() + "|" + $("#city").val() + "|" + $("#county").val();
+
+
+            let hjgs = $("input[type='radio'][name='hjgs']:checked").val();
+            if (hjgs == 'yzgb') {
+                hjgs = '援藏干部'
             } else {
-                console.info("提交数据");
-
-                let studentName = $("#xsName").val();
-                let studentIdentityNumber = $("#xsId").val();
-                let studentGender = $("input[type='radio'][name='xsGender']:checked").val();
-                if (studentGender == 'male') {
-                    studentGender = '男'
-                } else {
-                    studentGender = '女'
-                }
-
-                let guarderName = $("#guarder").val();
-                let guarderIdentityNumber = $("#guarderId").val();
-                let telephone = $("#telephone").val();
-                // 所在区域
-                let district = $("#district").find("option:selected").data("value");
-                // 户籍地址
-                let studentHousehold = $("#province").val() + "|" + $("#city").val() + "|" + $("#county").val();
-                let gbSchool = $("#gbSchool").find("option:selected").data("value");
-                let gySchool = $("#gySchool").find("option:selected").data("value");
-                let hjgs = $("input[type='radio'][name='hjgs']:checked").val();
-                if (hjgs == 'yzgb') {
-                    hjgs = '援藏干部'
-                } else {
-                    hjgs = '双流区'
-                }
-
-                console.info("id:" + id);
-                console.info("学生姓名:" + studentName)
-                console.info("学生身份证号:" + studentIdentityNumber)
-                console.info("学生性别:" + studentGender)
-
-                console.info("监护人姓名：" + guarderName)
-                console.info("监护人身份证：" + guarderIdentityNumber)
-                console.info("联系电话：" + telephone)
-
-
-                console.info("所在区域:" + district)
-                console.info("户籍地址:" + studentHousehold)
-                console.info("公办幼儿园:" + gbSchool)
-                console.info("公益幼儿园:" + gySchool)
-                console.info("户籍归属:" + hjgs)
-
-
-                $.ajax({
-                    url: window.config.api + '/primary/saveKindergarten',
-                    method: "POST",
-                    data: JSON.stringify({
-                        "id": id,
-                        "submit": submit,
-                        "studentName": studentName,
-                        "studentIdentityNumber": studentIdentityNumber,
-                        "studentGender": studentGender,
-                        "guarderName": guarderName,
-                        "guarderIdentityNumber": guarderIdentityNumber,
-                        "telephone": telephone,
-                        "residenceArea": district,
-                        "studentHousehold": studentHousehold,
-                        "gbKindergarten": gbSchool,
-                        "gyKindergarten": gySchool,
-                        "householdType": hjgs
-                    }),
-                    success: function (response) {
-                        if (response.errorCode == 200) {
-                            toastr.success(response.message);
-                            window.location = "./kindergarten.html";
-                        }
-                    }
-                });
-
+                hjgs = '双流区'
             }
+
+            console.info("id:" + id);
+            console.info("学生姓名:" + studentName)
+            console.info("学生身份证号:" + studentIdentityNumber)
+            console.info("学生性别:" + studentGender)
+
+            console.info("监护人姓名：" + guarderName)
+            console.info("监护人身份证：" + guarderIdentityNumber)
+            console.info("联系电话：" + telephone)
+
+            console.info("户籍地址:" + studentHousehold)
+            console.info("所在区域:" + district)
+            console.info("详细地址:" + address)
+
+            console.info("公办幼儿园:" + gbSchool)
+            console.info("公益幼儿园:" + gySchool)
+            console.info("户籍归属:" + hjgs)
+
+            $.ajax({
+                url: window.config.api + '/primary/saveKindergarten',
+                method: "POST",
+                data: JSON.stringify({
+                    "id": id,
+                    "submit": submit,
+                    "studentName": studentName,
+                    "studentIdentityNumber": studentIdentityNumber,
+                    "studentGender": studentGender,
+                    "guarderName": guarderName,
+                    "guarderIdentityNumber": guarderIdentityNumber,
+                    "telephone": telephone,
+                    "studentHousehold": studentHousehold,
+                    "residenceArea": district,
+                    "address": address,
+                    "gbKindergarten": gbSchool,
+                    "gyKindergarten": gySchool,
+                    "householdType": hjgs
+                }),
+                success: function (response) {
+                    if (response.errorCode == 200) {
+                        toastr.success(response.message);
+                        window.location = "./kindergarten.html";
+                    }
+                }
+            });
         }
 
         // 获取公益公办幼儿园报名时间
@@ -540,16 +565,16 @@
             async: false,
             success: function (response) {
                 $("#message").html(response.data.gbMessage + "<br>" + response.data.gyMessage);
-                $("#message").css('display', 'block');
+                $("#message").css('display', 'inline-block');
                 if (!response.data.gbKindergarten && !response.data.gyKindergarten) {
                     toastr.warning("当前时间不在幼儿园报名时间内");
                     setView();
                 }
                 if (response.data.gbKindergarten) {
-                    $(".gb-school").css('display', 'block');
+                    $(".gb-school").css('display', 'table-cell');
                 }
                 if (response.data.gyKindergarten) {
-                    $(".gy-school").css('display', 'block');
+                    $(".gy-school").css('display', 'table-cell');
                 }
             }
         })
