@@ -84,6 +84,7 @@ function isEmpty(str) {
 
 // 产品名称
 $("div#productName").parent().html(window.config.appName);
+// $("div#productName").parent().attr("href", "javascript:void(0)");
 
 // 退出登录
 $(document).on("click", "button#logoutBtn", function () {

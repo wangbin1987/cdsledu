@@ -54,7 +54,7 @@
 
     <!-- 左侧菜单 -->
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="user-info.html">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
             <div class="sidebar-brand-icon">
                 <i class="fas fa-graduation-cap"></i>
             </div>
@@ -62,7 +62,7 @@
         </a>
         <!-- 一个占位符，不加占位符左侧菜单回缩小 -->
         <li class="nav-item active" id='placeholder'>
-            <a class="nav-link" href="user-info.html">
+            <a class="nav-link" href="index.html">
                 <i class="fas fa-fw fa-home"></i>
                 <span>首页</span></a>
         </li>
@@ -82,44 +82,144 @@
             <!-- 顶部信息 -->
 
             <!-- 页面内容 -->
+            <!-- Begin Page Content -->
             <div class="container-fluid">
+                <!-- Content Row -->
                 <div class="row">
+
                     <div class="col-lg-12">
-                        <div class="card shadow mb-12">
-                            <div class="card-header ">
-                                <h4 class="m-0 font-weight-bold text-primary">首页</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="content-top" style="background: url(./img/hi1.png) no-repeat left center;">
-                                    <h6 class="content-top-words"><span id="welcome"></span>，欢迎您登陆双流区教育管理系统</h6>
-                                </div>
-                                <hr>
-                                <div class="content-top" style="background: url(./img/time.png) no-repeat left center;">
-                                    <h6 class="content-top-words" id="time"></h6>
-                                </div>
-                                <hr>
-                                <div id="content-middle">
-                                    <!--<div class="content-middle1">
-                                        <a href="forgot-password.html"><img src="./img/pw.png"></a>
-                                        <p>修改密码</p>
-                                    </div>-->
-                                    <div class="content-middle1">
-                                        <a href="user-info.html"><img src="./img/user.png"></a>
-                                        <p>用户信息</p>
-                                    </div>
-                                    <div class="content-middle1">
-                                        <a href="http://www.cdsledu.net" target="_blank"><img src="./img/web.png"></a>
-                                        <p>教育业务系统</p>
-                                    </div>
-                                </div>
+                        <!-- Approach -->
+                        <div class="card shadow mb-4">
+                            <div class="card-body" id="welcome">
+
                             </div>
                         </div>
 
                     </div>
+                </div>
 
+                <!-- Content Row -->
+                <div class="row">
+                    <!-- Earnings (Monthly) Card Example -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            <a class="nav-link" href="./user-info.html">个人信息</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-user fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Earnings (Monthly) Card Example -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-success shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            <a class="nav-link" target="_blank"
+                                               href="https://www.cdsledu.net/">教育业务系统</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-link fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Earnings (Monthly) Card Example -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-info shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks</div>
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col-auto">
+                                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="progress progress-sm mr-2">
+                                                    <div class="progress-bar bg-info" role="progressbar"
+                                                         style="width: 50%" aria-valuenow="50"
+                                                         aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pending Requests Card Example -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-warning shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Pending
+                                            Requests
+                                        </div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content Row -->
+
+                <div class="row">
+
+                    <!-- Area Chart -->
+                    <div class="col-xl-12 col-lg-7">
+                        <div class="card shadow mb-4">
+                            <!-- Card Header - Dropdown -->
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">注册用户数据</h6>
+                                <div class="dropdown no-arrow">
+                                    <span class="dropdown-toggle" role="button" id="dropdownMenuLink"
+                                          data-toggle="dropdown"
+                                          aria-haspopup="true" aria-expanded="false">
+                                        显示维度<i class="fas fa-caret-down fa-sm fa-fw text-gray-400"></i>
+                                    </span>
+                                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                         aria-labelledby="dropdownMenuLink">
+                                        <a id="week" class="dropdown-item">周</a>
+                                        <a id="month" class="dropdown-item">月</a>
+                                        <a id="year" class="dropdown-item">年</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Card Body -->
+                            <div class="card-body">
+                                <div class="chart-area" id="user-chart">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
             </div>
+            <!-- /.container-fluid -->
             <!-- 页面内容 -->
         </div>
 
@@ -147,10 +247,98 @@
 <!-- Custom scripts for all pages-->
 <script src="js/sb-admin-2.min.js"></script>
 
+<script src="vendor/echats/echarts.min.js"></script>
+
 <script src="js/config.js"></script>
 <script src="js/common.js"></script>
 <script src="js/user-info-menu.js"></script>
 <script src="js/index.js"></script>
+<script>
+    // 基于准备好的dom，初始化echarts实例
+    let myChart = echarts.init(document.getElementById('user-chart'));
+    // 指定图表的配置项和数据
+    let option = {
+        legend: {
+            data:['2015 降水量', '2016 降水量']
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        xAxis: {
+            data: []
+        },
+        yAxis: {},
+        series: [{
+            name: '总用户数',
+            type: 'line',
+            smooth: true,
+            data: [],
+        },
+            {
+                name: '新增用户',
+                type: 'line',
+                smooth: true,
+                data: [],
+            }]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+    myChart.showLoading();
+
+    draw('week');
+
+    function draw(type) {
+        let days = [];
+        let adds = [];
+        let totals = [];
+        $.ajax({
+            url: window.config.api + '/system/getRegisterUserData/' + type,
+            method: "GET",
+            async: false,
+            success: function (response) {
+                if (response.errorCode == 200) {
+                    for (let i = 0; i < response.data.length; i++) {
+                        days.push(response.data[i].day); // 日期
+                        adds.push(response.data[i].add); // 新增
+                        totals.push(response.data[i].total); // 总用户
+                    }
+                    myChart.hideLoading();    //隐藏加载动画
+                    myChart.setOption({        //加载数据图表
+                        xAxis: {
+                            data: days
+                        },
+                        series: [{
+                            // 根据名字对应到相应的系列
+                            name: '总用户总数',
+                            data: totals,
+                        }, {
+                            // 根据名字对应到相应的系列
+                            name: '新增用户总数',
+                            data: adds,
+                        }]
+                    });
+                }
+            },
+            error: function () {
+                //请求失败时执行该函数
+                toastr.warning("图表请求数据失败!");
+                myChart.hideLoading();
+            }
+        });
+    }
+
+    $("#month").click(function () {
+        draw('month');
+    })
+    $("#week").click(function () {
+        draw('week');
+    })
+    $("#year").click(function () {
+        draw('year');
+    })
+
+</script>
 </body>
 
 </html>
