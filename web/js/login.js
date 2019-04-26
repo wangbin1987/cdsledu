@@ -1,4 +1,9 @@
 $().ready(function () {
+
+    if (localStorage.getItem(window.config.token)) {
+        window.location = "./index.html";
+    }
+
     $("#loginForm").validate({
         rules: {
             username: {
