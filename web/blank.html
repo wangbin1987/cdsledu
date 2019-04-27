@@ -75,8 +75,8 @@
 
                 <div class="card shadow mb-4">
                     <div class="card-body">
-                        <div class="card-body font-weight-bold text-gray-700" id="message"
-                             style="display: none; padding: 0 0 1rem 0;font-weight: 600 !important;">
+                        <div class="card-body" id="message"
+                             style="display: none; padding: 0 0 1rem 0;color: #1b1e21">
                         </div>
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -149,6 +149,25 @@
                                         </button>
                                     </td>
                                 </tr>
+                                <tr id="approveTr" style="display:none">
+                                    <td>审核</td>
+                                    <td colspan="5">
+                                        <label>
+                                            审核结果：
+                                            <input type="radio" name="shjg" value="1" checked> 通过
+                                            <input type="radio" name="shjg" value="2"> 不通过<br>
+                                        </label><br>
+                                        <label>审核意见：
+                                            <textarea name="shyj" id="shyj" class="form-control" cols="55" rows="3"
+                                                      style="margin: 0.5rem 0;"></textarea>
+                                        </label>
+                                        <div style="text-align: left">
+                                            <button class="btn btn-primary" type="button" id="approveBtn"
+                                                    style="width: 18%">提交审核
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -188,49 +207,106 @@
             autoSelect: true,
             placeholder: false
         })
-        // 初始化地区学校信息
-        $.ajax({
-            url: window.config.api + '/system/getDistrictWithSchool',
-            method: "GET",
-            async: false,
-            success: function (response) {
-                for (let i = 0; i < response.data.length; i++) {
-                    $("#district").append($("<option data-value=" + response.data[i].name + "></option>").val(i + 1).html(response.data[i].name));
+
+        initDistrictSchool()
+
+        // 初始化地区-学校信息，用于联动
+        function initDistrictSchool() {
+            $.ajax({
+                url: window.config.api + '/system/getDistrictWithSchool',
+                method: "GET",
+                async: false,
+                success: function (response) {
+                    for (let i = 0; i < response.data.length; i++) {
+                        $("#district").append($("<option data-value=" + response.data[i].name + "></option>").val(i + 1).html(response.data[i].name));
+                    }
+                    // 为省份下拉列表绑定change事件
+                    $("#district").change(function () {
+                        let index = $(this).val() - 1;// 获取当前省的下标
+                        $("#gbSchool").prop("length", 1);// 清空原有的数据
+                        if (response.data[index]) {
+                            for (let i = 0; i < response.data[index].kindergartens.length; i++) {//重新为市赋值
+                                if (response.data[index].kindergartens[i].type == '公办幼儿园') {
+                                    $("#gbSchool").append($("<option data-value=" + response.data[index].kindergartens[i].code + "></option>").val(i + 1).html(response.data[index].kindergartens[i].name));
+                                }
+                            }
+                        }
+                        $("#gySchool").prop("length", 1);// 清空原有的数据
+                        if (response.data[index]) {
+                            for (let i = 0; i < response.data[index].kindergartens.length; i++) {//重新为市赋值
+                                if (response.data[index].kindergartens[i].type == '公益幼儿园') {
+                                    $("#gySchool").append($("<option data-value=" + response.data[index].kindergartens[i].code + "></option>").val(i + 1).html(response.data[index].kindergartens[i].name));
+                                }
+                            }
+                        }
+                    });
                 }
-                // 为省份下拉列表绑定change事件
-                $("#district").change(function () {
-                    let index = $(this).val() - 1;// 获取当前省的下标
-                    $("#gbSchool").prop("length", 1);// 清空原有的数据
-                    if (response.data[index]) {
-                        for (let i = 0; i < response.data[index].kindergartens.length; i++) {//重新为市赋值
-                            if (response.data[index].kindergartens[i].type == '公办幼儿园') {
-                                $("#gbSchool").append($("<option data-value=" + response.data[index].kindergartens[i].code + "></option>").val(i + 1).html(response.data[index].kindergartens[i].name));
-                            }
+            })
+        }
+
+        function getSchoolInfo(schooId) {
+            $.ajax({
+                url: window.config.api + '/primary/enrolPlan/' + schoolId,
+                method: "GET",
+                success: function (response) {
+                    console.info(response);
+                    if (response.errorCode == 200) {
+                        if (response.data.district) {
+                            let district = response.data.district;
+                            $("#district option").each(function () {
+                                let val = $(this).val();
+                                let text = $(this).attr('data-value');
+                                // console.info(text);
+                                if (text == district) {
+                                    $("#district").val(val);
+                                }
+                            })
+                            $("#district").trigger("change");
+                        }
+                        if (response.data.code) {
+                            let school = response.data.code;
+                            $("#gbSchool option").each(function () {
+                                let val = $(this).val();
+                                let text = $(this).attr('data-value');
+                                // console.info(text);
+                                if (text == school) {
+                                    $("#gbSchool").val(val);
+                                }
+                            })
+                            $("#gySchool option").each(function () {
+                                let val = $(this).val();
+                                let text = $(this).attr('data-value');
+                                // console.info(text);
+                                if (text == school) {
+                                    $("#gySchool").val(val);
+                                }
+                            })
                         }
                     }
-                    $("#gySchool").prop("length", 1);// 清空原有的数据
-                    if (response.data[index]) {
-                        for (let i = 0; i < response.data[index].kindergartens.length; i++) {//重新为市赋值
-                            if (response.data[index].kindergartens[i].type == '公益幼儿园') {
-                                $("#gySchool").append($("<option data-value=" + response.data[index].kindergartens[i].code + "></option>").val(i + 1).html(response.data[index].kindergartens[i].name));
-                            }
-                        }
-                    }
-                });
-            }
-        })
+                }
+            })
+        }
+
 
         let id = getUrlParam("id");
         if (isEmpty(id)) {
+            // 自动带入监护人信息
+            let user = getUserInfo();
+            $("#guarder").val(user.nickname);
+            $("#guarderId").val(user.idCardNumber);
+            $("#telephone").val(user.telephone);
+            // 是否通过招生计划页面进入，会带着schoolId
+            let schoolId = getUrlParam("schoolId");
+            if (!isEmpty(schoolId)) {
+                getSchoolInfo(schoolId);
+            }
             checkSignTime('add');
-        }
-        if (!isEmpty(id)) {
+        } else {
             $.ajax({
                 url: window.config.api + '/primary/getKindergarten/' + id,
                 method: "GET",
                 async: false,
                 success: function (response) {
-                    console.info(response);
                     $("#xsName").val(response.data.studentName);
                     $("#xsId").val(response.data.studentIdentityNumber)
 
@@ -298,89 +374,75 @@
                         $("input[name='hjgs'][value='qyn']").attr("checked", true);
                     }
 
-                    if (!response.data.canEdit) {
-                        $("#submit").attr("disabled", "disabled");
-                        $("#submit").text(response.data.showStatus);
+                    // 显示操作历史
+                    let htmlStr = '';
+                    if (response.data.histories) {
+                        response.data.histories.forEach(his => {
+                            let status = '';
+                            if (his.status == 0) {
+                                status = '录入信息';
+                            }
+                            if (his.status == 3) {
+                                status = '修改信息';
+                            }
+                            if (his.status == 4) {
+                                status = '提交重审';
+                            }
+                            if (his.status == 1) {
+                                status = '审核通过';
+                                if (his.comment) {
+                                    status = status + "；审核意见：" + his.comment;
+                                }
+                            }
+                            if (his.status == 2) {
+                                status = '审核不通过';
+                                if (his.comment) {
+                                    status = status + "；审核意见：" + his.comment;
+                                }
+                            }
+                            let username = his.username;
+                            if (username != his.department) {
+                                if (!isEmpty(his.department)) {
+                                    username = his.department + ' ' + his.username;
+                                } else {
+                                    username = his.username;
+                                }
+
+                            }
+                            htmlStr = htmlStr + his.createTime + '；' + username + '：' + status + '<br>';
+                        });
+                        $("#editTr").before($("<tr><td>操作历史：</td><td colspan='5'>" + htmlStr + "</td></tr>"))
+                    }
+
+                    let type = getUrlParam("type");
+                    if (type == 'edit') {
+                        $("#editTr").show();
+                        if (response.data.canEdit) {
+                            $(":input").removeAttr("disabled");
+                            $("#submitBtn").text(response.data.editBtn);
+                        } else {
+                            $("#submitBtn").text(response.data.editBtn);
+                            setView();
+                        }
+                    } else if (type == 'approve') {
+                        $("#approveTr").show();
+                        setView();
+                        if (response.data.canApprove) {
+                            $("input[type='radio'][name='shjg']").removeAttr("disabled");
+                            $("#shyj").removeAttr("disabled");
+                            $("#approveBtn").removeAttr("disabled");
+                        } else {
+                            $("#approveBtn").text(response.data.approveBtn);
+                        }
                     } else {
-                        $("#submitApprove").show();
+                        setView();
                     }
 
                 }
             })
             checkSignTime('view');
-        } else {
-            let schoolId = getUrlParam("schoolId");
-            if (!isEmpty(schoolId)) {
-                $.ajax({
-                    url: window.config.api + '/primary/enrolPlan/' + schoolId,
-                    method: "GET",
-                    success: function (response) {
-                        console.info(response);
-                        if (response.errorCode == 200) {
-                            if (response.data.district) {
-                                let district = response.data.district;
-                                $("#district option").each(function () {
-                                    let val = $(this).val();
-                                    let text = $(this).attr('data-value');
-                                    // console.info(text);
-                                    if (text == district) {
-                                        $("#district").val(val);
-                                    }
-                                })
-                                $("#district").trigger("change");
-                            }
-
-                            if (response.data.code) {
-                                let school = response.data.code;
-                                $("#gbSchool option").each(function () {
-                                    let val = $(this).val();
-                                    let text = $(this).attr('data-value');
-                                    // console.info(text);
-                                    if (text == school) {
-                                        $("#gbSchool").val(val);
-                                    }
-                                })
-                                $("#gySchool option").each(function () {
-                                    let val = $(this).val();
-                                    let text = $(this).attr('data-value');
-                                    // console.info(text);
-                                    if (text == school) {
-                                        $("#gySchool").val(val);
-                                    }
-                                })
-                            }
-                        }
-                    }
-                })
-            }
         }
 
-        let type = getUrlParam("type");
-        if (type == 'view') {
-            $(":input").attr("disabled", "disabled");
-        } else if (type == 'edit') {
-            $("#editTr").show();
-        } else {
-            $("#editTr").show();
-            $("#submitApprove").show()
-            $("#submitApprove").css('width', "15%");
-            let user = getUserInfo();
-            if (isEmpty($("#guarder").val())) {
-                if (!isEmpty(user.nickname)) {
-                    $("#guarder").val(user.nickname);
-                }
-            }
-            if (isEmpty($("#guarderId").val())) {
-                if (!isEmpty(user.idCardNumber)) {
-                    $("#guarderId").val(user.idCardNumber);
-                }
-            }
-            if (isEmpty($("#telephone").val())) {
-                if (!isEmpty(user.telephone)) {
-                    $("#telephone").val(user.telephone);
-                }
-            }
-        }
 
         $('#submit').on('click', function () {
             formValidate(0);
@@ -565,6 +627,10 @@
 
         $("#province,#city,#county").attr("disabled", "disabled")
 
+        /**
+         * 检查报名时间
+         * @param type
+         */
         function checkSignTime(type) {
             // 获取公益公办幼儿园报名时间
             $.ajax({
@@ -597,7 +663,6 @@
                         if (!isEmpty(gySchool)) {
                             $(".gy-school").css('display', 'table-cell');
                         }
-
                     }
                 }
             })
@@ -623,6 +688,49 @@
                 $("input[name='xsGender'][value='female']").attr("checked", true);
             }
         })
+
+        $('#approveBtn').on('click', function () {
+            if (isEmpty(id)) {
+            } else {
+                submitApprove();
+            }
+        });
+
+        /**
+         * 提交审核
+         */
+        function submitApprove() {
+            console.info("审核的id:" + id);
+            // 审核结果 1通过 2不通过
+            let approveResult = $("input[type='radio'][name='shjg']:checked").val();
+            let approveComment = $.trim($("#shyj").val());
+            // 不通过
+            if (approveResult == '2') {
+                if (isEmpty(approveComment)) {
+                    toastr.warning("请输入审核意见");
+                    $("#shyj").focus();
+                    return;
+                }
+            }
+            $.ajax({
+                url: window.config.api + '/primary/approveKindergarten',
+                method: "POST",
+                data: JSON.stringify({
+                    "id": id,
+                    "status": approveResult,
+                    "comment": approveComment
+                }),
+                success: function (response) {
+                    if (response.errorCode == 200) {
+                        toastr.success("审核成功");
+                        setTimeout(function () {
+                            window.location = "./blank.html?id=" + id + "&type=approve";
+                        }, 1500);
+                    }
+                }
+            });
+        }
+
 
         function setView() {
             $(":input").attr("disabled", "disabled");

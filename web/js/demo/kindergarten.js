@@ -73,8 +73,12 @@ $(document).ready(function () {
                         return html;
                     } else {
                         let html = "<a href='javascript:void(0);' onclick='view(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-file-alt'></i> 查看</a>";
+                        if (role == '公办幼儿园' || role == '公益幼儿园' || role == '学前科') {
+                            html += "<a href='javascript:void(0);' onclick='approve(" + id + ")' class='down btn btn-default btn-xs'><i class='fa fa-sitemap'></i> 审核</a>"
+                        }
                         return html;
                     }
+
                 },
                 "bSortable": false
             }],
@@ -88,6 +92,10 @@ function view(id) {
 
 function edit(id) {
     window.location = "./blank.html?id=" + id + "&type=edit";
+}
+
+function approve(id) {
+    window.location = "./blank.html?id=" + id + "&type=approve";
 }
 
 function del(id) {
