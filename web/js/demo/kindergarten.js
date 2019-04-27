@@ -43,8 +43,8 @@ $(document).ready(function () {
             {"data": "studentName"},
             {"data": "studentIdentityNumber"},
             {"data": "createTime"},
-            {"data": "gbKindergarten"},
-            {"data": "gyKindergarten"},
+            {"data": "schoolType"},
+            {"data": "schoolName"},
             {"data": "showStatus"}
         ], "columnDefs": [
             // {

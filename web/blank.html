@@ -75,7 +75,8 @@
 
                 <div class="card shadow mb-4">
                     <div class="card-body">
-                        <div class="card-body" id="message" style="display: none; padding: 0 0 1rem 0;">
+                        <div class="card-body font-weight-bold text-gray-700" id="message"
+                             style="display: none; padding: 0 0 1rem 0;font-weight: 600 !important;">
                         </div>
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -220,6 +221,9 @@
         })
 
         let id = getUrlParam("id");
+        if (isEmpty(id)) {
+            checkSignTime('add');
+        }
         if (!isEmpty(id)) {
             $.ajax({
                 url: window.config.api + '/primary/getKindergarten/' + id,
@@ -262,6 +266,8 @@
                         $("#district").trigger("change");
                     }
 
+                    $("#address").val(response.data.address)
+
                     if (response.data.gbKindergarten) {
                         let gbSchool = response.data.gbKindergarten;
                         $("#gbSchool option").each(function () {
@@ -301,8 +307,8 @@
 
                 }
             })
+            checkSignTime('view');
         } else {
-
             let schoolId = getUrlParam("schoolId");
             if (!isEmpty(schoolId)) {
                 $.ajax({
@@ -343,7 +349,6 @@
                                     }
                                 })
                             }
-
                         }
                     }
                 })
@@ -358,7 +363,7 @@
         } else {
             $("#editTr").show();
             $("#submitApprove").show()
-            $("#submitApprove").css('width', "20%");
+            $("#submitApprove").css('width', "15%");
             let user = getUserInfo();
             if (isEmpty($("#guarder").val())) {
                 if (!isEmpty(user.nickname)) {
@@ -558,28 +563,45 @@
             });
         }
 
-        // 获取公益公办幼儿园报名时间
-        $.ajax({
-            url: window.config.api + '/system/isKindergartenSign',
-            method: "GET",
-            async: false,
-            success: function (response) {
-                $("#message").html(response.data.gbMessage + "<br>" + response.data.gyMessage);
-                $("#message").css('display', 'inline-block');
-                if (!response.data.gbKindergarten && !response.data.gyKindergarten) {
-                    toastr.warning("当前时间不在幼儿园报名时间内");
-                    setView();
-                }
-                if (response.data.gbKindergarten) {
-                    $(".gb-school").css('display', 'table-cell');
-                }
-                if (response.data.gyKindergarten) {
-                    $(".gy-school").css('display', 'table-cell');
-                }
-            }
-        })
-
         $("#province,#city,#county").attr("disabled", "disabled")
+
+        function checkSignTime(type) {
+            // 获取公益公办幼儿园报名时间
+            $.ajax({
+                url: window.config.api + '/system/isKindergartenSign',
+                method: "GET",
+                async: false,
+                success: function (response) {
+                    $("#message").html(response.data.gbMessage + "<br>" + response.data.gyMessage);
+                    $("#message").css('display', 'inline-block');
+
+                    if (type == 'add') {
+                        if (!response.data.gbKindergarten && !response.data.gyKindergarten) {
+                            toastr.warning("当前时间不在幼儿园报名时间内");
+                            setView();
+                        }
+                        if (response.data.gbKindergarten) {
+                            $(".gb-school").css('display', 'table-cell');
+                        }
+                        if (response.data.gyKindergarten) {
+                            $(".gy-school").css('display', 'table-cell');
+                        }
+                    } else {
+                        // 公办幼儿园
+                        let gbSchool = $("#gbSchool").find("option:selected").data("value");
+                        // 公益幼儿园
+                        let gySchool = $("#gySchool").find("option:selected").data("value");
+                        if (!isEmpty(gbSchool)) {
+                            $(".gb-school").css('display', 'table-cell');
+                        }
+                        if (!isEmpty(gySchool)) {
+                            $(".gy-school").css('display', 'table-cell');
+                        }
+
+                    }
+                }
+            })
+        }
 
         // 学生身份证校验以及和性别联动
         $("#xsId").on('blur', function () {
@@ -607,7 +629,7 @@
             $("#logoutBtn").attr("disabled", false);
         }
 
-        $("#submitApprove").css('width','15%')
+        $("#submitApprove").css('width', '15%')
 
     });
 </script>
