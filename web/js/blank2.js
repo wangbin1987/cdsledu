@@ -243,13 +243,13 @@ if (id) {
                         status = '提交重审';
                     }
                     if (his.status == 1) {
-                        status = '审核通过';
+                        status = '<span class="label label-success">审核通过</span>';
                         if (his.comment) {
                             status = status + "；审核意见：" + his.comment;
                         }
                     }
                     if (his.status == 2) {
-                        status = '审核不通过';
+                        status = '<span class="label label-danger">审核不通过</span>';
                         if (his.comment) {
                             status = status + "；审核意见：" + his.comment;
                         }
