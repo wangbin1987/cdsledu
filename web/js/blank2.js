@@ -256,7 +256,9 @@ if (id) {
                     }
                     let username = his.username;
                     if (username != his.department) {
-                        username = his.department + ' ' + his.username;
+                        if (!isEmpty(his.department)) {
+                            username = his.department + ' ' + his.username;
+                        }
                     }
                     htmlStr = htmlStr + his.createTime + '；' + username + '：' + status + '<br>';
                 });
@@ -551,7 +553,7 @@ function formValidate(submit) {
         console.info("birthday:" + birth);
         let end = (new Date().getFullYear() - 6) + "0831";
         if (birth >= end) {
-            toastr.warning("一年级只接收"+(new Date().getFullYear() - 6)+"年8月31日之前出生的学生");
+            toastr.warning("一年级只接收" + (new Date().getFullYear() - 6) + "年8月31日之前出生的学生");
             $("#xjh").focus();
             return;
         }

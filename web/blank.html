@@ -403,11 +403,9 @@
                             let username = his.username;
                             if (username != his.department) {
                                 if (!isEmpty(his.department)) {
-                                    username = his.department + ' ' + his.username;
-                                } else {
-                                    username = his.username;
+                                    // username = his.department + ' ' + his.username;
+                                    username = his.department;
                                 }
-
                             }
                             htmlStr = htmlStr + his.createTime + '；' + username + '：' + status + '<br>';
                         });
