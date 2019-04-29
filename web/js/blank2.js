@@ -260,7 +260,7 @@ if (id) {
                             username = his.department + '&nbsp;&nbsp;' + his.username;
                         }
                     }
-                    htmlStr = htmlStr + his.createTime + '；' + username + ' ' + status + '<br>';
+                    htmlStr = htmlStr + his.createTime + '&nbsp;&nbsp;' + username + ' ' + status + '<br>';
                 });
                 $("#comment").after($("<tr><td>操作历史：</td><td colspan='5'>" + htmlStr + "</td></tr>"))
             }
@@ -664,11 +664,9 @@ $("#xsId").on('blur', function () {
     }
     let gender = (parseInt(idNumber.substr(16, 1)) % 2 == 1);
     if (gender) {
-        $("input[name='xsGender'][value='female']").attr("checked", false);
-        $("input[name='xsGender'][value='male']").attr("checked", true);
+        $("input[name='xsGender'][value='male']").trigger('click');
     } else {
-        $("input[name='xsGender'][value='male']").attr("checked", false);
-        $("input[name='xsGender'][value='female']").attr("checked", true);
+        $("input[name='xsGender'][value='female']").trigger('click');
     }
 })
 

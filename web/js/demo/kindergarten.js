@@ -63,22 +63,22 @@ $(document).ready(function () {
                 "data": null,
                 "render": function (data, type, row) {
                     let id = row.id;
-
-                    if (row.operation == 1) {
-                        let html = "<a href='javascript:void(0);' onclick='view(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-file-alt'></i> 查看</a>";
-                        html += "<a href='javascript:void(0);' onclick='edit(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-edit'></i> 编辑</a>";
-                        if (row.creatorId == getUserInfo().id) {
+                    let html = "";
+                    row.operations.forEach(key => {
+                        if (key == 'view') {
+                            html += "<a href='javascript:void(0);' onclick='view(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-file-alt'></i> 查看</a>";
+                        }
+                        if (key == 'edit') {
+                            html += "<a href='javascript:void(0);' onclick='edit(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-edit'></i> 编辑</a>";
+                        }
+                        if (key == 'delete') {
                             html += "<a href='javascript:void(0);' onclick='del(" + id + ")' class='down btn btn-default btn-xs'><i class='fa fa-trash-alt'></i> 删除</a>"
                         }
-                        return html;
-                    } else {
-                        let html = "<a href='javascript:void(0);' onclick='view(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-file-alt'></i> 查看</a>";
-                        if (role == '公办幼儿园' || role == '公益幼儿园' || role == '学前科') {
+                        if (key == 'approve') {
                             html += "<a href='javascript:void(0);' onclick='approve(" + id + ")' class='down btn btn-default btn-xs'><i class='fa fa-sitemap'></i> 审核</a>"
                         }
-                        return html;
-                    }
-
+                    })
+                    return html;
                 },
                 "bSortable": false
             }],

@@ -122,7 +122,7 @@
                                     <td class="gb-school" style="display: none;">公办幼儿园</td>
                                     <td class="gb-school" style="display: none;"><select class="custom-select col-10"
                                                                                          id="gbSchool">
-                                        <option value="">--请选择--</option>
+                                        <option value="">---请选择---</option>
                                     </select>
                                     </td>
                                     <td class="gy-school" style="display: none;">公益幼儿园</td>
@@ -139,12 +139,12 @@
                                 <tr id="editTr" style="display: none;">
                                     <td>操作</td>
                                     <td align="left" colspan="5">
-                                        <button class="btn btn-primary" type="submit" id="submit"
-                                                style="width: 15%;margin-right: 1rem;">
+                                        <button class="btn btn-primary" type="button"
+                                                id="submit" style="width: 15%;margin-right: 1rem;">
                                             保存
                                         </button>
-                                        <button style="display: none;width: 15%" class="btn btn-primary" type="submit"
-                                                id="submitApprove">
+                                        <button style="display: none;width: 15%" class="btn btn-primary"
+                                                type="button" id="submitApprove">
                                             保存并提交
                                         </button>
                                     </td>
@@ -300,6 +300,10 @@
             if (!isEmpty(schoolId)) {
                 getSchoolInfo(schoolId);
             }
+            // 提交，保存并提交展示
+            $("#submit").show();
+            $("#submitApprove").show();
+            $("#editTr").show();
             checkSignTime('add');
         } else {
             $.ajax({
@@ -308,7 +312,9 @@
                 async: false,
                 success: function (response) {
                     $("#xsName").val(response.data.studentName);
+                    $("#xsName").attr('title', response.data.studentName);
                     $("#xsId").val(response.data.studentIdentityNumber)
+                    $("#xsId").attr('title', response.data.studentIdentityNumber);
 
                     if (response.data.studentGender == '男') {
                         $("input[name='xsGender'][value='male']").attr("checked", true);
@@ -317,8 +323,11 @@
                     }
 
                     $("#guarder").val(response.data.guarderName);
+                    $("#guarder").attr('title', response.data.guarderName);
                     $("#guarderId").val(response.data.guarderIdentityNumber)
+                    $("#guarderId").attr('title', response.data.guarderIdentityNumber);
                     $("#telephone").val(response.data.telephone)
+                    $("#telephone").attr('title', response.data.telephone);
 
                     // 省市区
                     let addr = response.data.studentHousehold.split("|");
@@ -343,6 +352,7 @@
                     }
 
                     $("#address").val(response.data.address)
+                    $("#address").attr('title', response.data.address)
 
                     if (response.data.gbKindergarten) {
                         let gbSchool = response.data.gbKindergarten;
@@ -406,7 +416,7 @@
                                     username = his.department;
                                 }
                             }
-                            htmlStr = htmlStr + his.createTime + '；' + username + ' ' + status + '<br>';
+                            htmlStr = htmlStr + his.createTime + '&nbsp;&nbsp;' + username + ' ' + status + '<br>';
                         });
                         $("#editTr").before($("<tr><td>操作历史：</td><td colspan='5'>" + htmlStr + "</td></tr>"))
                     }
@@ -416,11 +426,21 @@
                         $("#editTr").show();
                         if (response.data.canEdit) {
                             $(":input").removeAttr("disabled");
-                            $("#submitBtn").text(response.data.editBtn);
+                            // 0 未提交，1 已提交（这种情况下是不同意）
+                            if (response.data.status == 0) {
+                                $("#submit").show();
+                                $("#submitApprove").show();
+                            } else {
+                                $("#submit").hide();
+                                $("#submitApprove").show();
+                                $("#submitApprove").text(response.data.editBtn);
+                            }
                         } else {
-                            $("#submitBtn").text(response.data.editBtn);
+                            $("#submit").text(response.data.editBtn);
+                            $("#submitApprove").text(response.data.editBtn);
                             setView();
                         }
+                        checkSignTime('add');
                     } else if (type == 'approve') {
                         $("#approveTr").show();
                         setView();
@@ -434,9 +454,8 @@
                     } else {
                         setView();
                     }
-
                 }
-            })
+            }) // 根据id填充表单
             checkSignTime('view');
         }
 
@@ -615,8 +634,15 @@
                 }),
                 success: function (response) {
                     if (response.errorCode == 200) {
-                        toastr.success(response.message);
-                        window.location = "./kindergarten.html";
+                        if (isEmpty(id) || submit == 0) {
+                            toastr.success("保存成功");
+                            id = response.data;
+                        } else {
+                            toastr.success(response.message);
+                            setTimeout(function () {
+                                window.location = "./kindergarten.html";
+                            }, 1000)
+                        }
                     }
                 }
             });
@@ -626,7 +652,7 @@
 
         /**
          * 检查报名时间
-         * @param type
+         * @param type type为add表示新增或修改（需要在规定的时间内）
          */
         function checkSignTime(type) {
             // 获取公益公办幼儿园报名时间
@@ -678,17 +704,14 @@
             }
             let gender = (parseInt(idNumber.substr(16, 1)) % 2 == 1);
             if (gender) {
-                $("input[name='xsGender'][value='female']").attr("checked", false);
-                $("input[name='xsGender'][value='male']").attr("checked", true);
+                $("input[name='xsGender'][value='male']").trigger('click');
             } else {
-                $("input[name='xsGender'][value='male']").attr("checked", false);
-                $("input[name='xsGender'][value='female']").attr("checked", true);
+                $("input[name='xsGender'][value='female']").trigger('click');
             }
         })
 
         $('#approveBtn').on('click', function () {
-            if (isEmpty(id)) {
-            } else {
+            if (!isEmpty(id)) {
                 submitApprove();
             }
         });
@@ -722,12 +745,11 @@
                         toastr.success("审核成功");
                         setTimeout(function () {
                             window.location = "./blank.html?id=" + id + "&type=approve";
-                        }, 1500);
+                        }, 1000);
                     }
                 }
             });
         }
-
 
         function setView() {
             $(":input").attr("disabled", "disabled");
