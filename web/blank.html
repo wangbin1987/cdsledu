@@ -380,34 +380,33 @@
                         response.data.histories.forEach(his => {
                             let status = '';
                             if (his.status == 0) {
-                                status = '录入信息';
+                                status = '&nbsp;录入信息';
                             }
                             if (his.status == 3) {
-                                status = '修改信息';
+                                status = '&nbsp;修改信息';
                             }
                             if (his.status == 4) {
-                                status = '提交重审';
+                                status = '&nbsp;提交重审';
                             }
                             if (his.status == 1) {
                                 status = '<span class="label label-success">审核通过</span>';
                                 if (his.comment) {
-                                    status = status + "；审核意见：" + his.comment;
+                                    status = status + "&nbsp;&nbsp;审核意见：<span class='label label-info'>" + his.comment + "</span>";
                                 }
                             }
                             if (his.status == 2) {
                                 status = '<span class="label label-danger">审核不通过</span>';
                                 if (his.comment) {
-                                    status = status + "；审核意见：" + his.comment;
+                                    status = status + "&nbsp;&nbsp;审核意见：<span class='label label-info'>" + his.comment + "</span>";
                                 }
                             }
                             let username = his.username;
                             if (username != his.department) {
                                 if (!isEmpty(his.department)) {
-                                    // username = his.department + ' ' + his.username;
                                     username = his.department;
                                 }
                             }
-                            htmlStr = htmlStr + his.createTime + '；' + username + '：' + status + '<br>';
+                            htmlStr = htmlStr + his.createTime + '；' + username + ' ' + status + '<br>';
                         });
                         $("#editTr").before($("<tr><td>操作历史：</td><td colspan='5'>" + htmlStr + "</td></tr>"))
                     }
