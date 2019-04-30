@@ -675,6 +675,10 @@
                         if (response.data.gyKindergarten) {
                             $(".gy-school").css('display', 'table-cell');
                         }
+                        // 都不在，显示一个吧，显示公办
+                        if (!response.data.gbKindergarten && !response.data.gyKindergarten) {
+                            $(".gb-school").css('display', 'table-cell');
+                        }
                     } else {
                         // 公办幼儿园
                         let gbSchool = $("#gbSchool").find("option:selected").data("value");
