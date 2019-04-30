@@ -132,6 +132,7 @@ function approve(id) {
 
 function del(id) {
     $("#deleteBtn").attr('dir', id);
+    $("#deleteInput").val('');
     $('#deleteModal').modal('show');
 
 }

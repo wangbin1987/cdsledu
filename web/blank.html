@@ -11,8 +11,9 @@
 
     <title>幼儿园入学登记</title>
     <!-- Custom fonts for this template-->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
     <link href="vendor/toastr/toastr.css" rel="stylesheet">
+    <link href="vendor/bootstrap-select/css/bootstrap-select.css" rel="stylesheet">
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.css" rel="stylesheet">
     <style>
@@ -107,11 +108,10 @@
                                 <tr>
                                     <td>户籍地址</td>
                                     <td colspan="5" id="disSelect">
-                                        <select class="custom-select col-md-3" id="province"
-                                                data-province="四川省"></select>
-                                        <select class="custom-select col-md-3" id="city" data-city="成都市"></select>
-                                        <select class="custom-select col-md-3" id="county" data-district="双流区"></select>
-                                        <select class="custom-select col-md-3" id="district">
+                                        <select class="custom-select" id="province" data-province="四川省"></select>
+                                        <select class="custom-select" id="city" data-city="成都市"></select>
+                                        <select class="custom-select" id="county" data-district="双流区"></select>
+                                        <select class="custom-select" id="district">
                                             <option value="">---请选择---</option>
                                         </select>
                                         <input style="display: table-cell; margin-left: 1rem; font-size: 1rem; width:30%"
@@ -120,16 +120,16 @@
                                 </tr>
                                 <tr>
                                     <td class="gb-school" style="display: none;">公办幼儿园</td>
-                                    <td class="gb-school" style="display: none;"><select class="custom-select col-10"
-                                                                                         id="gbSchool">
-                                        <option value="">---请选择---</option>
-                                    </select>
+                                    <td class="gb-school" style="display: none;">
+                                        <select class="custom-select col-10" id="gbSchool">
+                                            <option value="">---请选择---</option>
+                                        </select>
                                     </td>
                                     <td class="gy-school" style="display: none;">公益幼儿园</td>
-                                    <td class="gy-school" style="display: none;"><select class="custom-select col-10"
-                                                                                         id="gySchool">
-                                        <option value="">---请选择---</option>
-                                    </select>
+                                    <td class="gy-school" style="display: none;">
+                                        <select class="form-control selectpicker" data-live-search="true" id="gySchool">
+                                            <option value="">---请选择---</option>
+                                        </select>
                                     </td>
                                     <td>户籍归属</td>
                                     <td><input type="radio" name="hjgs" value="qyn" checked>双流区
@@ -140,10 +140,10 @@
                                     <td>操作</td>
                                     <td align="left" colspan="5">
                                         <button class="btn btn-primary" type="button"
-                                                id="submit" style="width: 15%;margin-right: 1rem;">
+                                                id="submit" style="width: 20%;margin-right: 1rem;">
                                             保存
                                         </button>
-                                        <button style="display: none;width: 15%" class="btn btn-primary"
+                                        <button style="display: none;width: 20%" class="btn btn-primary"
                                                 type="button" id="submitApprove">
                                             保存并提交
                                         </button>
@@ -163,7 +163,7 @@
                                         </label>
                                         <div style="text-align: left">
                                             <button class="btn btn-primary" type="button" id="approveBtn"
-                                                    style="width: 18%">提交审核
+                                                    style="width: 20%">提交审核
                                             </button>
                                         </div>
                                     </td>
@@ -187,7 +187,8 @@
 <!-- Bootstrap core JavaScript-->
 <script src="vendor/jquery/jquery.min.js"></script>
 <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
+<script src="vendor/bootstrap-select/js/bootstrap-select.js"></script>
+<script src="vendor/bootstrap-select/js/i18n/defaults-zh_CN.js"></script>
 <!-- Core plugin JavaScript-->
 <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 <script src="vendor/toastr/toastr.min.js"></script>
@@ -210,6 +211,8 @@
 
         initDistrictSchool()
 
+        // initGyKindergarten();
+
         // 初始化地区-学校信息，用于联动
         function initDistrictSchool() {
             $.ajax({
@@ -219,6 +222,19 @@
                 success: function (response) {
                     for (let i = 0; i < response.data.length; i++) {
                         $("#district").append($("<option data-value=" + response.data[i].name + "></option>").val(i + 1).html(response.data[i].name));
+
+                        // 公益幼儿园
+                        if (response.data[i].kindergartens) {
+                            let group = $("<optgroup label=" + response.data[i].name + "></optgroup>")
+                            response.data[i].kindergartens.forEach(school => {
+                                if (school.type == '公益幼儿园') {
+                                    group.append($("<option data-value=" + school.code + "></option>").html(school.name));
+                                }
+                            })
+                            $("#gySchool").append(group);
+
+                        }
+
                     }
                     // 为省份下拉列表绑定change事件
                     $("#district").change(function () {
@@ -231,14 +247,14 @@
                                 }
                             }
                         }
-                        $("#gySchool").prop("length", 1);// 清空原有的数据
-                        if (response.data[index]) {
-                            for (let i = 0; i < response.data[index].kindergartens.length; i++) {//重新为市赋值
-                                if (response.data[index].kindergartens[i].type == '公益幼儿园') {
-                                    $("#gySchool").append($("<option data-value=" + response.data[index].kindergartens[i].code + "></option>").val(i + 1).html(response.data[index].kindergartens[i].name));
-                                }
-                            }
-                        }
+                        // $("#gySchool").prop("length", 1);// 清空原有的数据
+                        // if (response.data[index]) {
+                        //     for (let i = 0; i < response.data[index].kindergartens.length; i++) {//重新为市赋值
+                        //         if (response.data[index].kindergartens[i].type == '公益幼儿园') {
+                        //             $("#gySchool").append($("<option data-value=" + response.data[index].kindergartens[i].code + "></option>").val(i + 1).html(response.data[index].kindergartens[i].name));
+                        //         }
+                        //     }
+                        // }
                     });
                 }
             })
@@ -638,7 +654,7 @@
                             toastr.success("保存成功");
                             id = response.data;
                         } else {
-                            toastr.success(response.message);
+                            toastr.success("提交成功");
                             setTimeout(function () {
                                 window.location = "./kindergarten.html";
                             }, 1000)
@@ -760,7 +776,7 @@
             $("#logoutBtn").attr("disabled", false);
         }
 
-        $("#submitApprove").css('width', '15%')
+        $("#submitApprove").css('width', '20%')
 
     });
 </script>
