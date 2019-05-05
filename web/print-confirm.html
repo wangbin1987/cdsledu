@@ -43,6 +43,10 @@
     <p>本人申请子女在双流区接受义务教育，我保证提交的材料真实有效，如有虚假，本申请视为无效。本申请一式贰联，申请人留存壹联，登记点留存壹联。</p>
     <table class="table">
         <tbody>
+        <tr id="number1">
+            <td>报名编号</td>
+            <td id="serialNumber1" colspan="3"></td>
+        </tr>
         <tr id="id1">
             <td>证件类别</td>
             <td id="idType1"></td>
@@ -120,6 +124,10 @@
     <p>本人申请子女在双流区接受义务教育，我保证提交的材料真实有效，如有虚假，本申请视为无效。本申请一式贰联，申请人留存壹联，登记点留存壹 。</p>
     <table class="table">
         <tbody>
+        <tr id="number2">
+            <td>报名编号</td>
+            <td id="serialNumber2" colspan="3"></td>
+        </tr>
         <tr id="id2">
             <td>证件类别</td>
             <td id="idType2"></td>
@@ -215,6 +223,7 @@
             method: "GET",
             success: function (response) {
                 console.info(response);
+                $("#serialNumber1,#serialNumber2").text(response.data.serialNumber);
                 $("#idType1,#idType2").text(response.data.residenceType + "(" + response.data.socialSecurityPayMethod + ")");
                 $("#jzzid1,#jzzid2").text(response.data.residenceNumber);
                 $("#guarder1,#guarder2").text(response.data.guarderName);
