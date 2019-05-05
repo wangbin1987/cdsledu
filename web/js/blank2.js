@@ -552,7 +552,7 @@ function formValidate(submit) {
         let birth = studentIdentityNumber.substring(6, 14);
         console.info("birthday:" + birth);
         let end = (new Date().getFullYear() - 6) + "0831";
-        if (birth >= end) {
+        if (birth > end) {
             toastr.warning("一年级只接收" + (new Date().getFullYear() - 6) + "年8月31日之前出生的学生");
             $("#xjh").focus();
             return;
