@@ -280,6 +280,14 @@
                         }
                         if (response.data.code) {
                             let school = response.data.code;
+                            if (response.data.type == '公办幼儿园') {
+                                // 是否公办可以报名
+                                checkInitTime('gb');
+                            }
+                            if (response.data.type == '公益幼儿园') {
+                                // 是否公益可以报名
+                                checkInitTime('gy');
+                            }
                             $("#gbSchool option").each(function () {
                                 let val = $(this).val();
                                 let text = $(this).attr('data-value');
@@ -298,6 +306,22 @@
                                 }
                             })
                         }
+                    }
+                }
+            })
+        }
+
+        function checkInitTime(type) {
+            $.ajax({
+                url: window.config.api + '/system/isKindergartenSign',
+                method: "GET",
+                async: false,
+                success: function (response) {
+                    if (type == 'gb' && !response.data.gbKindergarten) {
+                        toastr.warning("当前时间无法进行公办幼儿园报名");
+                    }
+                    if (type == 'gy' && !response.data.gyKindergarten) {
+                        toastr.warning("当前时间无法进行公益幼儿园报名");
                     }
                 }
             })

@@ -41,10 +41,12 @@ $(document).ready(function () {
             {"data": "type"},
             {"data": "district"},
             {"data": "extra.septemberAdd"},
-            {"data": "extra.currentEnrollment"}
-        ], "columnDefs": [{
+            {"data": "extra.currentEnrollment"},
+            {"data": "extra.addClass"}
+        ],
+        "columnDefs": [{
             // 定义操作列,######以下是重点########
-            "targets": 6,//操作按钮目标列
+            "targets": 7,//操作按钮目标列
             "data": null,
             "render": function (data, type, row) {
                 let html = "<a href='javascript:void(0);' onclick='register(" + row.id + ")' class='view btn btn-default btn-xs'  ><i class='fa fa-check-square '></i> 报名</a>";
@@ -55,6 +57,11 @@ $(document).ready(function () {
             }
         }],
     });
+
+    if (role != '系统管理员' && role != '学前科' && role != '公办幼儿园' && role != '公益幼儿园') {
+        $("#dataTable").dataTable().fnSetColumnVis(4, false);
+        $("#dataTable").dataTable().fnSetColumnVis(5, false);
+    }
 });
 
 function register(id) {
@@ -80,6 +87,7 @@ function edit(id) {
                 $("#juneGraduate").val(response.data.extra.juneGraduate);
                 $("#plan").val(response.data.extra.septemberAdd);
                 $("#currentSigned").text(response.data.extra.currentEnrollment);
+                $("#planClass").val(response.data.extra.addClass);
                 $("#myModal").modal("show");
             }
         }
@@ -92,6 +100,7 @@ $("#updateBtn").click(function () {
     let current = $("#currentStudent").val();
     let graduate = $("#juneGraduate").val();
     let plan = $("#plan").val();
+    let planClass = $("#planClass").val();
     if (!isEmpty(total) && !isNumber(total)) {
         toastr.warning("设计学位总数必须是正整数");
         $("#totalStudent").focus()
@@ -112,7 +121,17 @@ $("#updateBtn").click(function () {
         $("#plan").focus();
         return;
     }
-    if (isEmpty(total) && isEmpty(current) && isEmpty(graduate) && isEmpty(plan)) {
+    if (!isEmpty(plan) && !isNumber(plan)) {
+        toastr.warning("计划招生人数必须是正整数");
+        $("#plan").focus();
+        return;
+    }
+    if (!isEmpty(planClass) && !isNumber(planClass)) {
+        toastr.warning("计划招生班级数必须是正整数");
+        $("#planClass").focus();
+        return;
+    }
+    if (isEmpty(total) && isEmpty(current) && isEmpty(graduate) && isEmpty(plan) && isEmpty(planClass)) {
         return;
     }
 
@@ -124,7 +143,8 @@ $("#updateBtn").click(function () {
             "totalStudent": total,
             "currentStudent": current,
             "juneGraduate": graduate,
-            "septemberAdd": plan
+            "septemberAdd": plan,
+            "addClass": planClass
         }),
         success: function (response) {
             console.info(response);

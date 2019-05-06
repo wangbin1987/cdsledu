@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>添加系统用户</title>
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin-2.css" rel="stylesheet">
+    <link href="vendor/toastr/toastr.css" rel="stylesheet">
+    <style>
+        .custom-select {
+            width: auto;
+        }
+
+        .form-control {
+            width: auto;
+            height: calc(1.5em + 0.5rem + 2px);
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            border-radius: 0.2rem;
+        }
+    </style>
+</head>
+
+<body id="page-top">
+<div id="wrapper">
+    <!-- 左侧菜单开始 -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <div class="sidebar-brand-icon">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <div class="sidebar-brand-text mx-3" id="productName">双流教育</div>
+        </a>
+        <!-- 一个占位符 -->
+        <li class="nav-item active" id='placeholder'>
+            <a class="nav-link" href="index.html">
+                <i class="fas fa-fw fa-home"></i>
+                <span>首页</span></a>
+        </li>
+        <!-- Sidebar Toggler (Sidebar) -->
+        <!-- <div class="text-center d-none d-md-inline">
+          <button class="rounded-circle border-0" id="sidebarToggle"></button>
+        </div> -->
+    </ul>
+    <!-- 左侧菜单结束 -->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Main Content -->
+        <div id="content">
+            <!-- 顶部信息 -->
+            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow" id="top"></nav>
+            <!-- 顶部信息 -->
+
+            <!-- 页面内容 -->
+            <div class="container-fluid">
+                <div class="row">
+
+                    <div class="col-lg-6">
+                        <!-- Dropdown Card Example -->
+                        <div class="card shadow mb-4">
+                            <!-- Card Header - Dropdown -->
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">添加用户</h6>
+                            </div>
+                            <!-- Card Body -->
+                            <div class="card-body">
+                                <table class="table">
+                                    <tbody>
+                                    <tr>
+                                        <td>用户名</td>
+                                        <td><input id="username"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>密码</td>
+                                        <td><input id="password"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>姓名</td>
+                                        <td><input id="nickname"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>手机号</td>
+                                        <td><input id="telephone"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>单位</td>
+                                        <td>
+                                            <select class="form-control selectpicker" data-live-search="true"
+                                                    id="gySchool">
+                                                <option value="">---请选择---</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+
+                        <!-- Collapsable Card Example -->
+                        <div class="card shadow mb-6">
+                            <!-- Card Header - Accordion -->
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">添加单位</h6>
+                            </div>
+                            <!-- Card Content - Collapse -->
+                            <div class="collapse show">
+                                <div class="card-body">
+                                    <table class="table">
+                                        <tbody>
+                                        <tr>
+                                            <td>新手机号</td>
+                                            <td><input id="newTelephone" type="text" class="form-control"
+                                                       placeholder="请输入新手机号" autocomplete="new-password"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <button class="btn btn-outline-success btn-sm" id="getTelephoneCode">
+                                                    获取验证码
+                                                </button>
+                                            </td>
+                                            <td><input id="code" type="text" class="form-control" placeholder="请输入验证码"
+                                                       autocomplete="new-password"/>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <button class="btn btn-sm btn-outline-primary" type="submit" id="updateTelBtn">
+                                        修改手机
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+            <!-- 页面内容 -->
+        </div>
+
+        <!-- 尾部信息 -->
+        <footer class="sticky-footer bg-white" id="footer">
+        </footer>
+        <!-- 尾部信息 -->
+    </div>
+
+</div>
+<!-- Bootstrap core JavaScript-->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="vendor/toastr/toastr.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="js/sb-admin-2.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="js/config.js"></script>
+<script src="js/common.js"></script>
+<script src="js/user-info-menu.js"></script>
+<script>
+
+    let user = getUserInfo();
+    $("#username").text(user.username);
+    $("#nickname").text(user.nickname);
+    $("#telephone").text(user.telephone);
+    $("#idCard").text(user.idCardNumber);
+    if (user.department) {
+        $("#department").text(user.department.name)
+    }
+    // $("#email").val(user.email);
+
+    let wait = 60;
+
+    function time(btn) {
+        if (wait == 0) {
+            btn.removeAttribute("disabled");
+            btn.innerHTML = "获取验证码";
+            wait = 60;
+        } else {
+            btn.setAttribute("disabled", true);
+            btn.innerHTML = "重新发送(" + wait + ")";
+            wait--;
+            setTimeout(function () {
+                    time(btn)
+                },
+                1000)
+        }
+    }
+
+    $("#getTelephoneCode").click(function () {
+        let telephone = $("#newTelephone").val().trim();
+        if (telephone.length == 0) {
+            toastr.warning("请输入新手机号");
+            $("#newTelephone").focus();
+            return;
+        } else {
+            if (!isTelephone(telephone)) {
+                toastr.warning("手机号格式不对");
+                $("#newTelephone").focus();
+                return;
+            }
+        }
+        time(this);
+        getRegisterCode('telephone', telephone);
+    })
+
+    function getRegisterCode(type, key) {
+        let url = window.config.api + '/sms/getCode';
+        if (type == 'email') {
+            url = window.config.api + '/email/getCode';
+        }
+        $.ajax({
+            url: url,
+            method: "POST",
+            data: JSON.stringify({
+                "type": "update",
+                "value": key
+            }),
+            success: function (response) {
+                // console.info(response);
+                if (response.errorCode == 200) {
+                    toastr.success(response.message);
+                }
+            }
+        });
+    }
+
+
+    $("#updateTelBtn").click(function () {
+        let telephone = $("#newTelephone").val();
+        let code = $("#code").val();
+        if (isEmpty(telephone)) {
+            $("#newTelephone").focus();
+            return;
+        }
+        if (!isTelephone(telephone)) {
+            toastr.warning("手机号格式不对");
+            $("#newTelephone").focus();
+            return;
+        }
+        if (isEmpty(code)) {
+            $("#code").focus();
+            return;
+        }
+        $.ajax({
+            url: window.config.api + '/user/updateTelephone',
+            method: "POST",
+            data: JSON.stringify({
+                "telephone": telephone,
+                "code": code
+            }),
+            success: function (response) {
+                // console.info(response);
+                if (response.errorCode == 200) {
+                    toastr.success(response.message);
+                    $("#telephone").text(telephone);
+                    if (isTelephone(user.username)) {
+                        $("#username").text(telephone);
+                        user.username = telephone;
+                    }
+                    user.telephone = telephone;
+                    localStorage.setItem(window.config.userInfo, JSON.stringify(user));
+                }
+            }
+        });
+    })
+
+
+    $("#updatePwdBtn").click(function () {
+        let pwd = $("#password").val();
+        let newPwd = $("#newPassword").val();
+        let reNewPwd = $("#reNewPassword").val();
+        if (isEmpty(pwd)) {
+            $("#password").focus();
+            return;
+        }
+        if (isEmpty(newPwd)) {
+            $("#newPassword").focus();
+            return;
+        }
+        if (newPwd.length < 6) {
+            toastr.warning("密码长度应该大于6位")
+            return;
+        }
+        if (isEmpty(reNewPwd)) {
+            $("#reNewPassword").focus();
+            return;
+        }
+        if (newPwd != reNewPwd) {
+            toastr.warning("重复密码与新密码不一致")
+            return;
+        }
+        $.ajax({
+            url: window.config.api + '/user/resetPassword',
+            method: "POST",
+            data: JSON.stringify({
+                "password": pwd,
+                "newPassword": newPwd
+            }),
+            success: function (response) {
+                // console.info(response);
+                if (response.errorCode == 200) {
+                    toastr.success(response.message);
+                }
+            }
+        });
+    })
+
+</script>
+
+</body>
+
+</html>
