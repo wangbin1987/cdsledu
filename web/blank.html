@@ -291,9 +291,10 @@
                             $("#gySchool option").each(function () {
                                 let val = $(this).val();
                                 let text = $(this).attr('data-value');
-                                // console.info(text);
                                 if (text == school) {
-                                    $("#gySchool").val(val);
+                                    console.info("school:" + school + " val:" + val + " text:" + text);
+                                    console.info("匹配到了")
+                                    $("#gySchool").val(val).trigger("change");
                                 }
                             })
                         }
@@ -379,6 +380,8 @@
                                 $("#gbSchool").val(val);
                             }
                         })
+                        // 隐藏公益
+                        $(".gy-school").css('display', 'none');
                     }
 
                     if (response.data.gyKindergarten) {
@@ -386,11 +389,13 @@
                         $("#gySchool option").each(function () {
                             let val = $(this).val();
                             let text = $(this).attr('data-value');
-                            // console.info(text);
+                            // console.info("gySchool "+val);
                             if (text == gySchool) {
-                                $("#gySchool").val(val);
+                                $("#gySchool").val(val).trigger("change");
                             }
                         })
+                        // 隐藏公办
+                        $(".gb-school").css('display', 'none');
                     }
 
                     if (response.data.householdType == '援藏干部') {
@@ -509,12 +514,12 @@
                     $("#xsId").focus();
                     return;
                 } else {
-                    // 一年级出生年月日在2013年8月31日以后的不可以报名
+                    // 3岁(8月31日以后的不能报名，不包含8月31)，7岁(8月31日之前的不能报名，包含8月31)
                     let birth = studentIdentityNumber.substring(6, 14);
                     console.info("birthday:" + birth);
                     let end = (new Date().getFullYear() - 3) + "0831";
                     let begin = (new Date().getFullYear() - 7) + "0831";
-                    if (birth >= end) {
+                    if (birth > end) {
                         toastr.warning("幼儿园只接收" + (new Date().getFullYear() - 3) + "年8月31日之前出生的学生");
                         $("#xjh").focus();
                         return;
@@ -686,9 +691,11 @@
                         }
                         if (response.data.gbKindergarten) {
                             $(".gb-school").css('display', 'table-cell');
+                            $(".gy-school").css('display', 'none');
                         }
                         if (response.data.gyKindergarten) {
                             $(".gy-school").css('display', 'table-cell');
+                            $(".gb-school").css('display', 'none');
                         }
                         // 都不在，显示一个吧，显示公办
                         if (!response.data.gbKindergarten && !response.data.gyKindergarten) {
@@ -701,9 +708,11 @@
                         let gySchool = $("#gySchool").find("option:selected").data("value");
                         if (!isEmpty(gbSchool)) {
                             $(".gb-school").css('display', 'table-cell');
+                            $(".gy-school").css('display', 'none');
                         }
                         if (!isEmpty(gySchool)) {
                             $(".gy-school").css('display', 'table-cell');
+                            $(".gb-school").css('display', 'none');
                         }
                     }
                 }
