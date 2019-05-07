@@ -18,11 +18,12 @@
     <link href="css/sb-admin-2.css" rel="stylesheet">
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <style>
-        .form-left{
+        .form-left {
             width: auto;
             display: inline;
         }
-        .label-right{
+
+        .label-right {
             width: 8rem;
         }
     </style>
@@ -93,6 +94,10 @@
                             <label class="label-right">目前报名人数：</label>
                             <label id="currentSigned"></label>
                         </div>
+                        <div class="form-group">
+                            <label class="label-right">计划招生班级数：</label>
+                            <input type="text" id="planClass" class="form-control form-left">
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -116,8 +121,11 @@
 
                 <!-- DataTales Example -->
                 <div class="card shadow mb-4">
-                    <div class="card-header py-3">
+                    <div class="card-header py-3 d-sm-flex justify-content-between">
                         <h4 class="m-0 font-weight-bold text-primary">幼儿园招生计划</h4>
+                        <!--<a id="import" href="javascript:void(0)"-->
+                           <!--class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">-->
+                            <!--<i class="fas fa-upload fa-sm"></i> 导入招生计划</a>-->
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -130,6 +138,7 @@
                                     <th>所在片区</th>
                                     <th>招生计划</th>
                                     <th>目前报名人数</th>
+                                    <th>计划招生班级</th>
                                     <th>操作</th>
                                 </tr>
                                 </thead>
