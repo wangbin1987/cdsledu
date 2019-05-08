@@ -86,27 +86,27 @@ $(document).ready(function () {
                 "className": 'class-center',
                 "data": null,
                 "render": function (data, type, row) {
+
+
                     let id = row.id;
-
-                    if (role == '街道办') {
-                        let html = "<a href='javascript:void(0);' onclick='printIt(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-print'></i> 打印</a>";
-                        html += "<a href='javascript:void(0);' onclick='view(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-file-alt'></i> 查看</a>";
-                        html += "<a href='javascript:void(0);' onclick='edit(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-edit'></i> 编辑</a>";
-                        html += "<a href='javascript:void(0);' onclick='del(" + id + ")' class='down btn btn-default btn-xs'><i class='fa fa-trash-alt'></i> 删除</a>"
-                        return html;
-                    }
-
-                    if (row.operation == 0) {
-                        let html = "<a href='javascript:void(0);' onclick='view(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-file-alt'></i> 查看</a>";
-                        return html;
-                    }
-
-                    if (role == '公安局' || role == '工商局' || role == '人社局' || role == '小教科' || role == '中教科') {
-                        let html = "<a href='javascript:void(0);' onclick='approve(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-sitemap'></i> 审核</a>";
-                        return html;
-                    }
-
-                    let html = "<a href='javascript:void(0);' onclick='view(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-file-alt'></i> 查看</a>";
+                    let html = "";
+                    row.operations.forEach(key => {
+                        if (key == 'print') {
+                            html += "<a href='javascript:void(0);' onclick='printIt(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-print'></i> 打印</a>";
+                        }
+                        if (key == 'view') {
+                            html += "<a href='javascript:void(0);' onclick='view(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-file-alt'></i> 查看</a>";
+                        }
+                        if (key == 'edit') {
+                            html += "<a href='javascript:void(0);' onclick='edit(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-edit'></i> 编辑</a>";
+                        }
+                        if (key == 'delete') {
+                            html += "<a href='javascript:void(0);' onclick='del(" + id + ")' class='down btn btn-default btn-xs'><i class='fa fa-trash-alt'></i> 删除</a>"
+                        }
+                        if (key == 'approve') {
+                            html += "<a href='javascript:void(0);' onclick='approve(" + id + ")' class='down btn btn-default btn-xs'><i class='fa fa-sitemap'></i> 审核</a>"
+                        }
+                    })
                     return html;
                 },
                 "bSortable": false

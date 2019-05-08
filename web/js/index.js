@@ -12,7 +12,7 @@ $(function () {
     }
     let role = user.role;
     if (!isEmpty(role)) {
-        welcome = welcome + " [" + role + "]"
+        welcome = "<strong>"+welcome + "</strong> [" + role + "]"
     }
 
     welcome += "，欢迎您登陆双流区教育管理系统</p>";
