@@ -49,7 +49,10 @@ $(document).ready(function () {
             "targets": 7,//操作按钮目标列
             "data": null,
             "render": function (data, type, row) {
-                let html = "<a href='javascript:void(0);' onclick='register(" + row.id + ")' class='view btn btn-default btn-xs'  ><i class='fa fa-check-square '></i> 报名</a>";
+                let html = "";
+                if (row.extra.addClass > 0) {
+                    html += "<a href='javascript:void(0);' onclick='register(" + row.id + ")' class='view btn btn-default btn-xs'  ><i class='fa fa-check-square '></i> 报名</a>";
+                }
                 if (role == '系统管理员' || role == '学前科') {
                     html += "<a href='javascript:void(0);' onclick='edit(" + row.id + ")' class='view btn btn-default btn-xs'  ><i class='fa fa-edit '></i> 修改</a>";
                 }
