@@ -31,22 +31,25 @@ $($.ajaxSetup({
         if (xhr.readyState == 4 && xhr.status == 200) {
             if (xhr.responseJSON) {
                 if (xhr.responseJSON.errorCode != 200) {
-                    if (xhr.responseJSON.errorCode == 401) {
-                        // console.log("未登录");
-                        localStorage.removeItem(window.config.token);
-                        localStorage.removeItem(window.config.userInfo);
-                        toastr.warning(xhr.responseJSON.message);
-                        setTimeout(function () {
-                            window.location = "./login.html";
-                        }, 1500);
-                    } else {
-                        toastr.warning(xhr.responseJSON.message);
+                    if (xhr.responseJSON.errorCode) {
+                        if (xhr.responseJSON.errorCode == 401) {
+                            // console.log("未登录");
+                            localStorage.removeItem(window.config.token);
+                            localStorage.removeItem(window.config.userInfo);
+                            toastr.warning(xhr.responseJSON.message);
+                            setTimeout(function () {
+                                window.location = "./login.html";
+                            }, 1500);
+                        } else {
+                            toastr.warning(xhr.responseJSON.message);
+                        }
                     }
                 }
             }
         }
     },
     error: function (xhr, textStatus, errorThrown) {
+        console.info("error", xhr);
         // 未授权无法访问会返回在这里
         if (xhr.responseJSON) {
             // springboot 对404的返回 {"timestamp":"","status":404,"error":"Not Found","message":"Not Found","path":"/system/updateKindergartenSignTime"}
