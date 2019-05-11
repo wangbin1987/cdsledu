@@ -1,7 +1,22 @@
 $().ready(function () {
 
     if (localStorage.getItem(window.config.token)) {
-        window.location = "./index.html";
+        $.ajax({
+            url: window.config.api + '/user/getUserInfo',
+            method: "GET",
+            success: function (response) {
+                if (response.errorCode == 200) {
+                    window.location = "./index.html";
+                } else {
+                    localStorage.removeItem(window.config.token);
+                    localStorage.removeItem(window.config.userInfo);
+                }
+            },
+            // 防止统一ajax设置进入登录页提示会话过期重新登录
+            complete: function (xhr) {
+
+            }
+        });
     }
 
     $("#loginForm").validate({
