@@ -538,18 +538,18 @@
                     $("#xsId").focus();
                     return;
                 } else {
-                    // 3岁(8月31日以后的不能报名，不包含8月31)，7岁(8月31日之前的不能报名，包含8月31)
+                    // 3岁(8月31日以后的不能报名，不包含8月31)，4岁(8月31日之前的不能报名，包含8月31)
                     let birth = studentIdentityNumber.substring(6, 14);
                     console.info("birthday:" + birth);
                     let end = (new Date().getFullYear() - 3) + "0831";
-                    let begin = (new Date().getFullYear() - 7) + "0831";
+                    let begin = (new Date().getFullYear() - 4) + "0831";
                     if (birth > end) {
                         toastr.warning("幼儿园只接收" + (new Date().getFullYear() - 3) + "年8月31日之前出生的学生");
                         $("#xjh").focus();
                         return;
                     }
                     if (birth <= begin) {
-                        toastr.warning("幼儿园不接收" + (new Date().getFullYear() - 7) + "年8月31日之前出生的学生");
+                        toastr.warning("幼儿园不接收" + (new Date().getFullYear() - 4) + "年8月31日之前出生的学生");
                         $("#xjh").focus();
                         return;
                     }
