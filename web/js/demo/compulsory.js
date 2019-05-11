@@ -171,6 +171,10 @@ function deleteData(id) {
     });
 }
 
+$("#approveStatus,#readType,#town").change(function () {
+    $('#dataTable').DataTable().ajax.reload();
+})
+
 $("#search").click(function () {
     // console.info("search");
     $('#dataTable').DataTable().ajax.reload();
