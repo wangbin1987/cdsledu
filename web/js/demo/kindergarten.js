@@ -45,6 +45,7 @@ $(document).ready(function () {
             {"data": "createTime"},
             {"data": "schoolType"},
             {"data": "schoolName"},
+            {"data": "serialNumber"},
             {"data": "showStatus"}
         ], "columnDefs": [
             // {
@@ -58,7 +59,7 @@ $(document).ready(function () {
             // },
             {
                 // 定义操作列,######以下是重点########
-                "targets": 6,//操作按钮目标列
+                "targets": 7,//操作按钮目标列
                 "className": 'class-center',
                 "data": null,
                 "render": function (data, type, row) {
