@@ -1,6 +1,10 @@
 // Call the dataTables jQuery plugin
 $(document).ready(function () {
 
+    // 默认不导出
+    $("#isExport").val(0);
+    let download = "";
+
     let role = getUserInfo().role;
     if (role == '街道办') {
         // $("#head").show();
@@ -46,21 +50,23 @@ $(document).ready(function () {
             }
         },
         "serverSide": true,//服务器端获取数据
-        "ordering": false, // 禁止排序
+        // "ordering": false, // 禁止排序
         ajax: {
             url: window.config.api + '/enrollment/getCompulsory',
             method: 'POST',
             data: function (data) {
                 data.approveStatus = $("#approveStatus").val();
                 data.readType = $("#readType").val();
-                data.town = $("#town").find("option:selected").data("value")
+                data.town = $("#town").find("option:selected").data("value");
+                data.isExport = $("#isExport").val();
                 return JSON.stringify(data)
             },
             error: function (xhr) {
                 toastr.warning(xhr.responseJSON.message);
             },
-            "dataFilter": function (json) {//json是服务器端返回的数据
+            "dataFilter": function (json) { // json是服务器端返回的数据
                 json = JSON.parse(json);
+                download = json.data.download;
                 let returnData = {};
                 returnData.draw = json.data.draw;
                 returnData.recordsTotal = json.data.total;// 返回数据全部记录
@@ -83,10 +89,6 @@ $(document).ready(function () {
         "columnDefs": [
             {
                 "targets": 0,//操作按钮目标列
-                "bSortable": false
-            },
-            {
-                "targets": 4,//操作按钮目标列
                 "bSortable": false
             },
             {
@@ -125,6 +127,13 @@ $(document).ready(function () {
                 "bSortable": false
             }],
     });
+
+    $("#export").click(function () {
+        $("#isExport").val(1);
+        $('#dataTable').DataTable().ajax.reload();
+        $("#isExport").val(0);
+        window.open(window.config.api + "/enrollment/downloadCompulsory/" + download + "?ACCESS-TOKEN=" + localStorage.getItem(window.config.token), "_blank");
+    })
 });
 
 function printIt(id) {
@@ -175,7 +184,3 @@ $("#approveStatus,#readType,#town").change(function () {
     $('#dataTable').DataTable().ajax.reload();
 })
 
-$("#search").click(function () {
-    // console.info("search");
-    $('#dataTable').DataTable().ajax.reload();
-})
