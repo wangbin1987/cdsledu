@@ -56,7 +56,17 @@ $($.ajaxSetup({
             if (xhr.responseJSON.status && xhr.responseJSON.status == 404) {
                 toastr.warning("404找不到请求地址");
             } else {
-                toastr.warning(xhr.responseJSON.message);
+                if (xhr.responseJSON.errorCode == 401) {
+                    // console.log("未登录");
+                    localStorage.removeItem(window.config.token);
+                    localStorage.removeItem(window.config.userInfo);
+                    toastr.warning(xhr.responseJSON.message);
+                    setTimeout(function () {
+                        window.location = "./login.html";
+                    }, 1500);
+                } else {
+                    toastr.warning(xhr.responseJSON.message);
+                }
             }
         } else {
             if (xhr.status == 404) {
@@ -89,4 +99,18 @@ toastr.options = {
     "hideEasing": "linear",
     "showMethod": "fadeIn",
     "hideMethod": "fadeOut"
+}
+
+// 浏览器兼容性问题
+let agent = window.navigator.userAgent;
+console.info(agent);
+if (agent.indexOf('Trident') != -1) { // ie和360都有
+    // if (agent.indexOf('InfoPath') != -1) { // 360兼容模式有个InfoPath
+    toastr.warning('当前浏览器不支持，请使用谷歌浏览器或360浏览器极速模式打开');
+    $("input").attr("disabled", "disabled");
+    $("button").attr("disabled", "disabled");
+    if (location.href.indexOf("login.html") == -1) {
+        window.location = "./login.html";
+    }
+    // }
 }
