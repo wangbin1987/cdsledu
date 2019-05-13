@@ -263,6 +263,7 @@
             $.ajax({
                 url: window.config.api + '/primary/enrolPlan/' + schoolId,
                 method: "GET",
+                async: false,
                 success: function (response) {
                     console.info(response);
                     if (response.errorCode == 200) {
@@ -280,14 +281,6 @@
                         }
                         if (response.data.code) {
                             let school = response.data.code;
-                            if (response.data.type == '公办幼儿园') {
-                                // 是否公办可以报名
-                                checkInitTime('gb');
-                            }
-                            if (response.data.type == '公益幼儿园') {
-                                // 是否公益可以报名
-                                checkInitTime('gy');
-                            }
                             $("#gbSchool option").each(function () {
                                 let val = $(this).val();
                                 let text = $(this).attr('data-value');
@@ -305,6 +298,14 @@
                                     $("#gySchool").val(val).trigger("change");
                                 }
                             })
+                            if (response.data.type == '公办幼儿园') {
+                                // 是否公办可以报名
+                                checkInitTime('gb');
+                            }
+                            if (response.data.type == '公益幼儿园') {
+                                // 是否公益可以报名
+                                checkInitTime('gy');
+                            }
                         }
                     }
                 }
@@ -319,9 +320,11 @@
                 success: function (response) {
                     if (type == 'gb' && !response.data.gbKindergarten) {
                         toastr.warning("当前时间无法进行公办幼儿园报名");
+                        $("#gbSchool").empty();
                     }
                     if (type == 'gy' && !response.data.gyKindergarten) {
                         toastr.warning("当前时间无法进行公益幼儿园报名");
+                        $("#gySchool").empty();
                     }
                 }
             })

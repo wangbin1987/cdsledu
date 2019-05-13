@@ -5,7 +5,7 @@ $(document).ready(function () {
     if (role == '街道办') {
         // $("#head").show();
     }
-
+    let download = "";
     addChieseAsc();
 
     $('#dataTable').DataTable({
@@ -33,30 +33,45 @@ $(document).ready(function () {
                 "sSortDescending": ": 以降序排列此列"
             }
         },
-        "serverSide": false,
+        "serverSide": true,//服务器端获取数据
         ajax: {
             url: window.config.api + '/primary/getKindergarten',
-            type: 'GET'
+            type: 'POST',
+            data: function (data) {
+                return JSON.stringify(data)
+            },
+            error: function (xhr) {
+                toastr.warning(xhr.responseJSON.message);
+            },
+            "dataFilter": function (json) { // json是服务器端返回的数据
+                json = JSON.parse(json);
+                download = json.data.download;
+                let returnData = {};
+                returnData.draw = json.data.draw;
+                returnData.recordsTotal = json.data.total;// 返回数据全部记录
+                returnData.recordsFiltered = json.data.total;// 后台不实现过滤功能，每次查询均视作全部结果
+                returnData.data = json.data.list;// 返回的数据列表
+                return JSON.stringify(returnData);// 这几个参数都是datatable需要的，必须要
+            }
         },
         "aaSorting": [[2, "asc"]],
         "columns": [
             {"data": "studentName"},
             {"data": "studentIdentityNumber"},
             {"data": "createTime"},
+            {"data": "serialNumber"},
             {"data": "schoolType"},
             {"data": "schoolName"},
-            {"data": "serialNumber"},
             {"data": "showStatus"}
         ], "columnDefs": [
-            // {
-            //     // 定义操作列,######以下是重点########
-            //     "targets": 4,//操作按钮目标列
-            //     "className": 'class-center',
-            //     "data": null,
-            //     "render": function (data, type, row) {
-            //         return row.rentAddressZone;
-            //     }
-            // },
+            {
+                "targets": 0,//操作按钮目标列
+                "bSortable": false
+            },
+            {
+                "targets": 6,//操作按钮目标列
+                "bSortable": false
+            },
             {
                 // 定义操作列,######以下是重点########
                 "targets": 7,//操作按钮目标列

@@ -44,21 +44,31 @@ $(document).ready(function () {
             {"data": "extra.currentEnrollment"},
             {"data": "extra.addClass"}
         ],
-        "columnDefs": [{
-            // 定义操作列,######以下是重点########
-            "targets": 7,//操作按钮目标列
-            "data": null,
-            "render": function (data, type, row) {
-                let html = "";
-                if (row.extra.addClass > 0) {
-                    html += "<a href='javascript:void(0);' onclick='register(" + row.id + ")' class='view btn btn-default btn-xs'  ><i class='fa fa-check-square '></i> 报名</a>";
-                }
-                if (role == '系统管理员' || role == '学前科') {
-                    html += "<a href='javascript:void(0);' onclick='edit(" + row.id + ")' class='view btn btn-default btn-xs'  ><i class='fa fa-edit '></i> 修改</a>";
-                }
-                return html;
-            }
-        }],
+        "aaSorting": [[2, "asc"]],
+        "columnDefs": [
+            {
+                "targets": 0,//操作按钮目标列
+                "bSortable": false
+            },
+            {
+                "targets": 1,//操作按钮目标列
+                "bSortable": false
+            },{
+                // 定义操作列,######以下是重点########
+                "targets": 7,//操作按钮目标列
+                "data": null,
+                "render": function (data, type, row) {
+                    let html = "";
+                    if (row.extra.addClass > 0) {
+                        html += "<a href='javascript:void(0);' onclick='register(" + row.id + ")' class='view btn btn-default btn-xs'  ><i class='fa fa-check-square '></i> 报名</a>";
+                    }
+                    if (role == '系统管理员' || role == '学前科') {
+                        html += "<a href='javascript:void(0);' onclick='edit(" + row.id + ")' class='view btn btn-default btn-xs'  ><i class='fa fa-edit '></i> 修改</a>";
+                    }
+                    return html;
+                },
+                "bSortable": false
+            }],
     });
 
     if (role != '系统管理员' && role != '学前科' && role != '公办幼儿园' && role != '公益幼儿园') {
