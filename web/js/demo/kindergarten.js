@@ -69,10 +69,6 @@ $(document).ready(function () {
                 "bSortable": false
             },
             {
-                "targets": 6,//操作按钮目标列
-                "bSortable": false
-            },
-            {
                 // 定义操作列,######以下是重点########
                 "targets": 7,//操作按钮目标列
                 "className": 'class-center',
