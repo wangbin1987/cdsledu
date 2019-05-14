@@ -83,6 +83,13 @@
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <tbody>
                                 <tr>
+                                    <td>户籍归属</td>
+                                    <td colspan="5">
+                                        <input type="radio" name="hjgs" value="qyn" checked>双流区
+                                        <input type="radio" name="hjgs" value="yzgb">援藏干部
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td>幼儿姓名</td>
                                     <td><input class="form-control" name="xsName" id="xsName"/></td>
                                     <td>幼儿身份证</td>
@@ -106,7 +113,7 @@
                                     <td><input class="form-control" name="telephone" id="telephone"/></td>
                                 </tr>
                                 <tr>
-                                    <td>户籍地址</td>
+                                    <td>户籍地址(援藏干部房产地址)</td>
                                     <td colspan="5" id="disSelect">
                                         <select class="custom-select" id="province" data-province="四川省"></select>
                                         <select class="custom-select" id="city" data-city="成都市"></select>
@@ -130,10 +137,6 @@
                                         <select class="form-control selectpicker" data-live-search="true" id="gySchool">
                                             <option value="">---请选择---</option>
                                         </select>
-                                    </td>
-                                    <td>户籍归属</td>
-                                    <td><input type="radio" name="hjgs" value="qyn" checked>双流区
-                                        <input type="radio" name="hjgs" value="yzgb">援藏干部
                                     </td>
                                 </tr>
                                 <tr id="editTr" style="display: none;">
@@ -209,7 +212,7 @@
             placeholder: false
         })
 
-        initDistrictSchool()
+        initDistrictSchool();
 
         // initGyKindergarten();
 
