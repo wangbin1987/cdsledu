@@ -3,7 +3,7 @@ window.config = {
     api: 'http://118.112.189.117/api',
     token: 'ACCESS-TOKEN',
     userInfo: 'user-info',
-    timeout: 3000,
+    timeout: 2000,
     appName: '<div class="sidebar-brand-icon">' +
         '<i class="fas fa-graduation-cap"></i>' +
         '</div>' +
