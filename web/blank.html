@@ -85,8 +85,8 @@
                                 <tr>
                                     <td>户籍归属</td>
                                     <td colspan="5">
-                                        <input type="radio" name="hjgs" value="qyn" checked>双流区
-                                        <input type="radio" name="hjgs" value="yzgb">援藏干部
+                                        <input type="radio" name="hjgs" value="qyn" id="qyn">双流区
+                                        <input type="radio" name="hjgs" value="yzgb" id="yzgb">援藏干部
                                     </td>
                                 </tr>
                                 <tr>
@@ -113,7 +113,7 @@
                                     <td><input class="form-control" name="telephone" id="telephone"/></td>
                                 </tr>
                                 <tr>
-                                    <td>户籍地址(援藏干部房产地址)</td>
+                                    <td id="addressTitle">户籍地址</td>
                                     <td colspan="5" id="disSelect">
                                         <select class="custom-select" id="province" data-province="四川省"></select>
                                         <select class="custom-select" id="city" data-city="成都市"></select>
@@ -333,6 +333,17 @@
             })
         }
 
+        // 援藏干部
+        $("input[type=radio][name=hjgs]").change(function () {
+            // 援藏干部
+            if (this.value === "yzgb") {
+                $("#addressTitle").text('援藏干部房产地址');
+            } else {
+                $("#addressTitle").text('户籍地址');
+            }
+        });
+
+        $("#qyn").trigger("click");
 
         let id = getUrlParam("id");
         if (isEmpty(id)) {
@@ -430,8 +441,10 @@
 
                     if (response.data.householdType == '援藏干部') {
                         $("input[name='hjgs'][value='yzgb']").attr("checked", true);
+                        $("#yzgb").trigger("change");
                     } else {
                         $("input[name='hjgs'][value='qyn']").attr("checked", true);
+                        $("#qyn").trigger("change");
                     }
 
                     // 显示操作历史
