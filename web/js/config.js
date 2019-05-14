@@ -3,6 +3,7 @@ window.config = {
     api: 'http://118.112.189.117/api',
     token: 'ACCESS-TOKEN',
     userInfo: 'user-info',
+    timeout: 3000,
     appName: '<div class="sidebar-brand-icon">' +
         '<i class="fas fa-graduation-cap"></i>' +
         '</div>' +
@@ -39,7 +40,7 @@ $($.ajaxSetup({
                             toastr.warning(xhr.responseJSON.message);
                             setTimeout(function () {
                                 window.location = "./login.html";
-                            }, 1500);
+                            }, window.config.timeout);
                         } else {
                             toastr.warning(xhr.responseJSON.message);
                         }
@@ -63,7 +64,7 @@ $($.ajaxSetup({
                     toastr.warning(xhr.responseJSON.message);
                     setTimeout(function () {
                         window.location = "./login.html";
-                    }, 1500);
+                    }, window.config.timeout);
                 } else {
                     toastr.warning(xhr.responseJSON.message);
                 }

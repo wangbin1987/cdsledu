@@ -121,7 +121,9 @@ function getUserInfo() {
                 if (response.errorCode == 401) {
                     localStorage.removeItem(window.config.userInfo);
                     toastr.warning(response.message);
-                    window.location = "./login.html";
+                    setTimeout(function () {
+                        window.location = "./login.html";
+                    }, window.config.timeout);
                 }
                 localStorage.setItem(window.config.userInfo, JSON.stringify(response.data));
                 return response.data;
