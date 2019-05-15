@@ -1,10 +1,41 @@
 // Call the dataTables jQuery plugin
 $(document).ready(function () {
 
-    let role = getUserInfo().role;
-    if (role == '街道办') {
-        // $("#head").show();
+    initDistrictSchool();
+
+    // 初始化地区-学校信息，用于联动
+    function initDistrictSchool() {
+        $.ajax({
+            url: window.config.api + '/system/getDistrictWithSchool',
+            async: false,
+            success: function (response) {
+                for (let i = 0; i < response.data.length; i++) {
+                    if (response.data[i].kindergartens) {
+                        let group = $("<optgroup label=" + response.data[i].name + "></optgroup>")
+                        response.data[i].kindergartens.forEach(school => {
+                            // if (school.type == '公办幼儿园') {
+                            group.append($("<option data-value=" + school.code + "></option>").html(school.name));
+                            // }
+                        })
+                        $("#school").append(group);
+                    }
+                }
+            }
+        })
     }
+
+
+    let role = getUserInfo().role;
+    if (!isEmpty(role)) {
+        console.info(role.indexOf('幼儿园'));
+        if (role == '系统管理员' || role == '学前科' || role.indexOf('幼儿园') != -1) {
+            $("#searchHead").show();
+            if (role.indexOf('幼儿园') != -1) {
+                $(".admin").hide();
+            }
+        }
+    }
+
     let download = "";
     addChieseAsc();
 
@@ -38,6 +69,9 @@ $(document).ready(function () {
             url: window.config.api + '/primary/getKindergarten',
             type: 'POST',
             data: function (data) {
+                data.approveStatus = $("#approveStatus").val();
+                data.readType = $("#schoolType").val();
+                data.town = $("#school").find("option:selected").data("value");
                 return JSON.stringify(data)
             },
             error: function (xhr) {
@@ -95,6 +129,14 @@ $(document).ready(function () {
                 "bSortable": false
             }],
     });
+
+    $("#approveStatus,#schoolType,#school").change(function () {
+        $('#dataTable').DataTable().ajax.reload();
+    })
+
+    $("#export").click(function () {
+        window.open(window.config.api + "/primary/downloadKindergarten/" + download + "?ACCESS-TOKEN=" + localStorage.getItem(window.config.token), "_blank");
+    })
 });
 
 
