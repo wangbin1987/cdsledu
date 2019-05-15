@@ -42,8 +42,8 @@ $(document).ready(function () {
             {"data": "type"},
             {"data": "district"},
             {"data": "extra.septemberAdd"},
-            {"data": "extra.currentEnrollment"},
-            {"data": "extra.addClass"}
+            {"data": "extra.addClass"},
+            {"data": "extra.currentEnrollment"}
         ],
         "aaSorting": [[2, "asc"]],
         "columnDefs": [
@@ -54,7 +54,7 @@ $(document).ready(function () {
             {
                 "targets": 1,//操作按钮目标列
                 "bSortable": false
-            },{
+            }, {
                 // 定义操作列,######以下是重点########
                 "targets": 7,//操作按钮目标列
                 "data": null,
@@ -74,7 +74,6 @@ $(document).ready(function () {
 
     if (role != '系统管理员' && role != '学前科' && role != '公办幼儿园' && role != '公益幼儿园') {
         $("#dataTable").dataTable().fnSetColumnVis(4, false);
-        $("#dataTable").dataTable().fnSetColumnVis(5, false);
     }
 });
 
