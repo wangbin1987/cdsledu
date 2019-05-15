@@ -306,8 +306,8 @@
             if (response.errorCode == 200) {
                 $("#percent").html(response.data.add + '/' + response.data.total);
                 let percent = response.data.add / response.data.total;
-                if (percent < 0.01) {
-                    percent = 0.02
+                if (percent < 0.05) {
+                    percent = 0.05
                 }
                 $("#progress").css('width', (percent * 100) + '%');
             }

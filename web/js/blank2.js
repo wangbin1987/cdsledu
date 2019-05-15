@@ -633,18 +633,19 @@ function formValidate(submit) {
         }),
         success: function (response) {
             if (response.errorCode == 200) {
-                toastr.success(response.message);
-                if (!id) {
+                if (isEmpty(id)) {
                     if (submit == 1) {
                         let r = confirm("信息提交成功，是否打印回执？");
                         if (r == true) {
-                            // window.location.replace("./blank2.html?id=" + response.data + "&type=edit");
                             window.open("./print-confirm.html?id=" + response.data);
                         }
                     }
                     window.location.replace("./compulsory.html");
                 } else {
-                    window.location = "./blank2.html?id=" + id + "&type=edit";
+                    toastr.success("提交成功，2秒后跳转列表页");
+                    setTimeout(function () {
+                        window.location = "./compulsory.html";
+                    }, window.config.timeout);
                 }
             }
         }
@@ -714,10 +715,10 @@ function submitApprove() {
         }),
         success: function (response) {
             if (response.errorCode == 200) {
-                toastr.success("审核成功");
+                toastr.success("审核成功，2秒后跳转审核列表");
                 setTimeout(function () {
-                    window.location = "./blank2.html?id=" + id + "&type=approve";
-                }, 1500);
+                    window.location = "./compulsory.html";
+                }, window.config.timeout);
             }
         }
     });

@@ -68,7 +68,7 @@ $(document).ready(function () {
                 "sSortDescending": ": 以降序排列此列"
             }
         },
-        // "bStateSave": true,//保存状态 进入详情后回退仍然在之前页码
+        "bStateSave": true,//保存状态 进入详情后回退仍然在之前页码
         "serverSide": true,//服务器端获取数据
         // "ordering": false, // 禁止排序
         ajax: {
@@ -100,10 +100,9 @@ $(document).ready(function () {
         "columns": [
             {"data": "studentName"},
             {"data": "studentIdentityNumber"},
+            {"data": "studentGrade"},
             {"data": "serialNumber"},
-            {"data": "createTime"},
-            {"data": "applyType"},
-            // {"data": "rentAddressZone"},
+            {"data": "rentAddressZone"},
             {"data": "showStatus"},
             {"data": "status"}
         ],
@@ -118,8 +117,6 @@ $(document).ready(function () {
                 "className": 'class-center',
                 "data": null,
                 "render": function (data, type, row) {
-
-
                     let id = row.id;
                     let html = "";
                     row.operations.forEach(key => {

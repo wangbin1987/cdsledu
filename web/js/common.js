@@ -74,7 +74,7 @@ function isCardNo(card) {
 }
 
 function isEmpty(str) {
-    if (typeof str == "undefined" || str == null || str == "" || str == "null") {
+    if (typeof str == "undefined" || str == null || str == "" || str == "null" || str.length == 0) {
         return true;
     } else {
         return false;

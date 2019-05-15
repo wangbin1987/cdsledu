@@ -38,7 +38,7 @@
             margin-left: 0.25rem
         }
 
-        #province,#city,#county {
+        #province, #city, #county {
             width: 8rem;
         }
     </style>
@@ -705,10 +705,8 @@
                             toastr.success("保存成功");
                             id = response.data;
                         } else {
-                            toastr.success("提交成功");
-                            setTimeout(function () {
-                                window.location = "./kindergarten.html";
-                            }, 1000)
+                            alert("恭喜您报名成功！<br>请于5月20到21日持幼儿户口簿原件及复印件到所选幼儿园进行现场资格确认");
+                            window.location = "./kindergarten.html";
                         }
                     }
                 }
@@ -817,10 +815,10 @@
                 }),
                 success: function (response) {
                     if (response.errorCode == 200) {
-                        toastr.success("审核成功");
+                        toastr.success("审核成功，2秒后跳转审核列表");
                         setTimeout(function () {
-                            window.location = "./blank.html?id=" + id + "&type=approve";
-                        }, 1000);
+                            window.location = "./kindergarten.html";
+                        }, window.config.timeout);
                     }
                 }
             });

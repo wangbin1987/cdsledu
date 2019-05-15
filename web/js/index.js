@@ -39,5 +39,6 @@ $(function () {
         }
     });
 
+    welcome += "</p><strong>请报名成功的幼儿家长于5月20到21日持幼儿户口簿原件及复印件到所选幼儿园进行现场资格确认。</strong>";
     $("#welcome").html(welcome);
 })
