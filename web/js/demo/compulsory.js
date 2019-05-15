@@ -21,6 +21,26 @@ $(document).ready(function () {
         }
     })
 
+    // 查看历史查询参数
+    let searchHistory = localStorage.getItem("compulsorySearch");
+    if (!isEmpty(searchHistory)) {
+        searchHistory = JSON.parse(searchHistory);
+        $("#approveStatus").val(searchHistory.approveStatus);
+        $("#readType").val(searchHistory.readType);
+        let townName = searchHistory.town;
+        console.info("历史街道办：" + townName);
+        if (!isEmpty(townName)) {
+            $("#town option").each(function () {
+                let val = $(this).val();
+                let text = $(this).attr('data-value');
+                console.info(text);
+                if (text == townName) {
+                    $("#town").val(val);
+                }
+            })
+        }
+    }
+
     addChieseAsc();
 
     $('#dataTable').DataTable({
@@ -57,6 +77,8 @@ $(document).ready(function () {
                 data.approveStatus = $("#approveStatus").val();
                 data.readType = $("#readType").val();
                 data.town = $("#town").find("option:selected").data("value");
+                // 把当前查询条件存起来方便回退
+                localStorage.setItem("compulsorySearch", JSON.stringify(data));
                 return JSON.stringify(data)
             },
             error: function (xhr) {
