@@ -30,6 +30,7 @@ $(document).ready(function () {
                 "sSortDescending": ": 以降序排列此列"
             }
         },
+        // "bStateSave": true,//保存状态 进入详情后回退仍然在之前页码
         "serverSide": false,
         ajax: {
             url: window.config.api + '/primary/enrolPlan',

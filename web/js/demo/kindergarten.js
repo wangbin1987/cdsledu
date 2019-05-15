@@ -64,6 +64,7 @@ $(document).ready(function () {
                 "sSortDescending": ": 以降序排列此列"
             }
         },
+        // "bStateSave": true,//保存状态 进入详情后回退仍然在之前页码
         "serverSide": true,//服务器端获取数据
         ajax: {
             url: window.config.api + '/primary/getKindergarten',
