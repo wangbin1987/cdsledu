@@ -96,7 +96,7 @@ $(document).ready(function () {
                 return JSON.stringify(returnData);// 这几个参数都是datatable需要的，必须要
             }
         },
-        "aaSorting": [[3, "asc"]],
+        // "aaSorting": [[3, "asc"]],
         "columns": [
             {"data": "studentName"},
             {"data": "studentIdentityNumber"},
