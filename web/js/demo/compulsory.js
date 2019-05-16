@@ -4,11 +4,6 @@ $(document).ready(function () {
     // 下载url
     let download = "";
 
-    let role = getUserInfo().role;
-    if (role == '街道办') {
-        // $("#head").show();
-    }
-
     // 加载住址所属社区数据联动
     $.ajax({
         url: window.config.api + '/system/getDistrict',
@@ -39,6 +34,13 @@ $(document).ready(function () {
                 }
             })
         }
+    }
+
+    let role = getUserInfo().role;
+    if (role == '街道办') {
+        $("#town").empty();
+    } else {
+        $(".town").show();
     }
 
     addChieseAsc();
