@@ -4,7 +4,6 @@ window.config = {
     token: 'ACCESS-TOKEN',
     userInfo: 'user-info',
     compulsorySearch: 'compulsorySearch',
-    dataTableCompulsory: 'DataTables_dataTable_/cdsledu/web/compulsory.html',
     timeout: 2000,
     appName: '<div class="sidebar-brand-icon">' +
         '<i class="fas fa-graduation-cap"></i>' +
@@ -17,10 +16,13 @@ $($.ajaxSetup({
     contentType: 'application/json; charset=utf-8',
     dataType: "json",
     timeout: 10000,
-    beforeSend: function (xhr) {
+    beforeSend: function (xhr, settings) {
         if (localStorage.getItem(window.config.token)) {
             xhr.setRequestHeader(window.config.token, localStorage.getItem(window.config.token));
         }
+        // 在请求前给修改 url（增加一个时间戳参数）
+        settings.url += settings.url.match(/\?/) ? "&" : "?";
+        settings.url += "time=" + new Date().getTime();
     },
     complete: function (xhr) {
         // console.info("请求地址：" + this.url);
@@ -37,11 +39,7 @@ $($.ajaxSetup({
                     if (xhr.responseJSON.errorCode) {
                         if (xhr.responseJSON.errorCode == 401) {
                             // console.log("未登录");
-                            localStorage.removeItem(window.config.token);
-                            localStorage.removeItem(window.config.userInfo);
-                            // 清空自己的请求参数
-                            localStorage.removeItem(window.config.compulsorySearch);
-                            localStorage.removeItem(window.config.dataTableCompulsory);
+                            localStorage.clear();
                             toastr.warning(xhr.responseJSON.message);
                             setTimeout(function () {
                                 window.location = "./login.html";
@@ -64,11 +62,7 @@ $($.ajaxSetup({
             } else {
                 if (xhr.responseJSON.errorCode == 401) {
                     // console.log("未登录");
-                    localStorage.removeItem(window.config.token);
-                    localStorage.removeItem(window.config.userInfo);
-                    // 清空自己的请求参数
-                    localStorage.removeItem(window.config.compulsorySearch);
-                    localStorage.removeItem(window.config.dataTableCompulsory);
+                    localStorage.clear();
                     toastr.warning(xhr.responseJSON.message);
                     setTimeout(function () {
                         window.location = "./login.html";

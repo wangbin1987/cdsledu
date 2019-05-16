@@ -17,7 +17,7 @@ $(document).ready(function () {
     })
 
     // 查看历史查询参数
-    let searchHistory = localStorage.getItem("compulsorySearch");
+    let searchHistory = localStorage.getItem(window.config.compulsorySearch);
     if (!isEmpty(searchHistory)) {
         searchHistory = JSON.parse(searchHistory);
         $("#approveStatus").val(searchHistory.approveStatus);
@@ -81,7 +81,7 @@ $(document).ready(function () {
                 data.readType = $("#readType").val();
                 data.town = $("#town").find("option:selected").data("value");
                 // 把当前查询条件存起来方便回退
-                localStorage.setItem("compulsorySearch", JSON.stringify(data));
+                localStorage.setItem(window.config.compulsorySearch, JSON.stringify(data));
                 return JSON.stringify(data)
             },
             error: function (xhr) {

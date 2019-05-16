@@ -97,16 +97,11 @@ function logout() {
         method: "POST",
         success: function () {
             // console.log("未登录");
-            localStorage.removeItem(window.config.token);
-            localStorage.removeItem(window.config.userInfo);
-            // 清空自己的请求参数
-            localStorage.removeItem(window.config.compulsorySearch);
-            localStorage.removeItem(window.config.dataTableCompulsory);
+            localStorage.clear();
             window.location = "./login.html";
         }
     }).fail(function () {
-        localStorage.removeItem(window.config.token);
-        localStorage.removeItem(window.config.userInfo);
+        localStorage.clear();
         window.location = "./login.html";
     });
 }
@@ -122,20 +117,10 @@ function getUserInfo() {
             method: "GET",
             async: false,
             success: function (response) {
-                if (response.errorCode == 401) {
-                    // console.log("未登录");
-                    localStorage.removeItem(window.config.token);
-                    localStorage.removeItem(window.config.userInfo);
-                    // 清空自己的请求参数
-                    localStorage.removeItem(window.config.compulsorySearch);
-                    localStorage.removeItem(window.config.dataTableCompulsory);
-                    toastr.warning(response.message);
-                    setTimeout(function () {
-                        window.location = "./login.html";
-                    }, window.config.timeout);
+                if (response.errorCode == 200) {
+                    localStorage.setItem(window.config.userInfo, JSON.stringify(response.data));
+                    return response.data;
                 }
-                localStorage.setItem(window.config.userInfo, JSON.stringify(response.data));
-                return response.data;
             }
         });
     } else {
