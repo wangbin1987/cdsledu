@@ -12,10 +12,10 @@ $(function () {
     }
     let role = user.role;
     if (!isEmpty(role)) {
-        welcome = "<strong>"+welcome + "</strong> [" + role + "]"
+        welcome = "<strong>" + welcome + "</strong> [" + role + "]"
     }
 
-    welcome += "，欢迎您登陆双流区教育管理系统</p>";
+    welcome += " 您好，欢迎您登陆双流区教育管理系统。</p>";
 
     let myDate = new Date;
     let year = myDate.getFullYear(); //获取当前年
@@ -38,7 +38,5 @@ $(function () {
             }
         }
     });
-
-    welcome += "</p><strong>请报名成功的幼儿家长于5月20到21日持幼儿户口簿原件及复印件到所选幼儿园进行现场资格确认。</strong>";
-    $("#welcome").html(welcome);
+    $("#welcome").before(welcome);
 })
