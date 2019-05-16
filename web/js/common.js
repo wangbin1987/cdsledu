@@ -96,8 +96,12 @@ function logout() {
         url: window.config.api + '/user/logout',
         method: "POST",
         success: function () {
+            // console.log("未登录");
             localStorage.removeItem(window.config.token);
             localStorage.removeItem(window.config.userInfo);
+            // 清空自己的请求参数
+            localStorage.removeItem(window.config.compulsorySearch);
+            localStorage.removeItem(window.config.dataTableCompulsory);
             window.location = "./login.html";
         }
     }).fail(function () {
@@ -119,7 +123,12 @@ function getUserInfo() {
             async: false,
             success: function (response) {
                 if (response.errorCode == 401) {
+                    // console.log("未登录");
+                    localStorage.removeItem(window.config.token);
                     localStorage.removeItem(window.config.userInfo);
+                    // 清空自己的请求参数
+                    localStorage.removeItem(window.config.compulsorySearch);
+                    localStorage.removeItem(window.config.dataTableCompulsory);
                     toastr.warning(response.message);
                     setTimeout(function () {
                         window.location = "./login.html";

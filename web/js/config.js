@@ -3,6 +3,8 @@ window.config = {
     api: 'http://118.112.189.117/api',
     token: 'ACCESS-TOKEN',
     userInfo: 'user-info',
+    compulsorySearch: 'compulsorySearch',
+    dataTableCompulsory: 'DataTables_dataTable_/cdsledu/web/compulsory.html',
     timeout: 2000,
     appName: '<div class="sidebar-brand-icon">' +
         '<i class="fas fa-graduation-cap"></i>' +
@@ -37,6 +39,9 @@ $($.ajaxSetup({
                             // console.log("未登录");
                             localStorage.removeItem(window.config.token);
                             localStorage.removeItem(window.config.userInfo);
+                            // 清空自己的请求参数
+                            localStorage.removeItem(window.config.compulsorySearch);
+                            localStorage.removeItem(window.config.dataTableCompulsory);
                             toastr.warning(xhr.responseJSON.message);
                             setTimeout(function () {
                                 window.location = "./login.html";
@@ -61,6 +66,9 @@ $($.ajaxSetup({
                     // console.log("未登录");
                     localStorage.removeItem(window.config.token);
                     localStorage.removeItem(window.config.userInfo);
+                    // 清空自己的请求参数
+                    localStorage.removeItem(window.config.compulsorySearch);
+                    localStorage.removeItem(window.config.dataTableCompulsory);
                     toastr.warning(xhr.responseJSON.message);
                     setTimeout(function () {
                         window.location = "./login.html";
