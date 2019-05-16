@@ -114,6 +114,9 @@ if (agent.indexOf('Trident') != -1) { // ie和360都有
     $("button").attr("disabled", "disabled");
     if (location.href.indexOf("login.html") == -1) {
         window.location = "./login.html";
+    } else {
+        alert('当前浏览器不支持，查看浏览器设置');
+        window.location = "./help.html"
     }
     // }
 }
