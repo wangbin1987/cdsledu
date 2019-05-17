@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>双流区幼儿园报名信息确认表</title>
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin-2.css" rel="stylesheet">
+    <link href="vendor/toastr/toastr.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 50px auto 50px;
+            height: 29.6cm;
+            width: 21cm;
+        }
+
+        .print-header {
+            padding: 1rem 1.25rem;
+            margin-bottom: 0;
+            border-bottom: 2px dashed #e3e6f0;
+        }
+
+        .print-form {
+            margin: 30px auto 30px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="print-form">
+    <div class="print-header" align="center">
+        <h4>成都市双流区2019幼儿园入学报名申请表</h4>
+    </div>
+    <p>本人子女申请在双流区就读幼儿园，我保证提交的材料真实有效，如有虚假，本申请视为无效。本申请一式贰联，申请人留存壹联，幼儿园留存壹联。</p>
+    <table class="table">
+        <tbody>
+        <tr id="number1">
+            <td>报名编号</td>
+            <td id="serialNumber1"></td>
+            <td>户籍归属</td>
+            <td id="residenceArea1"></td>
+        </tr>
+        <tr>
+            <td>幼儿姓名</td>
+            <td id="studentName1"></td>
+            <td>幼儿身份证</td>
+            <td id="studentIdentityNumber1"></td>
+        </tr>
+        <tr>
+            <td>幼儿性别</td>
+            <td id="studentGender1"></td>
+            <td>监护人姓名</td>
+            <td id="guarderName1"></td>
+        </tr>
+        <tr>
+            <td>监护人身份证</td>
+            <td id="guarderIdentityNumber1"></td>
+            <td>联系电话</td>
+            <td id="telephone1"></td>
+        </tr>
+        <tr>
+            <td>户籍地址</td>
+            <td colspan="3" id="studentHousehold1"></td>
+         </tr>
+        <tr>
+            <td>报名幼儿园</td>
+            <td id="kindergarten1"></td>
+        </tr>
+         <tr>
+            <td>登记时间</td>
+            <td id="currentTime1"></td>
+            <td>审核人签字</td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<br><br><br>
+<hr style="border: dashed;color: #e3e6f0;">
+<br><br><br>
+<div class="print-form">
+    <div class="print-header" align="center">
+        <h4>成都市双流区2019幼儿园入学报名申请表</h4>
+    </div>
+    <p>本人子女申请在双流区就读幼儿园，我保证提交的材料真实有效，如有虚假，本申请视为无效。本申请一式贰联，申请人留存壹联，幼儿园留存壹联。</p>
+    <table class="table">
+        <tbody>
+        <tr id="number2">
+            <td>报名编号</td>
+            <td id="serialNumber2"></td>
+            <td>户籍归属</td>
+            <td id="residenceArea2"></td>
+        </tr>
+        <tr>
+            <td>幼儿姓名</td>
+            <td id="studentName2"></td>
+            <td>幼儿身份证</td>
+            <td id="studentIdentityNumber2"></td>
+        </tr>
+        <tr>
+            <td>幼儿性别</td>
+            <td id="studentGender2"></td>
+            <td>监护人姓名</td>
+            <td id="guarderName2"></td>
+        </tr>
+        <tr>
+            <td>监护人身份证</td>
+            <td id="guarderIdentityNumber2"></td>
+            <td>联系电话</td>
+            <td id="telephone2"></td>
+        </tr>
+        <tr>
+            <td>户籍地址</td>
+            <td colspan="3" id="studentHousehold2"></td>
+        </tr>
+        <tr>
+            <td>报名幼儿园</td>
+            <td id="kindergarten2"></td>
+        </tr>
+        <tr>
+            <td>登记时间</td>
+            <td id="currentTime2"></td>
+            <td>审核人签字</td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+    <div id="printDiv" style="text-align: center;">
+        <button class="btn btn-primary" type="submit" id="printBtn" style="width:20%"><i class='fa fa-print'></i> 打印
+        </button>
+    </div>
+
+
+<!-- Bootstrap core JavaScript-->
+<script src="vendor/jquery/jquery.min.js"></script>
+<!-- Core plugin JavaScript-->
+<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="vendor/toastr/toastr.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="js/sb-admin-2.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="js/config.js"></script>
+<script src="js/common.js"></script>
+<script src="js/user-info-menu.js"></script>
+<script src="js/distpicker.js"></script>
+<script>
+    let id = getUrlParam("id");
+    if (id) {
+        $.ajax({
+            url: window.config.api + '/primary/getKindergarten/'+id,
+            method: "GET",
+            success: function (response) {
+                console.info(response);
+                $("#serialNumber1,#serialNumber2").text(response.data.telephone);
+                $("#residenceArea1,#residenceArea2").text(response.data.residenceArea);
+                $("#studentName1,#studentName2").text(response.data.studentName);
+                $("#studentIdentityNumber1,#studentIdentityNumber2").text(response.data.studentIdentityNumber);
+                $("#studentGender1,#studentGender2").text(response.data.studentGender);
+                $("#guarderIdentityNumber1,#guarderIdentityNumber2").text(response.data.guarderIdentityNumber);
+                $("#telephone1,#telephone2").text(response.data.telephone);
+                $("#studentHousehold1,#studentHousehold2").text(response.data.studentHousehold);
+                $("#kindergarten1,#kindergarten2").text(response.data.gbKindergarten);
+                $('#currentTime1,#currentTime2').text(response.data.createTime);
+            }
+        });
+    }
+    $(document).on("click", "#printBtn", function () {
+        $("#printDiv").hide();
+        window.print();
+        $("#printDiv").show();
+    })
+</script>
+
+</body>
+
+</html>
