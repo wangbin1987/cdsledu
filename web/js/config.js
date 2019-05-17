@@ -4,7 +4,7 @@ window.config = {
     token: 'ACCESS-TOKEN',
     userInfo: 'user-info',
     compulsorySearch: 'compulsorySearch',
-    timeout: 2000,
+    timeout: 1500,
     appName: '<div class="sidebar-brand-icon">' +
         '<i class="fas fa-graduation-cap"></i>' +
         '</div>' +
