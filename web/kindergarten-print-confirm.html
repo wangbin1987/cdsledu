@@ -67,16 +67,24 @@
             <td id="telephone1"></td>
         </tr>
         <tr>
-            <td>户籍地址</td>
+            <td class="address">户籍地址</td>
             <td colspan="3" id="studentHousehold1"></td>
         </tr>
         <tr>
             <td>报名幼儿园</td>
             <td id="kindergarten1"></td>
+            <td>幼儿园类型</td>
+            <td id="kindergartenType1"></td>
         </tr>
         <tr>
-            <td>登记时间</td>
+            <td>报名时间</td>
+            <td id="signTime1"></td>
+            <td>现场确认时间</td>
             <td id="currentTime1"></td>
+        </tr>
+        <tr>
+            <td>监护人签字</td>
+            <td></td>
             <td>审核人签字</td>
             <td></td>
         </tr>
@@ -116,16 +124,24 @@
             <td id="telephone2"></td>
         </tr>
         <tr>
-            <td>户籍地址</td>
+            <td class="address">户籍地址</td>
             <td colspan="3" id="studentHousehold2"></td>
         </tr>
         <tr>
             <td>报名幼儿园</td>
             <td id="kindergarten2"></td>
+            <td>幼儿园类型</td>
+            <td id="kindergartenType2"></td>
         </tr>
         <tr>
-            <td>登记时间</td>
+            <td>报名时间</td>
+            <td id="signTime2"></td>
+            <td>现场确认时间</td>
             <td id="currentTime2"></td>
+        </tr>
+        <tr>
+            <td>监护人签字</td>
+            <td></td>
             <td>审核人签字</td>
             <td></td>
         </tr>
@@ -159,16 +175,33 @@
             method: "GET",
             success: function (response) {
                 console.info(response);
-                $("#serialNumber1,#serialNumber2").text(response.data.telephone);
-                $("#residenceArea1,#residenceArea2").text(response.data.residenceArea);
-                $("#studentName1,#studentName2").text(response.data.studentName);
-                $("#studentIdentityNumber1,#studentIdentityNumber2").text(response.data.studentIdentityNumber);
-                $("#studentGender1,#studentGender2").text(response.data.studentGender);
-                $("#guarderIdentityNumber1,#guarderIdentityNumber2").text(response.data.guarderIdentityNumber);
-                $("#telephone1,#telephone2").text(response.data.telephone);
-                $("#studentHousehold1,#studentHousehold2").text(response.data.studentHousehold);
-                $("#kindergarten1,#kindergarten2").text(response.data.gbKindergarten);
-                $('#currentTime1,#currentTime2').text(response.data.createTime);
+                if (response.errorCode == 200) {
+
+                    if (response.data.householdType == "援藏干部") {
+                        $(".address").text("援藏干部房产地址");
+                    }
+
+                    $("#serialNumber1,#serialNumber2").text(response.data.telephone);
+                    $("#residenceArea1,#residenceArea2").text(response.data.householdType);
+                    $("#studentName1,#studentName2").text(response.data.studentName);
+                    $("#studentIdentityNumber1,#studentIdentityNumber2").text(response.data.studentIdentityNumber);
+                    $("#studentGender1,#studentGender2").text(response.data.studentGender);
+                    $("#guarderName1,#guarderName2").text(response.data.guarderName);
+                    $("#guarderIdentityNumber1,#guarderIdentityNumber2").text(response.data.guarderIdentityNumber);
+                    $("#telephone1,#telephone2").text(response.data.telephone);
+                    let address = "";
+                    let area = response.data.studentHousehold.split("|");
+                    area.forEach(item => {
+                        address += item + " ";
+                    })
+                    address += (response.data.residenceArea + " " + response.data.address);
+                    $("#studentHousehold1,#studentHousehold2").text(address);
+                    $("#kindergarten1,#kindergarten2").text(response.data.schoolName);
+                    $("#kindergartenType1,#kindergartenType2").text(response.data.schoolType);
+                    $('#signTime1,#signTime2').text(response.data.createTime);
+                    let data = new Date();
+                    $('#currentTime1,#currentTime2').text(getCurrentTime().substr(0,16));
+                }
             }
         });
     }

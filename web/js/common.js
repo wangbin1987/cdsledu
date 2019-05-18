@@ -26,6 +26,45 @@ function addChieseAsc() {
 }
 
 /**
+ * 获取当前时间 yyyy-MM-dd hh:mm:ss
+ * @returns {string}
+ */
+function getCurrentTime() {
+    let now = new Date();
+
+    let year = now.getFullYear();       //年
+    let month = now.getMonth() + 1;     //月
+    let day = now.getDate();            //日
+
+    let hh = now.getHours();            //时
+    let mm = now.getMinutes();          //分
+    let ss = now.getSeconds();           //秒
+
+    let clock = year + "-";
+
+    if (month < 10)
+        clock += "0";
+
+    clock += month + "-";
+
+    if (day < 10)
+        clock += "0";
+
+    clock += day + " ";
+
+    if (hh < 10)
+        clock += "0";
+
+    clock += hh + ":";
+    if (mm < 10) clock += '0';
+    clock += mm + ":";
+
+    if (ss < 10) clock += '0';
+    clock += ss;
+    return (clock);
+}
+
+/**
  * 获取地址栏参数
  * @param key 参数名称
  * @returns {*}
