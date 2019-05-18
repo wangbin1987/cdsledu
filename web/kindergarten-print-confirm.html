@@ -69,12 +69,12 @@
         <tr>
             <td>户籍地址</td>
             <td colspan="3" id="studentHousehold1"></td>
-         </tr>
+        </tr>
         <tr>
             <td>报名幼儿园</td>
             <td id="kindergarten1"></td>
         </tr>
-         <tr>
+        <tr>
             <td>登记时间</td>
             <td id="currentTime1"></td>
             <td>审核人签字</td>
@@ -83,9 +83,7 @@
         </tbody>
     </table>
 </div>
-<br><br><br>
-<hr style="border: dashed;color: #e3e6f0;">
-<br><br><br>
+<hr style="border: dashed;color: #e3e6f0; margin-top: 3rem;">
 <div class="print-form">
     <div class="print-header" align="center">
         <h4>成都市双流区2019幼儿园入学报名申请表</h4>
@@ -133,13 +131,11 @@
         </tr>
         </tbody>
     </table>
-</div>
-
     <div id="printDiv" style="text-align: center;">
         <button class="btn btn-primary" type="submit" id="printBtn" style="width:20%"><i class='fa fa-print'></i> 打印
         </button>
     </div>
-
+</div>
 
 <!-- Bootstrap core JavaScript-->
 <script src="vendor/jquery/jquery.min.js"></script>
@@ -159,7 +155,7 @@
     let id = getUrlParam("id");
     if (id) {
         $.ajax({
-            url: window.config.api + '/primary/getKindergarten/'+id,
+            url: window.config.api + '/primary/getKindergarten/' + id,
             method: "GET",
             success: function (response) {
                 console.info(response);
