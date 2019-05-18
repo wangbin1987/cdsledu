@@ -112,6 +112,9 @@ $(document).ready(function () {
                     let id = row.id;
                     let html = "";
                     row.operations.forEach(key => {
+                        if (key == 'print') {
+                            html += "<a href='javascript:void(0);' onclick='printIt(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-print'></i> 打印</a>";
+                        }
                         if (key == 'view') {
                             html += "<a href='javascript:void(0);' onclick='view(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-file-alt'></i> 查看</a>";
                         }
@@ -140,6 +143,9 @@ $(document).ready(function () {
     })
 });
 
+function printIt(id) {
+    window.open("./kindergarten-print-confirm.html?id=" + id);
+}
 
 function view(id) {
     window.location = "./blank.html?id=" + id + "&type=view";
