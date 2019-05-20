@@ -25,7 +25,16 @@ $(document).ready(function () {
     }
 
 
-
+    let role = getUserInfo().role;
+    if (!isEmpty(role)) {
+        console.info(role.indexOf('幼儿园'));
+        if (role == '系统管理员' || role == '职称科' ) {
+            $("#searchHead").show();
+            if (role.indexOf('幼儿园') != -1) {
+                $(".admin").hide();
+            }
+        }
+    }
 
     let download = "";
     addChieseAsc();
