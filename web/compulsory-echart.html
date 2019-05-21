@@ -49,13 +49,9 @@
 
     </style>
 </head>
-
-
 <body id="page-top">
-
 <!-- Page Wrapper -->
 <div id="wrapper">
-
     <!-- 左侧菜单 -->
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
@@ -88,20 +84,22 @@
             <!-- Begin Page Content -->
             <div class="container-fluid">
                 <!-- Content Row -->
-                <div class="row">
+                <div id="compulsoryEchart" class="row" style="margin-top: 1.5rem;">
                     <!-- Area Chart -->
                     <div class="col-xl-12 col-lg-12">
                         <div class="card shadow ">
                             <!-- Card Header - Dropdown -->
-                            <!-- Card Body -->
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">中小学报名分布数据</h6>
+
+                            </div>
                             <div class="card-body">
-                                <div class="chart-area" id="user-chart">
+                                <div class="chart-area" id="compulsory-chart">
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
             <!-- /.container-fluid -->
             <!-- 页面内容 -->
@@ -139,108 +137,78 @@
 <script src="js/index.js"></script>
 <script>
     // 基于准备好的dom，初始化echarts实例
-    let myChart = echarts.init(document.getElementById('user-chart'));
+    let compulsoryChart = echarts.init(document.getElementById('compulsory-chart'));
     // 指定图表的配置项和数据
-    let option = {
-        tooltip: {
-            trigger: 'axis'
+    let compulsoryOption = {
+        title: {
+            text: '中小学报名分布数据',
+            x: 'center'
         },
-        xAxis: {
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: {
+            orient: 'vertical',
+            left: 'left',
             data: []
         },
-        yAxis: {},
-        series: [{
-            name: '总用户数',
-            type: 'line',
-            smooth: true,
-            data: [],
-        },
+        series: [
             {
-                name: '新增用户',
-                type: 'line',
-                smooth: true,
+                name: '报名人数',
+                type: 'pie',
+                radius: '55%',
+                center: ['50%', '60%'],
                 data: [],
-            }]
-    };
-
-    // 使用刚指定的配置项和数据显示图表。
-    myChart.setOption(option);
-    myChart.showLoading();
-
-    draw('week');
-    $("#month").click(function () {
-        draw('month');
-    })
-    $("#week").click(function () {
-        draw('week');
-    })
-    $("#year").click(function () {
-        draw('year');
-    })
-
-    $.ajax({
-        url: window.config.api + '/system/getCurrentOnline',
-        method: "GET",
-        async: false,
-        success: function (response) {
-            if (response.errorCode == 200) {
-                $("#percent").html(response.data.add + '/' + response.data.total);
-                let percent = (response.data.add / response.data.total);
-                if (percent <= 0.03) {
-                    percent = 0.03
+                itemStyle: {
+                    emphasis: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
                 }
-                $("#progress").css('width', (percent * 100) + '%');
             }
-        },
-        error: function () {
-            //请求失败时执行该函数
-            toastr.warning("图表请求数据失败");
-            myChart.hideLoading();
-        }
-    });
+        ]
+    };
+    compulsoryChart.setOption(compulsoryOption);
 
-    /**
-     * 绘制曲线图
-     * @param type
-     */
-    function draw(type) {
-        let days = [];
-        let adds = [];
+    let user = getUserInfo();
+    if (user.role != '系统管理员' && user.role != '中教科' && user.role != '小教科') {
+        $("#compulsoryEchart").hide();
+    } else {
+        compulsoryChart.showLoading();
+        let addresses = [];
         let totals = [];
+        let datas = [];
         $.ajax({
-            url: window.config.api + '/system/getRegisterUserData/' + type,
+            url: window.config.api + '/enrollment/getCompulsoryAnalysisData/',
             method: "GET",
             async: false,
             success: function (response) {
                 if (response.errorCode == 200) {
                     for (let i = 0; i < response.data.length; i++) {
-                        days.push(response.data[i].day); // 日期
-                        adds.push(response.data[i].add); // 新增
+                        addresses.push(response.data[i].day); // 街道办
                         totals.push(response.data[i].total); // 总用户
+                        let obj = new Object();
+                        obj.name = response.data[i].day;
+                        obj.value = response.data[i].total;
+                        datas.push(obj);
                     }
-                    myChart.hideLoading();    //隐藏加载动画
-                    option.xAxis.data = days;
-                    option.series[0].data = totals;
-                    option.series[1].data = adds;
-                    myChart.setOption(option);
+                    compulsoryOption.legend.data = addresses;
+                    compulsoryOption.series[0].data = datas;
+                    compulsoryChart.setOption(compulsoryOption);
+                    compulsoryChart.hideLoading();    //隐藏加载动画
                 }
             },
             error: function () {
                 //请求失败时执行该函数
                 toastr.warning("图表请求数据失败");
-                myChart.hideLoading();
+                compulsoryChart.hideLoading();
             }
         });
     }
-
-    setTimeout(function () {
-        window.onresize = function () {
-            myChart.resize();
-        }
-    }, 200)
-
-
 </script>
+
 </body>
 
 </html>
