@@ -84,17 +84,30 @@
             <!-- Begin Page Content -->
             <div class="container-fluid">
                 <!-- Content Row -->
-                <div id="compulsoryEchart" class="row" style="margin-top: 1.5rem;">
+                <div id="compulsoryEchart" class="row">
                     <!-- Area Chart -->
                     <div class="col-xl-12 col-lg-12">
                         <div class="card shadow ">
                             <!-- Card Header - Dropdown -->
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-primary">中小学报名分布数据</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">中小学报名街道办统计数据</h6>
 
                             </div>
                             <div class="card-body">
-                                <div class="chart-area" id="compulsory-chart">
+                                <div class="chart-area" id="district-chart">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-12 col-lg-12" style="margin-top: 1.5rem;">
+                        <div class="card shadow ">
+                            <!-- Card Header - Dropdown -->
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">中小学报名年级统计数据</h6>
+
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-area" id="grade-chart">
                                 </div>
                             </div>
                         </div>
@@ -137,11 +150,11 @@
 <script src="js/index.js"></script>
 <script>
     // 基于准备好的dom，初始化echarts实例
-    let compulsoryChart = echarts.init(document.getElementById('compulsory-chart'));
+    let districtChart = echarts.init(document.getElementById('district-chart'));
     // 指定图表的配置项和数据
-    let compulsoryOption = {
+    let districtOption = {
         title: {
-            text: '中小学报名分布数据',
+            text: '中小学报名街道办统计数据',
             x: 'center'
         },
         tooltip: {
@@ -157,7 +170,7 @@
             {
                 name: '报名人数',
                 type: 'pie',
-                radius: '55%',
+                radius: '60%',
                 center: ['50%', '60%'],
                 data: [],
                 itemStyle: {
@@ -170,43 +183,123 @@
             }
         ]
     };
-    compulsoryChart.setOption(compulsoryOption);
 
-    let user = getUserInfo();
-    if (user.role != '系统管理员' && user.role != '中教科' && user.role != '小教科') {
-        $("#compulsoryEchart").hide();
-    } else {
-        compulsoryChart.showLoading();
-        let addresses = [];
-        let totals = [];
-        let datas = [];
+    let addresses = [];
+    let totals = [];
+    let datas = [];
+
+    districtChart.showLoading();
+    getDistrictAnalysisData();
+
+    function getDistrictAnalysisData() {
         $.ajax({
-            url: window.config.api + '/enrollment/getCompulsoryAnalysisData/',
+            url: window.config.api + '/enrollment/getCompulsoryAnalysisData',
             method: "GET",
-            async: false,
             success: function (response) {
                 if (response.errorCode == 200) {
                     for (let i = 0; i < response.data.length; i++) {
-                        addresses.push(response.data[i].day); // 街道办
+                        addresses.push(response.data[i].item); // 街道办
                         totals.push(response.data[i].total); // 总用户
                         let obj = new Object();
-                        obj.name = response.data[i].day;
+                        obj.name = response.data[i].item;
                         obj.value = response.data[i].total;
                         datas.push(obj);
                     }
-                    compulsoryOption.legend.data = addresses;
-                    compulsoryOption.series[0].data = datas;
-                    compulsoryChart.setOption(compulsoryOption);
-                    compulsoryChart.hideLoading();    //隐藏加载动画
+                    districtOption.legend.data = addresses;
+                    districtOption.series[0].data = datas;
+                    districtChart.setOption(districtOption);
+                    districtChart.hideLoading();    //隐藏加载动画
                 }
             },
             error: function () {
                 //请求失败时执行该函数
                 toastr.warning("图表请求数据失败");
-                compulsoryChart.hideLoading();
+                districtChart.hideLoading();
             }
         });
     }
+
+    let gradeChart = echarts.init(document.getElementById('grade-chart'));
+    // 指定图表的配置项和数据
+    let gradeOption = {
+        //标题配置信息
+        title: {
+            text: "中小学报名年级统计数据",
+            left: "center"
+        },
+        xAxis: {
+            type: "category",
+            data: []
+        },
+        yAxis: {
+            type: "value"
+        },
+        series: [
+            {
+                data: [],
+                type: "bar",
+                itemStyle: {
+                    normal: {
+                        //每根柱子颜色设置
+                        color: function (params) {
+                            let colorList = [
+                                "#c23531",
+                                "#2f4554",
+                                "#61a0a8",
+                                "#d48265",
+                                "#91c7ae",
+                                "#749f83",
+                                "#ca8622",
+                                "#bda29a",
+                                "#6e7074"
+                            ];
+                            return colorList[params.dataIndex];
+                        },
+                        // 柱状图上显示数据
+                        label: {
+                            show: true,
+                            position: "top",
+                            fontSize: "15"
+                        }
+                    },
+                },
+
+            }
+        ]
+    }
+
+
+    let grades = [];
+    let gradeTotals = [];
+
+    districtChart.showLoading();
+    getGradeAnalysisData();
+
+    function getGradeAnalysisData() {
+        $.ajax({
+            url: window.config.api + '/enrollment/getCompulsoryAnalysisData?dimension=grade',
+            method: "GET",
+            success: function (response) {
+                if (response.errorCode == 200) {
+                    for (let i = 0; i < response.data.length; i++) {
+                        grades.push(response.data[i].item); // 街道办
+                        gradeTotals.push(response.data[i].total); // 总用户
+                    }
+                    gradeOption.xAxis.data = grades;
+                    gradeOption.series[0].data = gradeTotals;
+                    gradeChart.setOption(gradeOption);
+                    gradeChart.hideLoading();    //隐藏加载动画
+                }
+            },
+            error: function () {
+                //请求失败时执行该函数
+                toastr.warning("图表请求数据失败");
+                gradeChart.hideLoading();
+            }
+        });
+    }
+
+
 </script>
 
 </body>
