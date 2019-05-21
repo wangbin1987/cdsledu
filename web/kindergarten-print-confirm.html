@@ -176,12 +176,10 @@
             success: function (response) {
                 console.info(response);
                 if (response.errorCode == 200) {
-
                     if (response.data.householdType == "援藏干部") {
                         $(".address").text("援藏干部房产地址");
                     }
-
-                    $("#serialNumber1,#serialNumber2").text(response.data.telephone);
+                    $("#serialNumber1,#serialNumber2").text(response.data.serialNumber);
                     $("#residenceArea1,#residenceArea2").text(response.data.householdType);
                     $("#studentName1,#studentName2").text(response.data.studentName);
                     $("#studentIdentityNumber1,#studentIdentityNumber2").text(response.data.studentIdentityNumber);
