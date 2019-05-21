@@ -211,8 +211,8 @@
     $("#nickname").text(user.nickname);
     $("#telephone").text(user.telephone);
     $("#idCard").text(user.idCardNumber);
-    if (user.department) {
-        $("#department").text(user.department.name)
+    if (!isEmpty(user.department)) {
+        $("#department").text(user.department)
     }
     // $("#email").val(user.email);
 
