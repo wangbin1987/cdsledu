@@ -278,7 +278,7 @@
     let grades = [];
     let gradeTotals = [];
 
-    districtChart.showLoading();
+    gradeChart.showLoading();
     getGradeAnalysisData();
 
     function getGradeAnalysisData() {
@@ -304,6 +304,13 @@
             }
         });
     }
+
+    setTimeout(function () {
+        window.onresize = function () {
+            districtChart.resize();
+            gradeChart.resize();
+        }
+    }, 200)
 
 
 </script>
