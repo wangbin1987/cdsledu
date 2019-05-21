@@ -85,6 +85,7 @@ function doLogin(username, password) {
             if (response.errorCode == 200) {
                 localStorage.clear();
                 localStorage.setItem(window.config.token, response.data);
+                getUserInfo();
                 window.location = "./index.html";
             }
         }

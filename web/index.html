@@ -416,7 +416,7 @@
 
     let user = getUserInfo();
     if (user.role != '系统管理员' && user.role != '中教科' && user.role != '小教科') {
-        // $("#compulsoryEchart").hide();
+        $("#compulsoryEchart").hide();
     } else {
         compulsoryChart.showLoading();
         let addresses = [];
