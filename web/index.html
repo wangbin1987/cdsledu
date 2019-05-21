@@ -194,7 +194,6 @@
                 <!-- Content Row -->
 
                 <div class="row">
-
                     <!-- Area Chart -->
                     <div class="col-xl-12 col-lg-12">
                         <div class="card shadow ">
@@ -218,6 +217,23 @@
                             <!-- Card Body -->
                             <div class="card-body">
                                 <div class="chart-area" id="user-chart">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="compulsoryEchart" class="row" style="margin-top: 1.5rem;">
+                    <!-- Area Chart -->
+                    <div class="col-xl-12 col-lg-12">
+                        <div class="card shadow ">
+                            <!-- Card Header - Dropdown -->
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">中小学报名分布数据</h6>
+
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-area" id="compulsory-chart">
                                 </div>
                             </div>
                         </div>
@@ -358,10 +374,81 @@
     setTimeout(function () {
         window.onresize = function () {
             myChart.resize();
+            compulsoryChart.resize();
         }
     }, 200)
 
 
+    let compulsoryChart = echarts.init(document.getElementById('compulsory-chart'));
+    // 指定图表的配置项和数据
+    let compulsoryOption = {
+        title: {
+            text: '中小学报名分布数据',
+            x: 'center'
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: {
+            orient: 'vertical',
+            left: 'left',
+            data: []
+        },
+        series: [
+            {
+                name: '报名人数',
+                type: 'pie',
+                radius: '55%',
+                center: ['50%', '60%'],
+                data: [],
+                itemStyle: {
+                    emphasis: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }
+        ]
+    };
+    compulsoryChart.setOption(compulsoryOption);
+
+    let user = getUserInfo();
+    if (user.role != '系统管理员' && user.role != '中教科' && user.role != '小教科') {
+        $("#compulsoryEchart").hide();
+    } else {
+        compulsoryChart.showLoading();
+        let addresses = [];
+        let totals = [];
+        let datas = [];
+        $.ajax({
+            url: window.config.api + '/enrollment/getCompulsoryAnalysisData/',
+            method: "GET",
+            async: false,
+            success: function (response) {
+                if (response.errorCode == 200) {
+                    for (let i = 0; i < response.data.length; i++) {
+                        addresses.push(response.data[i].day); // 街道办
+                        totals.push(response.data[i].total); // 总用户
+                        let obj = new Object();
+                        obj.name = response.data[i].day;
+                        obj.value = response.data[i].total;
+                        datas.push(obj);
+                    }
+                    compulsoryOption.legend.data = addresses;
+                    compulsoryOption.series[0].data = datas;
+                    compulsoryChart.setOption(compulsoryOption);
+                    compulsoryChart.hideLoading();    //隐藏加载动画
+                }
+            },
+            error: function () {
+                //请求失败时执行该函数
+                toastr.warning("图表请求数据失败");
+                compulsoryChart.hideLoading();
+            }
+        });
+    }
 </script>
 </body>
 
