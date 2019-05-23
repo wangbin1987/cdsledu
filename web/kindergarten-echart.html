@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>双流区教育管理系统</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin-2.css" rel="stylesheet">
+    <link href="vendor/toastr/toastr.css" rel="stylesheet">
+
+</head>
+<body id="page-top">
+<!-- Page Wrapper -->
+<div id="wrapper">
+    <!-- 左侧菜单 -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <div class="sidebar-brand-icon">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <div class="sidebar-brand-text mx-3" id="productName">双流教育</div>
+        </a>
+        <!-- 一个占位符，不加占位符左侧菜单回缩小 -->
+        <li class="nav-item active" id='placeholder'>
+            <a class="nav-link" href="index.html">
+                <i class="fas fa-fw fa-home"></i>
+                <span>首页</span></a>
+        </li>
+        <!-- Sidebar Toggler (Sidebar) 点击收起 -->
+        <!-- <div class="text-center d-none d-md-inline">
+          <button class="rounded-circle border-0" id="sidebarToggle"></button>
+        </div> -->
+    </ul>
+
+    <!-- Content Wrapper -->
+    <!-- 左侧菜单结束 -->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Main Content -->
+        <div id="content">
+            <!-- 顶部信息 -->
+            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow" id="top"></nav>
+            <!-- 顶部信息 -->
+            <!-- 页面内容 -->
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+                <!-- Content Row -->
+                <div class="col-xl-12 col-lg-12" style="margin-top: 1.5rem;">
+                    <div class="card shadow ">
+                        <!-- Card Header - Dropdown -->
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-primary">公办幼儿园报名数据分园统计表</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-area" id="kindergarten-chart">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.container-fluid -->
+            <!-- 页面内容 -->
+        </div>
+
+        <!-- 尾部信息 -->
+        <footer class="sticky-footer bg-white" id="footer">
+        </footer>
+        <!-- 尾部信息 -->
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<!-- Bootstrap core JavaScript-->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="vendor/toastr/toastr.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="js/sb-admin-2.min.js"></script>
+
+<script src="vendor/echats/echarts.min.js"></script>
+
+
+<script src="js/config.js"></script>
+<script src="js/common.js"></script>
+<script src="js/user-info-menu.js"></script>
+<script src="js/index.js"></script>
+<script>
+
+    // 基于准备好的dom，初始化echarts实例
+    let kindergartenChart = echarts.init(document.getElementById('kindergarten-chart'));
+    // 指定图表的配置项和数据
+    let kindergartenOption = {
+
+        tooltip : {
+            trigger: 'axis'
+        },
+        legend: {
+            data:['招生计划','报名人数']
+        },
+        toolbox: {
+            show : true,
+            feature : {
+                mark : {show: true},
+                dataView : {show: true, readOnly: false},
+                magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                restore : {show: true},
+                saveAsImage : {show: true}
+            }
+        },
+        calculable : true,
+        xAxis : [
+            {
+                type : 'category',
+                boundaryGap : false,
+                data : ['GB001','GB002-1','GB002-2','GB002-3','GB003','GB004','GB005',
+                    '8','9','10','11','12','13','14','15','16','17','18','19','20','21',
+                    '22','23','24','25','26','27','28','29','30','31','31','32']
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series : [
+            {
+                name:'招生计划',
+                type:'line',
+                stack: '总量',
+                data:[120, 132, 101, 134, 90, 230, 210,120, 132, 101, 134, 90, 230, 210,120, 132, 101, 134, 90, 230, 210,
+                    120,120, 132, 101, 134, 90,120, 132, 101, 134, 90,134]
+            },
+            {
+                name:'报名人数',
+                type:'line',
+                stack: '总量',
+                data:[220, 182, 191, 234, 290, 330, 310,120, 132, 101, 134, 90, 230, 210,120, 132, 101, 134, 90, 230, 210,
+                    120, 132, 101, 134, 90, 120, 132, 101, 134, 90, 120, 132,]
+            },
+
+        ]
+    };
+    kindergartenChart.setOption(kindergartenOption);
+
+</script>
+
+
+</body>
+
+</html>
