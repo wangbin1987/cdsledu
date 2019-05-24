@@ -17,6 +17,14 @@
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.css" rel="stylesheet">
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="vendor/photoviewer/photoviewer.css" rel="stylesheet">
+    <style>
+        .close-image {
+            position: absolute;
+            float: right;
+            margin: 1.5rem -2.5rem;
+        }
+    </style>
 </head>
 
 <body id="page-top">
@@ -148,11 +156,31 @@
 <script src="vendor/datatables/jquery.dataTables.min.js"></script>
 <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 <script src="vendor/toastr/toastr.min.js"></script>
+<script src="vendor/photoviewer/photoviewer.js"></script>
 <!-- Page level custom scripts -->
 <script src="js/config.js"></script>
 <script src="js/common.js"></script>
 <script src="js/user-info-menu.js"></script>
 <script>
+
+    $(document).on('click', "[data-gallery=manual]", function () {
+
+        var items = [],
+            // get index of element clicked
+            options = {
+                index: $(this).index()
+            };
+
+        // looping to create images array
+        $('[data-gallery=manual]').each(function () {
+            let src = $(this).attr('src');
+            items.push({
+                src: src
+            });
+        });
+
+        new PhotoViewer(items, options);
+    })
 
     getMaterial();
 
@@ -224,7 +252,6 @@
             success: function (response) {
                 if (response.errorCode == 200) {
                     console.info(response.data);
-                    alert("上传成功");
                     window.location.reload();
                 }
             }
@@ -245,11 +272,37 @@
     $(document).on('click', ".view-image", function () {
         $("#materialImages").empty();
         let material = JSON.parse($(this).parent().parent().attr("data"));
-        $("#materialImages").append($("<img src='https://avatar.csdn.net/E/B/6/3_frankcheng5143.jpg'>"))
+        let param = {};
+        param.materialType = material.type;
+        getMaterialFiles(param);
         $("#materialName").text(material.name);
         $("#materialType").val(material.type);
         $("#uploadModal").modal("show");
     })
+
+    function getMaterialFiles(param) {
+        $.ajax({
+            url: window.config.api + '/file/getMaterialFiles',
+            method: "POST",
+            data: JSON.stringify(param),
+            success: function (response) {
+                if (response.errorCode == 200) {
+                    console.info(response.data);
+                    response.data.forEach(file => {
+                        let div = $("<div style='display:inline'></div>")
+                        let image = $("<img data-gallery='manual'>");
+                        image.attr("src", window.config.api + "/file/preview/" + file.md5);
+                        image.attr("width", "200px");
+                        image.css("margin", "15px");
+                        let close = $("<i class='close-image fa fa-trash-alt'> </i>")
+                        div.append(image);
+                        div.append(close);
+                        $("#materialImages").append(image);
+                    })
+                }
+            }
+        })
+    }
 
 </script>
 
