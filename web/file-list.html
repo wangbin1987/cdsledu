@@ -89,12 +89,12 @@
                             <table class="table">
                                 <thead>
                                 <tr>
-                                    <th>材料名称</th>
+                                    <th style="width: 40%;">材料名称</th>
                                     <th>上传时间</th>
                                     <th>操作</th>
                                 </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="tbody">
                                 <tr>
                                     <td>自查报告</td>
                                     <td>2019-05-21</td>
@@ -109,14 +109,14 @@
                                     <td>《成都市民办学校年报年检表》</td>
                                     <td>-----</td>
                                     <td>
-                                        <a class='down btn btn-default btn-xs' href="javascript:void(0)">上传 <i
+                                        <a class='upload down btn btn-default btn-xs' href="javascript:void(0)">上传 <i
                                                 class='fa fa-upload'></i></a>
                                     </td>
                                 </tr>
 
                                 </tbody>
                             </table>
-                            <button style="float:right" class="btn btn-primary">提交审核</button>
+                            <button style="float:right" class="btn btn-primary" id="submitApprove">提交审核</button>
                         </div>
                     </div>
                 </div>
@@ -150,9 +150,55 @@
 <script src="js/common.js"></script>
 <script src="js/user-info-menu.js"></script>
 <script>
-    $(".upload").click(function () {
+
+    getMaterial();
+
+    function getMaterial() {
+        $.ajax({
+            url: window.config.api + '/file/getMaterial',
+            method: "GET",
+            success: function (response) {
+                if (response.errorCode == 200) {
+                    let tbody = $("#tbody");
+                    tbody.empty();
+                    let isAllUplaod = true;
+                    response.data.forEach(material => {
+                        let tr = $("<tr></tr>")
+                        let name = $("<td>" + material.name + "</td>")
+                        let timeStr = "-----";
+
+                        let view = "<a class='down btn btn-default btn-xs' href='javascript:void(0)'>查看 <i class='fa fa-file-image'></i></a>";
+                        let upload = "<a class='upload down btn btn-default btn-xs' href='javascript:void(0)'>上传 <i class='fa fa-upload'></i></a>";
+                        let del = "<a class='down btn btn-default btn-xs' href='javascript:void(0)'>删除 <i class='fa fa-trash-alt'></i></a>";
+                        let op = $("<td>" + upload + "</td>");
+                        if (!isEmpty(material.createTime)) {
+                            timeStr = material.createTime;
+                            op = $("<td>" + view + del + "</td>");
+                        } else {
+                            isAllUplaod = false;
+                        }
+                        let time = $("<td>" + timeStr + "</td>")
+                        tr.append(name);
+                        tr.append(time);
+                        tr.append(op);
+                        tbody.append(tr);
+
+                        if (!isAllUplaod) {
+                            $("#submitApprove").attr("disabled", "disabled")
+                        }
+                    })
+                }
+            }
+        });
+    }
+
+    /**
+     * 为菜单绑定事件
+     */
+    $(document).on('click', ".upload", function () {
         $("#uploadModal").modal("show");
     })
+
 </script>
 
 </body>
