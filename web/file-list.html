@@ -63,16 +63,19 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form>
+                                <form id="uploadForm" enctype='multipart/form-data'>
+                                    <div id="materialImages" class="form-group">
+
+                                    </div>
                                     <input type="hidden" class="form-control" id="schoolId">
                                     <div class="form-group">
-                                        <label>材料类型：</label><label id="schoolCode">自查报告</label>
+                                        <label>材料类型：</label><label id="materialName">自查报告</label>
                                     </div>
                                     <div class="form-group">
                                         <label>上传文件：</label>
-                                        <input type="file">
+                                        <input type="file" multiple="multiple" accept="image/*" id="materialFile">
                                     </div>
-
+                                    <input type="hidden" id="materialType">
                                 </form>
                             </div>
                             <div class="modal-footer">
@@ -164,10 +167,11 @@
                     let isAllUplaod = true;
                     response.data.forEach(material => {
                         let tr = $("<tr></tr>")
+                        tr.attr("data", JSON.stringify(material));
                         let name = $("<td>" + material.name + "</td>")
                         let timeStr = "-----";
 
-                        let view = "<a class='down btn btn-default btn-xs' href='javascript:void(0)'>查看 <i class='fa fa-file-image'></i></a>";
+                        let view = "<a class='view-image down btn btn-default btn-xs' href='javascript:void(0)'>查看 <i class='fa fa-file-image'></i></a>";
                         let upload = "<a class='upload down btn btn-default btn-xs' href='javascript:void(0)'>上传 <i class='fa fa-upload'></i></a>";
                         let del = "<a class='down btn btn-default btn-xs' href='javascript:void(0)'>删除 <i class='fa fa-trash-alt'></i></a>";
                         let op = $("<td>" + upload + "</td>");
@@ -192,10 +196,58 @@
         });
     }
 
+    $("#updateBtn").click(function () {
+        let files = $("#materialFile")[0].files;
+        let type = $("#materialType").val();
+        if (files.length > 0) {
+            uploadFiles(files, type);
+        } else {
+            alert("请选择文件");
+        }
+
+    })
+
+    function uploadFiles(files, type) {
+        //这里files是因为我设置了可上传多张图片，所以需要依次添加到formData中
+        let formData = new FormData();
+        for (let file in files) {
+            formData.append("files", files[file]);
+        }
+        formData.append("type", type);
+        $.ajax({
+            data: formData,
+            type: "POST",
+            url: window.config.api + "/file/uploadMulti",
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                if (response.errorCode == 200) {
+                    console.info(response.data);
+                    alert("上传成功");
+                    window.location.reload();
+                }
+            }
+        })
+    }
+
     /**
      * 为菜单绑定事件
      */
     $(document).on('click', ".upload", function () {
+        $("#materialImages").empty();
+        let material = JSON.parse($(this).parent().parent().attr("data"));
+        $("#materialName").text(material.name);
+        $("#materialType").val(material.type);
+        $("#uploadModal").modal("show");
+    })
+
+    $(document).on('click', ".view-image", function () {
+        $("#materialImages").empty();
+        let material = JSON.parse($(this).parent().parent().attr("data"));
+        $("#materialImages").append($("<img src='https://avatar.csdn.net/E/B/6/3_frankcheng5143.jpg'>"))
+        $("#materialName").text(material.name);
+        $("#materialType").val(material.type);
         $("#uploadModal").modal("show");
     })
 
