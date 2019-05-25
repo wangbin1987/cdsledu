@@ -106,25 +106,6 @@
                                 </tr>
                                 </thead>
                                 <tbody id="tbody">
-                                <tr>
-                                    <td>自查报告</td>
-                                    <td>2019-05-21</td>
-                                    <td>
-                                        <a class='down btn btn-default btn-xs' href="javascript:void(0)">查看 <i
-                                                class='fa fa-file-image'></i></a>
-                                        <a class='down btn btn-default btn-xs' href="javascript:void(0)">删除 <i
-                                                class='fa fa-trash-alt'></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>《成都市民办学校年报年检表》</td>
-                                    <td>-----</td>
-                                    <td>
-                                        <a class='upload down btn btn-default btn-xs' href="javascript:void(0)">上传 <i
-                                                class='fa fa-upload'></i></a>
-                                    </td>
-                                </tr>
-
                                 </tbody>
                             </table>
                             <button style="float:right" class="btn btn-primary" id="submitApprove">提交审核</button>
@@ -163,22 +144,36 @@
 <script src="js/user-info-menu.js"></script>
 <script>
 
-    $(document).on('click', "[data-gallery=manual]", function () {
+    function indexOf(arr, item) {
+        if (Array.protopy.indexOf) {
+            return arr.indexOf(item);
+        } else {
+            for (var i = 0; i < arr.length; i++) {
+                if (arr[i] === item)
+                    return i;
+                else return -1;
+            }
+        }
+    }
 
-        var items = [],
-            // get index of element clicked
-            options = {
-                index: $(this).index()
-            };
-
+    $(document).on('click', "[data-gallery=manual]", function (e) {
+        e.preventDefault();
+        let items = [];
+        let srcs = [];
         // looping to create images array
         $('[data-gallery=manual]').each(function () {
             let src = $(this).attr('src');
             items.push({
                 src: src
             });
+            srcs.push(src);
         });
 
+        // get index of element clicked
+        let options = {
+            index: srcs.indexOf($(this).attr('src'))
+        }
+        console.info(options);
         new PhotoViewer(items, options);
     })
 
@@ -201,7 +196,7 @@
 
                         let view = "<a class='view-image down btn btn-default btn-xs' href='javascript:void(0)'>查看 <i class='fa fa-file-image'></i></a>";
                         let upload = "<a class='upload down btn btn-default btn-xs' href='javascript:void(0)'>上传 <i class='fa fa-upload'></i></a>";
-                        let del = "<a class='down btn btn-default btn-xs' href='javascript:void(0)'>删除 <i class='fa fa-trash-alt'></i></a>";
+                        let del = "<a class='delete-material down btn btn-default btn-xs' href='javascript:void(0)'>删除 <i class='fa fa-trash-alt'></i></a>";
                         let op = $("<td>" + upload + "</td>");
                         if (!isEmpty(material.createTime)) {
                             timeStr = material.createTime;
@@ -259,7 +254,7 @@
     }
 
     /**
-     * 为菜单绑定事件
+     * 上传材料按钮
      */
     $(document).on('click', ".upload", function () {
         $("#materialImages").empty();
@@ -267,6 +262,23 @@
         $("#materialName").text(material.name);
         $("#materialType").val(material.type);
         $("#uploadModal").modal("show");
+    })
+
+    /**
+     * 删除材料按钮
+     */
+    $(document).on('click', ".delete-material", function () {
+        let material = JSON.parse($(this).parent().parent().attr("data"));
+        alert("删除" + material.name + "下的所有文件吗？")
+    })
+
+    /**
+     * 删除单个图片
+     */
+    $(document).on('click', ".close-image", function () {
+        let data = $(this).attr("data");
+        console.info(data);
+        alert("删除数据：" + data);
     })
 
     $(document).on('click', ".view-image", function () {
@@ -294,10 +306,13 @@
                         image.attr("src", window.config.api + "/file/preview/" + file.md5);
                         image.attr("width", "200px");
                         image.css("margin", "15px");
-                        let close = $("<i class='close-image fa fa-trash-alt'> </i>")
+                        let closeData = {};
+                        closeData.materialType = param.materialType;
+                        closeData.fileId = file.id;
+                        let close = $("<i class='close-image fa fa-trash-alt' data='" + JSON.stringify(closeData) + "'></i>")
                         div.append(image);
                         div.append(close);
-                        $("#materialImages").append(image);
+                        $("#materialImages").append(div);
                     })
                 }
             }
