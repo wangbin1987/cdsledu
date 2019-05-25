@@ -161,11 +161,7 @@
 <script src="js/config.js"></script>
 <script src="js/common.js"></script>
 <script src="js/user-info-menu.js"></script>
-<script>
-<<<<<<< HEAD
-=======
-
-    $(document).on('click', "[data-gallery=manual]", function () {
+<script>    $(document).on('click', "[data-gallery=manual]", function () {
 
         var items = [],
             // get index of element clicked
@@ -182,9 +178,9 @@
         });
 
         new PhotoViewer(items, options);
-    })
+    });
 
->>>>>>> upstream/master
+
     getMaterial();
     function getMaterial() {
         $.ajax({
@@ -200,12 +196,9 @@
                         tr.attr("data", JSON.stringify(material));
                         let name = $("<td>" + material.name + "</td>")
                         let timeStr = "-----";
-<<<<<<< HEAD
-                        let view = "<a class='down btn btn-default btn-xs' href='javascript:void(0)'>查看 <i class='fa fa-file-image'></i></a>";
-=======
 
                         let view = "<a class='view-image down btn btn-default btn-xs' href='javascript:void(0)'>查看 <i class='fa fa-file-image'></i></a>";
->>>>>>> upstream/master
+
                         let upload = "<a class='upload down btn btn-default btn-xs' href='javascript:void(0)'>上传 <i class='fa fa-upload'></i></a>";
                         let del = "<a class='down btn btn-default btn-xs' href='javascript:void(0)'>删除 <i class='fa fa-trash-alt'></i></a>";
                         let op = $("<td>" + upload + "</td>");
