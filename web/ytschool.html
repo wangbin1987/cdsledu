@@ -17,34 +17,40 @@
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.css" rel="stylesheet">
     <style>
-    .content {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: left;
-        align-items: flex-start;
-        background-color: rgba(105, 205, 170, 0.2);
-    }
+        .content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: left;
+            align-items: flex-start;
+            background-color: rgba(105, 205, 170, 0.2);
+        }
 
-    nav {
-        width: 100%;
-        height: 194px;
-        padding: 10px;
-        background-color: rgba(105, 205, 170, 0.3);
-    }
+        nav {
+            width: 100%;
+            height: 194px;
+            padding: 10px;
+            background-color: rgba(105, 205, 170, 0.3);
+        }
 
 
-    .nav-left {
-        display: table-cell;
-        float: left;
-    }
+        .nav-left {
+            display: table-cell;
+            float: left;
+        }
 
-    .nav-right {
-        line-height: 194px;
-        font-size: 28px;
-        text-align: center;
-        letter-spacing: 1px;
-    }
+        .nav-right {
+            line-height: 194px;
+            font-size: 28px;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        .modal-body ul{
+            display:block;
+            margin: 5px;
+            font-size: 18px;
+        }
 
     </style>
 
@@ -80,15 +86,55 @@
             <li><a href="#"><h4>四川省双流艺体中学2019年关于面向全省招生的公告</h4></a></li>
         </ul>
         <div class="b-content-bottom">
-            <button id="enrollment-button" class="btn btn-primary btn-lg">报名入口</button>
+            <button id="enrollment-button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                报名入口
+            </button>
         </div>
 
 
     </div>
-    <footer class="sticky-footer" id="footer">
-    </footer>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title" id="myModalLabel">网上报名须知</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <ul>
+                        <li>
+                            1.参加网上资格审核的考生，登陆本网上资格审核系统仔细阅读《网上资格审核须知》后，点击“我已阅读，并同意规定”按钮，进行网上报名。
+                        </li>
+                        <li>
+                            2.考生必须准确填写信息，在网上提供（或上传）的内容真实、准确，并对其内容的合法性承担完全责任。
+                        </li>
+                        <li>
+                            3.考生须根据报考级别要求，上传JPG格式，大小不超过2M，并经过图片处理工具处理为符合规定格式、大小的资料：
+                        </li>
+                        <li>
+                            4.我已经完整阅读并理解了本项考试报考全部文件内容，并熟悉考试报名流程，且根据报考条件，我本人符合本次考试报考条件。
+                        </li>
+
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="window.location.href='yttables.html'"  class="btn btn-primary">我已阅读，并同意规定</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">不同意</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 </div>
+<footer class="sticky-footer" id="footer">
+    <div class="copyright text-center my-auto">
+        <span>Copyright &copy; 四川省双流艺体中学 2019</span>
+    </div>
+</footer>
 
 <!-- Bootstrap core JavaScript-->
 <script src="vendor/jquery/jquery.min.js"></script>
