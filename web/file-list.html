@@ -17,6 +17,14 @@
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.css" rel="stylesheet">
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="vendor/photoviewer/photoviewer.css" rel="stylesheet">
+    <style>
+        .close-image {
+            position: absolute;
+            float: right;
+            margin: 1.5rem -2.5rem;
+        }
+    </style>
 </head>
 
 <body id="page-top">
@@ -63,16 +71,19 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form>
+                                <form id="uploadForm" enctype='multipart/form-data'>
+                                    <div id="materialImages" class="form-group">
+
+                                    </div>
                                     <input type="hidden" class="form-control" id="schoolId">
                                     <div class="form-group">
-                                        <label>材料类型：</label><label id="schoolCode">自查报告</label>
+                                        <label>材料类型：</label><label id="materialName">自查报告</label>
                                     </div>
                                     <div class="form-group">
                                         <label>上传文件：</label>
-                                        <input type="file">
+                                        <input type="file" multiple="multiple" accept="image/*" id="materialFile">
                                     </div>
-
+                                    <input type="hidden" id="materialType">
                                 </form>
                             </div>
                             <div class="modal-footer">
@@ -145,11 +156,35 @@
 <script src="vendor/datatables/jquery.dataTables.min.js"></script>
 <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 <script src="vendor/toastr/toastr.min.js"></script>
+<script src="vendor/photoviewer/photoviewer.js"></script>
 <!-- Page level custom scripts -->
 <script src="js/config.js"></script>
 <script src="js/common.js"></script>
 <script src="js/user-info-menu.js"></script>
 <script>
+<<<<<<< HEAD
+=======
+
+    $(document).on('click', "[data-gallery=manual]", function () {
+
+        var items = [],
+            // get index of element clicked
+            options = {
+                index: $(this).index()
+            };
+
+        // looping to create images array
+        $('[data-gallery=manual]').each(function () {
+            let src = $(this).attr('src');
+            items.push({
+                src: src
+            });
+        });
+
+        new PhotoViewer(items, options);
+    })
+
+>>>>>>> upstream/master
     getMaterial();
     function getMaterial() {
         $.ajax({
@@ -162,9 +197,15 @@
                     let isAllUplaod = true;
                     response.data.forEach(material => {
                         let tr = $("<tr></tr>")
+                        tr.attr("data", JSON.stringify(material));
                         let name = $("<td>" + material.name + "</td>")
                         let timeStr = "-----";
+<<<<<<< HEAD
                         let view = "<a class='down btn btn-default btn-xs' href='javascript:void(0)'>查看 <i class='fa fa-file-image'></i></a>";
+=======
+
+                        let view = "<a class='view-image down btn btn-default btn-xs' href='javascript:void(0)'>查看 <i class='fa fa-file-image'></i></a>";
+>>>>>>> upstream/master
                         let upload = "<a class='upload down btn btn-default btn-xs' href='javascript:void(0)'>上传 <i class='fa fa-upload'></i></a>";
                         let del = "<a class='down btn btn-default btn-xs' href='javascript:void(0)'>删除 <i class='fa fa-trash-alt'></i></a>";
                         let op = $("<td>" + upload + "</td>");
@@ -189,12 +230,85 @@
         });
     }
 
+    $("#updateBtn").click(function () {
+        let files = $("#materialFile")[0].files;
+        let type = $("#materialType").val();
+        if (files.length > 0) {
+            uploadFiles(files, type);
+        } else {
+            alert("请选择文件");
+        }
+
+    })
+
+    function uploadFiles(files, type) {
+        //这里files是因为我设置了可上传多张图片，所以需要依次添加到formData中
+        let formData = new FormData();
+        for (let file in files) {
+            formData.append("files", files[file]);
+        }
+        formData.append("type", type);
+        $.ajax({
+            data: formData,
+            type: "POST",
+            url: window.config.api + "/file/uploadMulti",
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                if (response.errorCode == 200) {
+                    console.info(response.data);
+                    window.location.reload();
+                }
+            }
+        })
+    }
+
     /**
      * 为菜单绑定事件
      */
     $(document).on('click', ".upload", function () {
+        $("#materialImages").empty();
+        let material = JSON.parse($(this).parent().parent().attr("data"));
+        $("#materialName").text(material.name);
+        $("#materialType").val(material.type);
         $("#uploadModal").modal("show");
     })
+
+    $(document).on('click', ".view-image", function () {
+        $("#materialImages").empty();
+        let material = JSON.parse($(this).parent().parent().attr("data"));
+        let param = {};
+        param.materialType = material.type;
+        getMaterialFiles(param);
+        $("#materialName").text(material.name);
+        $("#materialType").val(material.type);
+        $("#uploadModal").modal("show");
+    })
+
+    function getMaterialFiles(param) {
+        $.ajax({
+            url: window.config.api + '/file/getMaterialFiles',
+            method: "POST",
+            data: JSON.stringify(param),
+            success: function (response) {
+                if (response.errorCode == 200) {
+                    console.info(response.data);
+                    response.data.forEach(file => {
+                        let div = $("<div style='display:inline'></div>")
+                        let image = $("<img data-gallery='manual'>");
+                        image.attr("src", window.config.api + "/file/preview/" + file.md5);
+                        image.attr("width", "200px");
+                        image.css("margin", "15px");
+                        let close = $("<i class='close-image fa fa-trash-alt'> </i>")
+                        div.append(image);
+                        div.append(close);
+                        $("#materialImages").append(image);
+                    })
+                }
+            }
+        })
+    }
 
 </script>
 
