@@ -146,8 +146,8 @@
                         <tr id="printDiv">
                             <td>操作</td>
                             <td align="center" colspan="2">
-                                <button class="btn btn-primary" type="button" id="submitBtn"
-                                        style="width: 30%">
+                                <button class="btn btn-primary" type="button" id="submitBtn">
+                                    <i class="fa fa-check-square" aria-hidden="true"></i>
                                     提交
                                 </button>
                             </td>
@@ -188,6 +188,34 @@
         window.print();
         $("#printDiv").show();
     })
+
+    function imgPreview(fileDom, e, ele) {
+        //获取文件
+        let file = fileDom.files[0];
+        let supportedTypes = ['image/jpg', 'image/jpeg', 'image/png'];
+        if (!(supportedTypes.indexOf(file.type) > -1)) {
+            alert('请选择.jpg、.png格式图片')
+            return;
+        }
+        let uploadFiles = e.target.files || e.dataTransfer.files;
+        console.log(file.type);
+        let size = uploadFiles.length;
+        for (let i = 0; i < size; i++) {
+            /*读取文件*/
+            let reader = new FileReader();
+            reader.readAsDataURL(uploadFiles[i]);
+            reader.onload = function (e) {
+                let imgBase = e.target.result;
+                ele.siblings('img').attr('src', imgBase).show()
+            }
+        }
+
+    }
+
+    $(document).on("click", "#uploadimg", function (){
+        imgPreview(this, e, $(this));
+    });
+
 
 </script>
 
