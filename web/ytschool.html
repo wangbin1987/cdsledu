@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>双流艺体中学报名系统</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="vendor/carousel/carousel.css" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin-2.css" rel="stylesheet">
+    <style>
+        .content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: left;
+            align-items: flex-start;
+            background-color: rgba(105, 205, 170, 0.2);
+        }
+
+        nav {
+            width: 100%;
+            height: 194px;
+            padding: 10px;
+            background-color: rgba(105, 205, 170, 0.3);
+        }
+         span{
+             font-size: 16px;
+         }
+
+        .nav-left {
+            display: table-cell;
+            float: left;
+        }
+
+        .nav-right {
+            line-height: 194px;
+            font-size: 28px;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        .modal-body ul{
+            display:block;
+            margin: 5px;
+            font-size: 18px;
+        }
+
+
+    </style>
+
+</head>
+
+<body>
+<nav>
+    <div class="nav-left">
+        <img src="img/ytschool/top.png" alt="logo">
+    </div>
+    <div class="nav-right">
+        <i class="fa fa-tty" aria-hidden="true"></i>
+        <p class="fa fa-volume-control-phone">&nbsp;咨询电话：028-85850118</p>
+    </div>
+</nav>
+<div class="content">
+
+    <!-- Outer Row -->
+    <div class="a-content">
+        <div class="carousel-content">
+            <ul class="carousel">
+                <li><img src="img/ytschool/yt1.jpg"></li>
+                <li><img src="img/ytschool/yt2.jpg"></li>
+                <li><img src="img/ytschool/yt3.jpg"></li>
+            </ul>
+        </div>
+    </div>
+    <div class="b-content">
+        <ul>
+            <li><a href="http://www.yitischool.cn/about/show.php?lang=cn&id=19" target="_blank">
+                <h2>四川省双流艺体中学学校简介</h2>
+            </a></li>
+            <li><a href="#"><h4>四川省双流艺体中学关于2019年面向全省招生的公告</h4></a></li>
+        </ul>
+        <div class="b-content-bottom">
+            <button id="enrollment-button" class="btn btn-primary btn-lg" data-toggle="modal" data-target=".bs-example-modal-lg">
+                报名入口
+            </button>
+        </div>
+
+
+    </div>
+    <!-- Modal -->
+    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title" id="myLargeModalLabel">网上报名须知</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <ul>
+                        <li>
+                            1.参加网上资格审核的考生，登陆本网上资格审核系统仔细阅读《网上资格审核须知》后，点击“我已阅读，并同意规定”按钮，进行网上报名。
+                        </li>
+                        <li>
+                            2.考生必须准确填写信息，在网上提供（或上传）的内容真实、准确，并对其内容的合法性承担完全责任。
+                        </li>
+                        <li>
+                            3.考生须根据报考级别要求，上传JPG格式，大小不超过2M，并经过图片处理工具处理为符合规定格式、大小的资料：
+                        </li>
+                        <li>
+                            4.我已经完整阅读并理解了本项考试报考全部文件内容，并熟悉考试报名流程，且根据报考条件，我本人符合本次考试报考条件。
+                        </li>
+
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="window.location.href='yttables.html'"  class="btn btn-primary">我已阅读，并同意规定</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">不同意</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<footer class="sticky-footer" id="footer">
+    <div class="copyright text-center my-auto">
+        <span>Copyright &copy; 四川省双流艺体中学 2019</span>
+    </div>
+</footer>
+
+<!-- Bootstrap core JavaScript-->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="vendor/jquery-validation/jquery.validate.js"></script>
+<script src="vendor/jquery-validation/messages_zh.js"></script>
+<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="vendor/jquery-cookie/jquery.cookie.js"></script>
+<script src="js/config.js"></script>
+<script src="js/common.js"></script>
+<script src="vendor/carousel/carousel.js"></script>
+
+<script>
+    $(function () {
+        $(".carousel-content").carousel({
+            carousel: ".carousel",//轮播图容器
+            indexContainer: ".img-index",//下标容器
+            prev: ".carousel-prev",//左按钮
+            next: ".carousel-next",//右按钮
+            timing: 3000,//自动播放间隔
+            animateTime: 700,//动画时间
+            autoPlay: true,//是否自动播放 true/false
+            direction: "left",//滚动方向 right/left
+        });
+    });
+</script>
+
+
+</body>
+
+</html>

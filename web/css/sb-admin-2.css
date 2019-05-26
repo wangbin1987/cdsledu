@@ -11613,6 +11613,11 @@ a:focus {
   background-size: cover;
 }
 
+bg-ytlogin-image {
+  background: url("../img/ytschool/ytlogin.jpg") center;
+  background-size: cover;
+}
+
 .bg-register-image {
   background: url("../img/image.jpg") center;
   background-size: cover;

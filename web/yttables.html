@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>中小学入学登记</title>
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="vendor/toastr/toastr.css" rel="stylesheet">
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin-2.css" rel="stylesheet">
+    <style>
+        body {
+            height: 29.6cm;
+            width: 21cm;
+            margin: 50px auto 50px;
+        }
+
+        .custom-select {
+            width: auto;
+        }
+
+        .form-control {
+            /*width: auto;*/
+            height: calc(1.5em + 0.5rem + 2px);
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            border-radius: 0.2rem;
+        }
+
+
+        textarea {
+            margin-bottom: -0.75rem;
+        }
+
+        .form-control-plaintext {
+            text-align: center;
+            font-family: 微软雅黑;
+            font-size: 40px;
+            font-weight: bolder;
+            padding: 0;
+            margin: 5px auto;
+
+        }
+
+        input[type='radio']:nth-child(2) {
+            margin-left: 0.25rem
+        }
+
+        #uploadimg {
+            width: 25mm;
+            height: 35mm;
+        }
+    </style>
+</head>
+
+<body id="page-top">
+<div id="wrapper">
+    <!-- 左侧菜单开始 -->
+
+    <!-- 左侧菜单结束 -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+            <!-- 顶部信息 -->
+            <!-- Page Heading -->
+            <div class="card shadow mb-4">
+                <!--<div class="card-header py-3">-->
+                <!--<h4 id="headTitle" class="m-0 font-weight-bold text-primary">中小学信息填写</h4>-->
+                <!--</div>-->
+                <div class="card-body">
+
+                    <div class="col-sm-12">
+                        <input type="text" readonly class="form-control-plaintext" value="报名信息填报页">
+                    </div>
+                    <table class="table" id="studentTable" width="100%"
+                           cellspacing="0">
+                        <tbody>
+                        <tr>
+                            <td>学生姓名</td>
+                            <td><input class="form-control" type="text" name="xsName" id="xsName"/></td>
+                            <td>身份证号</td>
+                            <td><input class="form-control" type="text" name="xsId" id="xsId"/></td>
+                            <td rowspan="3" colspan="2">
+                                <object id='uploadimg' data="img/ytschool/example.jpg"></object>
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td>学生性别</td>
+                            <td>
+                                <input type="radio" name="xsGender" value="male" checked> 男
+                                <input type="radio" name="xsGender" value="female"> 女
+                            </td>
+                            <td>民族</td>
+                            <td><input class="form-control" name="telephone" id="minorities "/></td>
+                        </tr>
+                        <tr>
+                            <td>联系电话</td>
+                            <td><input class="form-control" name="telephone" id="xstelephone "/></td>
+                            <td>原学校</td>
+                            <td><input class="form-control" name="telephone" id="oldschool "/></td>
+                        </tr>
+
+                        <tr>
+                            <td>家长姓名</td>
+                            <td><input class="form-control" name="guarder" id="guarder"/></td>
+                            <td>手机</td>
+                            <td colspan="2"><input class="form-control" name="telephone" id="telephone"/></td>
+                        </tr>
+
+                        <tr>
+                            <td>户籍地址</td>
+                            <td colspan="5">
+                                <div id="target" data-toggle="distpicker">
+                                    <select class="custom-select" data-province="四川省"
+                                            id="provinceName"></select>
+                                    <select class="custom-select" data-city="成都市"
+                                            id="cityName"></select>
+                                    <select class="custom-select" data-district="双流区"
+                                            id="districtName"></select>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>家庭详细地址</td>
+                            <td colspan="5"><input class="form-control" name="address" id="address"/></td>
+
+                        </tr>
+                        <tr id="comment">
+                            <td>个人特长及所获荣誉</td>
+                            <td colspan="5"><label>
+                                <textarea id="bz" class="form-control" name="bz" cols="100%" rows="5"></textarea>
+                            </label></td>
+                        </tr>
+                        <tr id="printDiv">
+                            <td>操作</td>
+                            <td align="center" colspan="2">
+                                <button class="btn btn-primary" type="button" id="submitBtn">
+                                    <i class="fa fa-check-square" aria-hidden="true"></i>
+                                    提交
+                                </button>
+                            </td>
+                            <td align="center" colspan="3">
+                                <button class="btn btn-primary" type="submit" id="printBtn">
+                                    <i class='fa fa-print'></i>&nbsp;打印
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 页面内容 -->
+</div>
+
+
+</div>
+<!-- Bootstrap core JavaScript-->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+<!-- Custom scripts for all pages-->
+<script src="js/sb-admin-2.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="js/config.js"></script>
+<script src="js/common.js"></script>
+<script src="js/user-info-menu.js"></script>
+<script src="js/distpicker.js"></script>
+<script>
+    $(document).on("click", "#printBtn", function () {
+        $("#printDiv").hide();
+        window.print();
+        $("#printDiv").show();
+    })
+
+    function imgPreview(fileDom, e, ele) {
+        //获取文件
+        let file = fileDom.files[0];
+        let supportedTypes = ['image/jpg', 'image/jpeg', 'image/png'];
+        if (!(supportedTypes.indexOf(file.type) > -1)) {
+            alert('请选择.jpg、.png格式图片')
+            return;
+        }
+        let uploadFiles = e.target.files || e.dataTransfer.files;
+        console.log(file.type);
+        let size = uploadFiles.length;
+        for (let i = 0; i < size; i++) {
+            /*读取文件*/
+            let reader = new FileReader();
+            reader.readAsDataURL(uploadFiles[i]);
+            reader.onload = function (e) {
+                let imgBase = e.target.result;
+                ele.siblings('img').attr('src', imgBase).show()
+            }
+        }
+
+    }
+
+    $(document).on("click", "#uploadimg", function (){
+        imgPreview(this, e, $(this));
+    });
+
+
+</script>
+
+
+</body>
+
+</html>
