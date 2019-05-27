@@ -4,7 +4,7 @@ window.config = {
     token: 'ACCESS-TOKEN',
     userInfo: 'user-info',
     compulsorySearch: 'compulsorySearch',
-    timeout: 1500,
+    timewait: 1500,
     appName: '<div class="sidebar-brand-icon">' +
         '<i class="fas fa-graduation-cap"></i>' +
         '</div>' +
@@ -15,7 +15,7 @@ window.config = {
 $($.ajaxSetup({
     contentType: 'application/json; charset=utf-8',
     dataType: "json",
-    timeout: 10000,
+    timeout: 15000,
     beforeSend: function (xhr, settings) {
         if (localStorage.getItem(window.config.token)) {
             xhr.setRequestHeader(window.config.token, localStorage.getItem(window.config.token));
@@ -43,7 +43,7 @@ $($.ajaxSetup({
                             toastr.warning(xhr.responseJSON.message);
                             setTimeout(function () {
                                 window.location = "./login.html";
-                            }, window.config.timeout);
+                            }, window.config.timewait);
                         } else {
                             toastr.warning(xhr.responseJSON.message);
                         }
@@ -66,7 +66,7 @@ $($.ajaxSetup({
                     toastr.warning(xhr.responseJSON.message);
                     setTimeout(function () {
                         window.location = "./login.html";
-                    }, window.config.timeout);
+                    }, window.config.timewait);
                 } else {
                     toastr.warning(xhr.responseJSON.message);
                 }
