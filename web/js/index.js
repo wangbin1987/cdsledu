@@ -29,12 +29,12 @@ $(function () {
     welcome += ("今天是" + year + "年" + mon + "月" + date + "日" + '，' + weeks[week] + "</p>");
 
     $.ajax({
-        url: window.config.api + '/system/isKindergartenSign',
+        url: window.config.api + '/article/getIndex',
         method: "GET",
         async: false,
         success: function (response) {
             if (response.errorCode == 200) {
-                welcome += (response.data.gbMessage + "<br>" + response.data.gyMessage);
+                welcome += (response.data.content);
             }
         }
     });

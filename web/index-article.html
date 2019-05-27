@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>首页显示内容编辑</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="vendor/toastr/toastr.css" rel="stylesheet">
+    <link href="vendor/summernote/summernote.css" rel="stylesheet">
+    <link href="vendor/summernote/summernote-bs4.css" rel="stylesheet">
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin-2.css" rel="stylesheet">
+    <style>
+        .form-control {
+            width: auto;
+            height: calc(1.5em + 0.5rem + 2px);
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            border-radius: 0.2rem;
+            display: inline;
+        }
+    </style>
+</head>
+
+<body id="page-top">
+<div id="wrapper">
+    <!-- 左侧菜单开始 -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <div class="sidebar-brand-icon">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <div class="sidebar-brand-text mx-3" id="productName">双流教育</div>
+        </a>
+        <!-- 一个占位符 -->
+        <li class="nav-item active" id='placeholder'>
+            <a class="nav-link" href="index.html">
+                <i class="fas fa-fw fa-home"></i>
+                <span>首页</span></a>
+        </li>
+    </ul>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+    </div>
+    <!-- 左侧菜单结束 -->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Main Content -->
+        <div id="content">
+            <!-- 顶部信息 -->
+            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow" id="top"></nav>
+            <!-- 顶部信息 -->
+            <!-- 页面内容 -->
+            <div class="container-fluid">
+                <!-- DataTales Example -->
+                <div class="card shadow mb-4">
+                    <div class="card-body">
+                        <div id="summernote"></div>
+                    </div>
+                    <div class="card-body">
+                        <button id="submitArticle" class="btn btn-sm btn-outline-primary">发布文章</button>
+                    </div>
+                </div>
+            </div>
+            <!-- 页面内容 -->
+        </div>
+
+        <!-- 尾部信息 -->
+        <footer class="sticky-footer bg-white" id="footer">
+        </footer>
+        <!-- 尾部信息 -->
+    </div>
+
+</div>
+<!-- Bootstrap core JavaScript-->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="js/sb-admin-2.min.js"></script>
+
+<!-- Page level plugins -->
+<script src="vendor/toastr/toastr.min.js"></script>
+<script src="vendor/summernote/summernote.min.js"></script>
+<script src="vendor/summernote/summernote-bs4.min.js"></script>
+<script src="vendor/summernote/lang/summernote-zh-CN.js"></script>
+<!-- Page level custom scripts -->
+<script src="js/config.js"></script>
+<script src="js/common.js"></script>
+<script src="js/user-info-menu.js"></script>
+<script>
+    $('#summernote').summernote({
+        lang: 'zh-CN',
+        placeholder: '请输入文章内容',
+        tabsize: 4,
+        height: 200,
+        toolbar: [
+            ['operate', ['undo', 'redo']],
+            ['magic', ['style']],
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['font', ['strikethrough', 'superscript', 'subscript']],
+            ['fontsize', ['fontsize']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph', 'height']],
+            ['insert', ['picture', 'video', 'link', 'table', 'hr']],
+            ['layout', ['fullscreen']],
+        ]
+    });
+
+    let id;
+
+    getIndexArticle();
+
+    function getIndexArticle() {
+        $.ajax({
+            url: window.config.api + '/article/getIndex',
+            method: "GET",
+            success: function (response) {
+                if (response.errorCode == 200) {
+                    id = response.data.id;
+                    $("#summernote").summernote('code', response.data.content);
+                }
+            }
+        });
+    }
+
+    $("#submitArticle").click(function () {
+        let content = $("#summernote").summernote('code');
+        if (isEmpty(content)) {
+            toastr.warning("请输入文章内容");
+        } else {
+            let article = {};
+            if (!isEmpty(id)) {
+                article.id = id;
+            }
+            article.title = "首页显示内容";
+            article.content = content;
+            $.ajax({
+                url: window.config.api + '/article/save',
+                method: "POST",
+                data: JSON.stringify(article),
+                success: function (response) {
+                    if (response.errorCode == 200) {
+                        toastr.success("发布成功");
+                    }
+                }
+            });
+        }
+    })
+</script>
+
+
+</body>
+
+</html>

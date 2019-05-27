@@ -199,6 +199,7 @@
 <!-- Core plugin JavaScript-->
 <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 <script src="vendor/toastr/toastr.min.js"></script>
+<script src="vendor/sweetalert/sweetalert.min.js"></script>
 <!-- Custom scripts for all pages-->
 <script src="js/sb-admin-2.min.js"></script>
 
@@ -528,6 +529,7 @@
 
 
         $('#submit').on('click', function () {
+            swal("保存数据并不会提交数据到幼儿园，只是临时保存，如果要提交请点击保存并提交");
             formValidate(0);
         });
 
