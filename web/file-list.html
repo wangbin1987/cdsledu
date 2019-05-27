@@ -24,6 +24,15 @@
             float: right;
             margin: 1.5rem -2.5rem;
         }
+
+        .thumb-image {
+            width: 200px;
+            margin: 15px;
+            border-radius: 5px;
+            box-shadow: 2px 2px 2px rgba(0, 0, 0, .5);
+            -moz-box-shadow: 2px 2px 2px rgba(0, 0, 0, .5);
+            -webkit-box-shadow: 2px 2px 2px rgba(0, 0, 0, .5);
+        }
     </style>
 </head>
 
@@ -60,7 +69,8 @@
             <div class="container-fluid">
 
                 <!-- Logout Modal-->
-                <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                <div class="modal fade bd-example-modal-lg" id="uploadModal" tabindex="-1" role="dialog"
+                     aria-labelledby="exampleModalLabel"
                      aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -72,9 +82,7 @@
                             </div>
                             <div class="modal-body">
                                 <form id="uploadForm" enctype='multipart/form-data'>
-                                    <div id="materialImages" class="form-group">
-
-                                    </div>
+                                    <div id="materialImages" class="form-group"></div>
                                     <input type="hidden" class="form-control" id="schoolId">
                                     <div class="form-group">
                                         <label>材料类型：</label><label id="materialName">自查报告</label>
@@ -100,6 +108,7 @@
                             <table class="table">
                                 <thead>
                                 <tr>
+                                    <th>编号</th>
                                     <th style="width: 40%;">材料名称</th>
                                     <th>上传时间</th>
                                     <th>操作</th>
@@ -108,7 +117,9 @@
                                 <tbody id="tbody">
                                 </tbody>
                             </table>
-                            <button style="float:right" class="btn btn-primary" id="submitApprove">提交审核</button>
+                            <button style="float:right;" disabled="disabled" class="btn btn-primary" id="submitApprove">
+                                提交审核
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -138,6 +149,7 @@
 <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 <script src="vendor/toastr/toastr.min.js"></script>
 <script src="vendor/photoviewer/photoviewer.js"></script>
+<script src="vendor/sweetalert/sweetalert.min.js"></script>
 <!-- Page level custom scripts -->
 <script src="js/config.js"></script>
 <script src="js/common.js"></script>
@@ -162,7 +174,7 @@
         let srcs = [];
         // looping to create images array
         $('[data-gallery=manual]').each(function () {
-            let src = $(this).attr('src');
+            let src = $(this).attr('href');
             items.push({
                 src: src
             });
@@ -171,9 +183,9 @@
 
         // get index of element clicked
         let options = {
-            index: srcs.indexOf($(this).attr('src'))
+            index: srcs.indexOf($(this).attr('href'))
         }
-        console.info(options);
+        // console.info(options);
         new PhotoViewer(items, options);
     })
 
@@ -187,13 +199,13 @@
                 if (response.errorCode == 200) {
                     let tbody = $("#tbody");
                     tbody.empty();
-                    let isAllUplaod = true;
-                    response.data.forEach(material => {
+                    let allUpload = true;
+                    response.data.forEach(function (material, index) {
                         let tr = $("<tr></tr>")
                         tr.attr("data", JSON.stringify(material));
+                        let pos = $("<td>" + (index + 1) + "</td>")
                         let name = $("<td>" + material.name + "</td>")
                         let timeStr = "-----";
-
                         let view = "<a class='view-image down btn btn-default btn-xs' href='javascript:void(0)'>查看 <i class='fa fa-file-image'></i></a>";
                         let upload = "<a class='upload down btn btn-default btn-xs' href='javascript:void(0)'>上传 <i class='fa fa-upload'></i></a>";
                         let del = "<a class='delete-material down btn btn-default btn-xs' href='javascript:void(0)'>删除 <i class='fa fa-trash-alt'></i></a>";
@@ -202,22 +214,34 @@
                             timeStr = material.createTime;
                             op = $("<td>" + view + del + "</td>");
                         } else {
-                            isAllUplaod = false;
+                            allUpload = false;
                         }
-                        let time = $("<td>" + timeStr + "</td>")
+                        let time = $("<td>" + timeStr + "</td>");
+                        tr.append(pos);
                         tr.append(name);
                         tr.append(time);
                         tr.append(op);
                         tbody.append(tr);
-
-                        if (!isAllUplaod) {
-                            $("#submitApprove").attr("disabled", "disabled")
-                        }
                     })
+                    if (allUpload == true) {
+                        $("#submitApprove").removeAttr("disabled")
+                    }
                 }
             }
         });
     }
+
+    $("#submitApprove").click(function () {
+        $.ajax({
+            url: window.config.api + '/file/submitCheck',
+            method: "POST",
+            success: function (response) {
+                if (response.errorCode == 200) {
+                    toastr.success(response.message);
+                }
+            }
+        })
+    })
 
     $("#updateBtn").click(function () {
         let files = $("#materialFile")[0].files;
@@ -225,7 +249,7 @@
         if (files.length > 0) {
             uploadFiles(files, type);
         } else {
-            alert("请选择文件");
+            toastr.warning("请选择文件");
         }
 
     })
@@ -269,7 +293,26 @@
      */
     $(document).on('click', ".delete-material", function () {
         let material = JSON.parse($(this).parent().parent().attr("data"));
-        alert("删除" + material.name + "下的所有文件吗？")
+        console.info(material);
+        let param = {};
+        param.materialType = material.type;
+        swal({
+            title: "删除" + material.name + "下的所有文件吗？",
+            buttons: {
+                cancel: "取消",
+                deleteIt: {
+                    text: "确定删除",
+                    value: "del"
+                }
+            },
+        })
+            .then((value) => {
+                if (value == 'del') {
+                    deleteMaterial(param);
+                } else {
+
+                }
+            });
     })
 
     /**
@@ -277,8 +320,23 @@
      */
     $(document).on('click', ".close-image", function () {
         let data = $(this).attr("data");
-        console.info(data);
-        alert("删除数据：" + data);
+        swal({
+            title: "删除该文件吗？",
+            buttons: {
+                cancel: "取消",
+                deleteIt: {
+                    text: "确定删除",
+                    value: "del"
+                }
+            },
+        })
+            .then((value) => {
+                if (value == 'del') {
+                    deleteMaterial(JSON.parse(data));
+                } else {
+
+                }
+            });
     })
 
     $(document).on('click', ".view-image", function () {
@@ -301,11 +359,11 @@
                 if (response.errorCode == 200) {
                     console.info(response.data);
                     response.data.forEach(file => {
-                        let div = $("<div style='display:inline'></div>")
+                        let div = $("<div style='display:inline-table;position:relative'></div>")
                         let image = $("<img data-gallery='manual'>");
-                        image.attr("src", window.config.api + "/file/preview/" + file.md5);
-                        image.attr("width", "200px");
-                        image.css("margin", "15px");
+                        image.attr("src", window.config.api + "/file/preview/" + file.thumbMd5);
+                        image.attr("href", window.config.api + "/file/preview/" + file.md5);
+                        image.addClass("thumb-image");
                         let closeData = {};
                         closeData.materialType = param.materialType;
                         closeData.fileId = file.id;
@@ -314,6 +372,23 @@
                         div.append(close);
                         $("#materialImages").append(div);
                     })
+                }
+            }
+        })
+    }
+
+    function deleteMaterial(param) {
+        $.ajax({
+            url: window.config.api + '/file/deleteMaterial',
+            method: "POST",
+            data: JSON.stringify(param),
+            success: function (response) {
+                if (response.errorCode == 200) {
+                    swal("删除成功", "", "success")
+                        .then((value) => {
+                            window.location.reload();
+                        });
+
                 }
             }
         })
