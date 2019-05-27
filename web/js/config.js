@@ -15,7 +15,7 @@ window.config = {
 $($.ajaxSetup({
     contentType: 'application/json; charset=utf-8',
     dataType: "json",
-    timeout: 15000,
+    timeout: 30000,
     beforeSend: function (xhr, settings) {
         if (localStorage.getItem(window.config.token)) {
             xhr.setRequestHeader(window.config.token, localStorage.getItem(window.config.token));

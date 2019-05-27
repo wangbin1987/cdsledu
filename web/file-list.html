@@ -18,6 +18,8 @@
     <link href="css/sb-admin-2.css" rel="stylesheet">
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link href="vendor/photoviewer/photoviewer.css" rel="stylesheet">
+    <link href="vendor/loading/css/animate.css" rel="stylesheet">
+    <link href="vendor/loading/css/loading.css" rel="stylesheet">
     <style>
         .close-image {
             position: absolute;
@@ -153,11 +155,30 @@
 <script src="vendor/toastr/toastr.min.js"></script>
 <script src="vendor/photoviewer/photoviewer.js"></script>
 <script src="vendor/sweetalert/sweetalert.min.js"></script>
+<script src="vendor/loading/js/loading.js"></script>
 <!-- Page level custom scripts -->
 <script src="js/config.js"></script>
 <script src="js/common.js"></script>
 <script src="js/user-info-menu.js"></script>
 <script>
+
+    function loading() {
+        $('body').loading({
+            loadingWidth: 240,
+            title: '上传文件',
+            discription: '正在上传文件，请稍后...',
+            name: 'test',
+            direction: 'column',
+            type: 'origin',
+            // originBg:'#71EA71',
+            originDivWidth: 40,
+            originDivHeight: 40,
+            originWidth: 6,
+            originHeight: 6,
+            smallLoading: false,
+            loadingMaskBg: 'rgba(0,0,0,0.2)'
+        });
+    }
 
     function indexOf(arr, item) {
         if (Array.protopy.indexOf) {
@@ -250,6 +271,7 @@
         let files = $("#materialFile")[0].files;
         let type = $("#materialType").val();
         if (files.length > 0) {
+            loading();
             uploadFiles(files, type);
         } else {
             toastr.warning("请选择文件");
@@ -274,6 +296,7 @@
             success: function (response) {
                 if (response.errorCode == 200) {
                     console.info(response.data);
+                    removeLoading('test');
                     window.location.reload();
                 }
             }
