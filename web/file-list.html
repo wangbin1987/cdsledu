@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>年审材料列表</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="vendor/toastr/toastr.css" rel="stylesheet">
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin-2.css" rel="stylesheet">
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="vendor/photoviewer/photoviewer.css" rel="stylesheet">
+    <style>
+        .close-image {
+            position: absolute;
+            float: right;
+            margin: 1.5rem -2.5rem;
+        }
+    </style>
+</head>
+
+<body id="page-top">
+<div id="wrapper">
+    <!-- 左侧菜单开始 -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <div class="sidebar-brand-icon">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <div class="sidebar-brand-text mx-3" id="productName">双流教育</div>
+        </a>
+        <!-- 一个占位符 -->
+        <li class="nav-item active" id='placeholder'>
+            <a class="nav-link" href="index.html">
+                <i class="fas fa-fw fa-home"></i>
+                <span>首页</span></a>
+        </li>
+        <!-- Sidebar Toggler (Sidebar) -->
+        <!-- <div class="text-center d-none d-md-inline">
+          <button class="rounded-circle border-0" id="sidebarToggle"></button>
+        </div> -->
+    </ul>
+    <!-- 左侧菜单结束 -->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Main Content -->
+        <div id="content">
+            <!-- 顶部信息 -->
+            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow" id="top"></nav>
+            <!-- 顶部信息 -->
+
+            <!-- 页面内容 -->
+            <div class="container-fluid">
+
+                <!-- Logout Modal-->
+                <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">上传材料</h5>
+                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="uploadForm" enctype='multipart/form-data'>
+                                    <div id="materialImages" class="form-group">
+
+                                    </div>
+                                    <input type="hidden" class="form-control" id="schoolId">
+                                    <div class="form-group">
+                                        <label>材料类型：</label><label id="materialName">自查报告</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>上传文件：</label>
+                                        <input type="file" multiple="multiple" accept="image/*" id="materialFile">
+                                    </div>
+                                    <input type="hidden" id="materialType">
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary" type="button" data-dismiss="modal">取消</button>
+                                <button class="btn btn-primary" id="updateBtn">上传</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- DataTales Example -->
+                <div class="card shadow mb-4">
+                    <div class="card-body">
+                        <div class="table-responsive" style="text-align: center;">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th style="width: 40%;">材料名称</th>
+                                    <th>上传时间</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody id="tbody">
+                                </tbody>
+                            </table>
+                            <button style="float:right" class="btn btn-primary" id="submitApprove">提交审核</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 页面内容 -->
+        </div>
+
+        <!-- 尾部信息 -->
+        <footer class="sticky-footer bg-white" id="footer">
+        </footer>
+        <!-- 尾部信息 -->
+    </div>
+
+</div>
+<!-- Bootstrap core JavaScript-->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="js/sb-admin-2.min.js"></script>
+
+<!-- Page level plugins -->
+<script src="vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+<script src="vendor/toastr/toastr.min.js"></script>
+<script src="vendor/photoviewer/photoviewer.js"></script>
+<!-- Page level custom scripts -->
+<script src="js/config.js"></script>
+<script src="js/common.js"></script>
+<script src="js/user-info-menu.js"></script>
+<script>
+
+    function indexOf(arr, item) {
+        if (Array.protopy.indexOf) {
+            return arr.indexOf(item);
+        } else {
+            for (var i = 0; i < arr.length; i++) {
+                if (arr[i] === item)
+                    return i;
+                else return -1;
+            }
+        }
+    }
+
+    $(document).on('click', "[data-gallery=manual]", function (e) {
+        e.preventDefault();
+        let items = [];
+        let srcs = [];
+        // looping to create images array
+        $('[data-gallery=manual]').each(function () {
+            let src = $(this).attr('src');
+            items.push({
+                src: src
+            });
+            srcs.push(src);
+        });
+
+        // get index of element clicked
+        let options = {
+            index: srcs.indexOf($(this).attr('src'))
+        }
+        console.info(options);
+        new PhotoViewer(items, options);
+    })
+
+    getMaterial();
+
+    function getMaterial() {
+        $.ajax({
+            url: window.config.api + '/file/getMaterial',
+            method: "GET",
+            success: function (response) {
+                if (response.errorCode == 200) {
+                    let tbody = $("#tbody");
+                    tbody.empty();
+                    let isAllUplaod = true;
+                    response.data.forEach(material => {
+                        let tr = $("<tr></tr>")
+                        tr.attr("data", JSON.stringify(material));
+                        let name = $("<td>" + material.name + "</td>")
+                        let timeStr = "-----";
+
+                        let view = "<a class='view-image down btn btn-default btn-xs' href='javascript:void(0)'>查看 <i class='fa fa-file-image'></i></a>";
+                        let upload = "<a class='upload down btn btn-default btn-xs' href='javascript:void(0)'>上传 <i class='fa fa-upload'></i></a>";
+                        let del = "<a class='delete-material down btn btn-default btn-xs' href='javascript:void(0)'>删除 <i class='fa fa-trash-alt'></i></a>";
+                        let op = $("<td>" + upload + "</td>");
+                        if (!isEmpty(material.createTime)) {
+                            timeStr = material.createTime;
+                            op = $("<td>" + view + del + "</td>");
+                        } else {
+                            isAllUplaod = false;
+                        }
+                        let time = $("<td>" + timeStr + "</td>")
+                        tr.append(name);
+                        tr.append(time);
+                        tr.append(op);
+                        tbody.append(tr);
+
+                        if (!isAllUplaod) {
+                            $("#submitApprove").attr("disabled", "disabled")
+                        }
+                    })
+                }
+            }
+        });
+    }
+
+    $("#updateBtn").click(function () {
+        let files = $("#materialFile")[0].files;
+        let type = $("#materialType").val();
+        if (files.length > 0) {
+            uploadFiles(files, type);
+        } else {
+            alert("请选择文件");
+        }
+
+    })
+
+    function uploadFiles(files, type) {
+        //这里files是因为我设置了可上传多张图片，所以需要依次添加到formData中
+        let formData = new FormData();
+        for (let file in files) {
+            formData.append("files", files[file]);
+        }
+        formData.append("type", type);
+        $.ajax({
+            data: formData,
+            type: "POST",
+            url: window.config.api + "/file/uploadMulti",
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                if (response.errorCode == 200) {
+                    console.info(response.data);
+                    window.location.reload();
+                }
+            }
+        })
+    }
+
+    /**
+     * 上传材料按钮
+     */
+    $(document).on('click', ".upload", function () {
+        $("#materialImages").empty();
+        let material = JSON.parse($(this).parent().parent().attr("data"));
+        $("#materialName").text(material.name);
+        $("#materialType").val(material.type);
+        $("#uploadModal").modal("show");
+    })
+
+    /**
+     * 删除材料按钮
+     */
+    $(document).on('click', ".delete-material", function () {
+        let material = JSON.parse($(this).parent().parent().attr("data"));
+        alert("删除" + material.name + "下的所有文件吗？")
+    })
+
+    /**
+     * 删除单个图片
+     */
+    $(document).on('click', ".close-image", function () {
+        let data = $(this).attr("data");
+        console.info(data);
+        alert("删除数据：" + data);
+    })
+
+    $(document).on('click', ".view-image", function () {
+        $("#materialImages").empty();
+        let material = JSON.parse($(this).parent().parent().attr("data"));
+        let param = {};
+        param.materialType = material.type;
+        getMaterialFiles(param);
+        $("#materialName").text(material.name);
+        $("#materialType").val(material.type);
+        $("#uploadModal").modal("show");
+    })
+
+    function getMaterialFiles(param) {
+        $.ajax({
+            url: window.config.api + '/file/getMaterialFiles',
+            method: "POST",
+            data: JSON.stringify(param),
+            success: function (response) {
+                if (response.errorCode == 200) {
+                    console.info(response.data);
+                    response.data.forEach(file => {
+                        let div = $("<div style='display:inline'></div>")
+                        let image = $("<img data-gallery='manual'>");
+                        image.attr("src", window.config.api + "/file/preview/" + file.md5);
+                        image.attr("width", "200px");
+                        image.css("margin", "15px");
+                        let closeData = {};
+                        closeData.materialType = param.materialType;
+                        closeData.fileId = file.id;
+                        let close = $("<i class='close-image fa fa-trash-alt' data='" + JSON.stringify(closeData) + "'></i>")
+                        div.append(image);
+                        div.append(close);
+                        $("#materialImages").append(div);
+                    })
+                }
+            }
+        })
+    }
+
+</script>
+
+</body>
+
+</html>
