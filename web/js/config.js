@@ -4,7 +4,7 @@ window.config = {
     token: 'ACCESS-TOKEN',
     userInfo: 'user-info',
     compulsorySearch: 'compulsorySearch',
-    timewait: 1500,
+    timeout: 1500,
     appName: '<div class="sidebar-brand-icon">' +
         '<i class="fas fa-graduation-cap"></i>' +
         '</div>' +
@@ -31,6 +31,7 @@ $($.ajaxSetup({
         // }
         if (xhr.statusText == 'timeout') {
             toastr.warning("请求超时");
+            removeLoading();
             return;
         }
         if (xhr.readyState == 4 && xhr.status == 200) {
@@ -43,8 +44,9 @@ $($.ajaxSetup({
                             toastr.warning(xhr.responseJSON.message);
                             setTimeout(function () {
                                 window.location = "./login.html";
-                            }, window.config.timewait);
+                            }, window.config.timeout);
                         } else {
+                            removeLoading();
                             toastr.warning(xhr.responseJSON.message);
                         }
                     }
@@ -66,7 +68,7 @@ $($.ajaxSetup({
                     toastr.warning(xhr.responseJSON.message);
                     setTimeout(function () {
                         window.location = "./login.html";
-                    }, window.config.timewait);
+                    }, window.config.timeout);
                 } else {
                     toastr.warning(xhr.responseJSON.message);
                 }
@@ -119,4 +121,27 @@ if (agent.indexOf('Trident') != -1) { // ie和360都有
         window.location = "./help.html"
     }
     // }
+}
+
+/**
+ * loading
+ * @param title
+ * @param des
+ */
+function loading(title, des) {
+    $('body').loading({
+        loadingWidth: 240,
+        title: title,
+        discription: des,
+        name: 'loading',
+        direction: 'column',
+        type: 'origin',
+        // originBg:'#71EA71',
+        originDivWidth: 40,
+        originDivHeight: 40,
+        originWidth: 6,
+        originHeight: 6,
+        smallLoading: false,
+        loadingMaskBg: 'rgba(0,0,0,0.2)'
+    });
 }

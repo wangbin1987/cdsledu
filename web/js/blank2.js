@@ -645,7 +645,7 @@ function formValidate(submit) {
                     toastr.success("提交成功，2秒后跳转列表页");
                     setTimeout(function () {
                         window.location = "./compulsory.html";
-                    }, window.config.timewait);
+                    }, window.config.timeout);
                 }
             }
         }
@@ -718,7 +718,7 @@ function submitApprove() {
                 toastr.success("审核成功，2秒后跳转审核列表");
                 setTimeout(function () {
                     window.location = "./compulsory.html";
-                }, window.config.timewait);
+                }, window.config.timeout);
             }
         }
     });

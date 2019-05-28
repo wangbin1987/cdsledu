@@ -162,36 +162,6 @@
 <script src="js/user-info-menu.js"></script>
 <script>
 
-    function loading() {
-        $('body').loading({
-            loadingWidth: 240,
-            title: '上传文件',
-            discription: '正在上传文件，请稍后...',
-            name: 'test',
-            direction: 'column',
-            type: 'origin',
-            // originBg:'#71EA71',
-            originDivWidth: 40,
-            originDivHeight: 40,
-            originWidth: 6,
-            originHeight: 6,
-            smallLoading: false,
-            loadingMaskBg: 'rgba(0,0,0,0.2)'
-        });
-    }
-
-    function indexOf(arr, item) {
-        if (Array.protopy.indexOf) {
-            return arr.indexOf(item);
-        } else {
-            for (var i = 0; i < arr.length; i++) {
-                if (arr[i] === item)
-                    return i;
-                else return -1;
-            }
-        }
-    }
-
     $(document).on('click', "[data-gallery=manual]", function (e) {
         e.preventDefault();
         let items = [];
@@ -271,12 +241,11 @@
         let files = $("#materialFile")[0].files;
         let type = $("#materialType").val();
         if (files.length > 0) {
-            loading();
+            loading("上传文件", "正在上传文件，请稍等...");
             uploadFiles(files, type);
         } else {
             toastr.warning("请选择文件");
         }
-
     })
 
     function uploadFiles(files, type) {
@@ -287,17 +256,27 @@
         }
         formData.append("type", type);
         $.ajax({
-            data: formData,
-            type: "POST",
             url: window.config.api + "/file/uploadMulti",
-            cache: false,
+            type: "POST",
+            data: formData,
             contentType: false,
             processData: false,
             success: function (response) {
                 if (response.errorCode == 200) {
-                    console.info(response.data);
-                    removeLoading('test');
-                    window.location.reload();
+                    // 表单清空
+                    let file = $("#materialFile");
+                    file.after(file.clone().val(""));
+                    file.remove();
+                    // 移除loading
+                    removeLoading();
+                    // window.location.reload();
+
+                    // 重新加载数据
+                    let param = {};
+                    param.materialType = type;
+                    getMaterialFiles(param);
+                    // 刷新列表
+                    getMaterial();
                 }
             }
         })
@@ -383,7 +362,7 @@
             data: JSON.stringify(param),
             success: function (response) {
                 if (response.errorCode == 200) {
-                    console.info(response.data);
+                    $("#materialImages").empty();
                     response.data.forEach(file => {
                         let div = $("<div style='display:inline-table;position:relative'></div>")
                         let image = $("<img data-gallery='manual'>");
@@ -412,7 +391,12 @@
                 if (response.errorCode == 200) {
                     swal("删除成功", "", "success")
                         .then((value) => {
-                            window.location.reload();
+                            if (isEmpty(param.fileId)) {
+                                window.location.reload();
+                            } else {
+                                getMaterialFiles(param);
+                                getMaterial();
+                            }
                         });
 
                 }

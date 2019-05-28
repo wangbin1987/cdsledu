@@ -530,7 +530,7 @@ $(function () {
                         id = response.data;
                         setTimeout(function () {
                             window.location = "./kindergarten.html";
-                        }, window.config.timewait);
+                        }, window.config.timeout);
                     } else {
                         if (!isEmpty(param.gbKindergarten)) {
                             alert("恭喜您报名成功！\n请于5月20到21日持幼儿户口簿原件及复印件到所选幼儿园进行现场资格确认。");
@@ -650,7 +650,7 @@ $(function () {
                     toastr.success("审核成功，2秒后跳转审核列表");
                     setTimeout(function () {
                         window.location = "./kindergarten.html";
-                    }, window.config.timewait);
+                    }, window.config.timeout);
                 }
             }
         });
