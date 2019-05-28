@@ -196,10 +196,16 @@
                     tbody.empty();
                     let allUpload = true;
                     response.data.forEach(function (material, index) {
+
+                        let must = "";
+                        if (material.isMust == 1) {
+                            must = "<span style='color: red;'> * </span>";
+                        }
+
                         let tr = $("<tr></tr>")
                         tr.attr("data", JSON.stringify(material));
                         let pos = $("<td>" + (index + 1) + "</td>")
-                        let name = $("<td>" + material.name + "</td>")
+                        let name = $("<td>" + must + material.name + "</td>")
                         let timeStr = "-----";
                         let view = "<a class='view-image down btn btn-default btn-xs' href='javascript:void(0)'>查看 <i class='fa fa-file-image'></i></a>";
                         let upload = "<a class='upload down btn btn-default btn-xs' href='javascript:void(0)'>上传 <i class='fa fa-upload'></i></a>";
@@ -209,7 +215,9 @@
                             timeStr = material.createTime;
                             op = $("<td>" + view + del + "</td>");
                         } else {
-                            allUpload = false;
+                            if (material.isMust == 1) {
+                                allUpload = false;
+                            }
                         }
                         let time = $("<td>" + timeStr + "</td>");
                         tr.append(pos);
