@@ -1,6 +1,6 @@
 // 全局设置，请求url统一前缀和显示名称
 window.config = {
-    api: 'http://118.112.189.117/api',
+    api: 'http://171.217.95.196',
     token: 'ACCESS-TOKEN',
     userInfo: 'user-info',
     compulsorySearch: 'compulsorySearch',
@@ -46,8 +46,8 @@ $($.ajaxSetup({
                                 window.location = "./login.html";
                             }, window.config.timeout);
                         } else {
-                            removeLoading();
                             toastr.warning(xhr.responseJSON.message);
+                            removeLoading();
                         }
                     }
                 }
