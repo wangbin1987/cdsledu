@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>民办学校年检材料</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin-2.css" rel="stylesheet">
+    <link href="vendor/toastr/toastr.css" rel="stylesheet">
+
+    <style>
+
+
+        .thumb-image {
+            border: 1px solid #BDBDBD;
+            width: 120px;
+            margin: 15px;
+            border-radius: 5px;
+            box-shadow: 2px 2px 2px rgba(0, 0, 0, .5);
+            -moz-box-shadow: 2px 2px 2px rgba(0, 0, 0, .5);
+            -webkit-box-shadow: 2px 2px 2px rgba(0, 0, 0, .5);
+        }
+
+        ul {
+            list-style-type: none;
+        }
+
+        .nav {
+            margin: 0 auto 20px;
+            text-align: center;
+            font-size: 0;
+        }
+
+        .nav li {
+            display: inline-block;
+            margin: 0.2rem;
+            padding: 0.4rem;
+            font-size: 0.85rem;
+            color: #333;
+            background-color: #ccc;
+            cursor: pointer;
+        }
+
+        .nav .active {
+            color: #fff;
+            background-color: #21b384;
+        }
+
+        #images {
+            width: 100%;
+            margin: 0 auto;
+            font-size: 0;
+        }
+
+        .filtr-item {
+            display: inline-block;
+            width: 230px;
+            padding: 10px;
+        }
+
+        .filtr-item img {
+            width: 100%;
+        }
+
+    </style>
+</head>
+
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <!-- 左侧菜单 -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <div class="sidebar-brand-icon">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <div class="sidebar-brand-text mx-3" id="productName">双流教育</div>
+        </a>
+        <!-- 一个占位符，不加占位符左侧菜单回缩小 -->
+        <li class="nav-item active" id='placeholder'>
+            <a class="nav-link" href="index.html">
+                <i class="fas fa-fw fa-home"></i>
+                <span>首页</span></a>
+        </li>
+        <!-- Sidebar Toggler (Sidebar) 点击收起 -->
+        <!-- <div class="text-center d-none d-md-inline">
+          <button class="rounded-circle border-0" id="sidebarToggle"></button>
+        </div> -->
+    </ul>
+
+    <!-- Content Wrapper -->
+    <!-- 左侧菜单结束 -->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Main Content -->
+        <div id="content">
+            <!-- 顶部信息 -->
+            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow" id="top"></nav>
+            <!-- 顶部信息 -->
+            <!-- 页面内容 -->
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+                <!-- Content Row -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <!-- Approach -->
+                        <div class="card shadow mb-4">
+                            <div class="card-body">
+                                <ul class="nav">
+
+                                </ul>
+                                <div id="images">
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- /.container-fluid -->
+            <!-- 页面内容 -->
+        </div>
+
+        <!-- 尾部信息 -->
+        <footer class="sticky-footer" id="footer">
+        </footer>
+        <!-- 尾部信息 -->
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+
+
+<!-- Bootstrap core JavaScript-->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="vendor/toastr/toastr.min.js"></script>
+<script src="vendor/filterizr/jquery.filterizr.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="js/sb-admin-2.min.js"></script>
+
+
+<script src="js/config.js"></script>
+<script src="js/common.js"></script>
+<script src="js/user-info-menu.js"></script>
+
+<script>
+
+    function getMaterial() {
+        let materialStr = localStorage.getItem('material');
+        if (isEmpty(materialStr)) {
+            $.ajax({
+                url: window.config.api + '/file/getMaterial',
+                method: "GET",
+                success: function (response) {
+                    if (response.errorCode == 200) {
+                        localStorage.setItem('material', JSON.stringify(response.data));
+                        return response.data;
+                    }
+                }
+            });
+        } else {
+            return JSON.parse(materialStr);
+        }
+    }
+
+    let materials = getMaterial();
+    if (isEmpty(materials)) {
+        materials = getMaterial();
+    }
+
+    $("ul.nav").append($("<li class='active' data-filter='all'>全部</li>"))
+    materials.forEach(material => {
+        let li = $("<li data-filter='" + material.type + "'>" + material.name + "</li>");
+        $("ul.nav").append(li);
+    })
+
+
+    let schoolCode = getUrlParam("schoolCode");
+    if (!isEmpty(schoolCode)) {
+        getSchoolMaterials(schoolCode);
+    }
+
+    function getSchoolMaterials(schoolCode) {
+        $.ajax({
+            url: window.config.api + '/file/getSchoolMaterials/' + schoolCode,
+            async: false,
+            success: function (response) {
+                console.info(response);
+                if (response.errorCode == 200) {
+                    if (response.data) {
+                        response.data.forEach(function (file, index) {
+                            let div = $("<div class='filtr-item' data-category='" + file.materialType + "'></div>")
+                            let image = $("<img class='thumb-image' src='" + window.config.api + "/file/preview/" + file.md5 + "'>");
+                            div.append(image);
+                            $('#images').append(div);
+                        });
+                        $('#images').filterizr();
+                    }
+                }
+            }
+        })
+    }
+
+    $('.nav li').on('click', function () {
+        $(this).toggleClass('active').siblings().removeClass('active');
+        let imageHeight = $("div.card-body").outerWidth(true);
+        console.info("height：" + imageHeight);
+        // $("#content-wrapper").height(imageHeight);
+    });
+</script>
+</body>
+
+</html>
