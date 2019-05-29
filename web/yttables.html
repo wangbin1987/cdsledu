@@ -57,6 +57,7 @@
         #uploadimg {
             width: 25mm;
             height: 35mm;
+            text-align: justify;
         }
     </style>
 </head>
@@ -90,7 +91,7 @@
                             <td>身份证号码</td>
                             <td><input class="form-control" type="text" name="xsId" id="xsId"/></td>
                             <td rowspan="3" colspan="2">
-                                <object id='uploadimg' data="img/ytschool/example.jpg"></object>
+                                <object id='uploadimg' type="file" data="img/ytschool/example.jpg" onchange="img()"></object>
                             </td>
 
                         </tr>
@@ -102,20 +103,40 @@
                                 <input type="radio" name="xsGender" value="female"> 女
                             </td>
                             <td>民族</td>
-                            <td><input class="form-control" name="telephone" id="minorities "/></td>
+                            <td><input class="form-control" name="nation" id="nation"/></td>
                         </tr>
                         <tr>
+                            <td>出生日期</td>
+                            <td><input type="date" name="birthDate" id="birthDate"/></td>
+                            <td>选择专业</td>
+                            <td>
+                                <select class="form-control form-control-sm" name="major " id="major ">
+                                    <option>--请选择--</option>
+                                    <option>舞蹈</option>
+                                    <option>器乐</option>
+                                    <option>声乐</option>
+                                    <option>播音主持</option>
+                                    <option>书法</option>
+                                    <option>美术</option>
+                                    <option>男子篮球</option>
+                                    <option>男子足球</option>
+                                    <option>田径</option>
+                                </select>
+                            </td>
+                        </tr>
+
+                        <tr>
                             <td>联系电话</td>
-                            <td><input class="form-control" name="telephone" id="xstelephone "/></td>
+                            <td><input class="form-control" name="xstelephone" id="xstelephone"/></td>
                             <td>原学校</td>
-                            <td><input class="form-control" name="telephone" id="oldschool "/></td>
+                            <td colspan="2"><input class="form-control" name="oldschool" id="oldschool"/></td>
                         </tr>
 
                         <tr>
                             <td>家长姓名</td>
                             <td><input class="form-control" name="guarder" id="guarder"/></td>
                             <td>手机</td>
-                            <td colspan="2"><input class="form-control" name="telephone" id="telephone"/></td>
+                            <td colspan="2"><input class="form-control" name="guarderTelephone" id="guarderTelephone"/></td>
                         </tr>
 
                         <tr>
@@ -167,7 +188,6 @@
 </div>
 
 
-</div>
 <!-- Bootstrap core JavaScript-->
 <script src="vendor/jquery/jquery.min.js"></script>
 <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -180,42 +200,7 @@
 <!-- Page level custom scripts -->
 <script src="vendor/toastr/toastr.min.js"></script>
 <script src="js/distpicker.js"></script>
-<script>
-    $(document).on("click", "#printBtn", function () {
-        $("#printDiv").hide();
-        window.print();
-        $("#printDiv").show();
-    })
-
-    function imgPreview(fileDom, e, ele) {
-        //获取文件
-        let file = fileDom.files[0];
-        let supportedTypes = ['image/jpg', 'image/jpeg', 'image/png'];
-        if (!(supportedTypes.indexOf(file.type) > -1)) {
-            alert('请选择.jpg、.png格式图片')
-            return;
-        }
-        let uploadFiles = e.target.files || e.dataTransfer.files;
-        console.log(file.type);
-        let size = uploadFiles.length;
-        for (let i = 0; i < size; i++) {
-            /*读取文件*/
-            let reader = new FileReader();
-            reader.readAsDataURL(uploadFiles[i]);
-            reader.onload = function (e) {
-                let imgBase = e.target.result;
-                ele.siblings('img').attr('src', imgBase).show()
-            }
-        }
-
-    }
-
-    $(document).on("click", "#uploadimg", function (e) {
-        imgPreview(this, e, $(this));
-    });
-
-
-</script>
+<script src="js/ytschool.js"></script>
 
 
 </body>
