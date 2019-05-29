@@ -1,6 +1,6 @@
 // 全局设置，请求url统一前缀和显示名称
 window.config = {
-    api: 'http://118.112.189.117/api',
+    api: 'http://171.217.95.196',
     token: 'ACCESS-TOKEN',
     userInfo: 'user-info',
     compulsorySearch: 'compulsorySearch',
@@ -15,7 +15,7 @@ window.config = {
 $($.ajaxSetup({
     contentType: 'application/json; charset=utf-8',
     dataType: "json",
-    timeout: 10000,
+    timeout: 30000,
     beforeSend: function (xhr, settings) {
         if (localStorage.getItem(window.config.token)) {
             xhr.setRequestHeader(window.config.token, localStorage.getItem(window.config.token));
@@ -31,6 +31,7 @@ $($.ajaxSetup({
         // }
         if (xhr.statusText == 'timeout') {
             toastr.warning("请求超时");
+            removeLoading();
             return;
         }
         if (xhr.readyState == 4 && xhr.status == 200) {
@@ -46,6 +47,7 @@ $($.ajaxSetup({
                             }, window.config.timeout);
                         } else {
                             toastr.warning(xhr.responseJSON.message);
+                            removeLoading();
                         }
                     }
                 }
@@ -119,4 +121,27 @@ if (agent.indexOf('Trident') != -1) { // ie和360都有
         window.location = "./help.html"
     }
     // }
+}
+
+/**
+ * loading
+ * @param title
+ * @param des
+ */
+function loading(title, des) {
+    $('body').loading({
+        loadingWidth: 240,
+        title: title,
+        discription: des,
+        name: 'loading',
+        direction: 'column',
+        type: 'origin',
+        // originBg:'#71EA71',
+        originDivWidth: 40,
+        originDivHeight: 40,
+        originWidth: 6,
+        originHeight: 6,
+        smallLoading: false,
+        loadingMaskBg: 'rgba(0,0,0,0.2)'
+    });
 }

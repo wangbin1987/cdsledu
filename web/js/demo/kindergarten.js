@@ -110,6 +110,8 @@ $(document).ready(function () {
                 "data": null,
                 "render": function (data, type, row) {
                     let id = row.id;
+                    // 0 正常数据，1公办补录，2公益补录
+                    let bmType = row.type;
                     let html = "";
                     row.operations.forEach(key => {
                         if (key == 'print') {
@@ -119,7 +121,7 @@ $(document).ready(function () {
                             html += "<a href='javascript:void(0);' onclick='view(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-file-alt'></i> 查看</a>";
                         }
                         if (key == 'edit') {
-                            html += "<a href='javascript:void(0);' onclick='edit(" + id + ")' class='view btn btn-default btn-xs'><i class='fa fa-edit'></i> 编辑</a>";
+                            html += "<a href='javascript:void(0);' onclick='edit(" + id + "," + bmType + ")' class='view btn btn-default btn-xs'><i class='fa fa-edit'></i> 编辑</a>";
                         }
                         if (key == 'delete') {
                             html += "<a href='javascript:void(0);' onclick='del(" + id + ")' class='down btn btn-default btn-xs'><i class='fa fa-trash-alt'></i> 删除</a>"
@@ -151,8 +153,13 @@ function view(id) {
     window.location = "./blank.html?id=" + id + "&type=view";
 }
 
-function edit(id) {
-    window.location = "./blank.html?id=" + id + "&type=edit";
+function edit(id, type) {
+    if (type == 1) {
+        window.location = "./gb-additional.html?id=" + id + "&type=edit";
+    } else {
+        window.location = "./blank.html?id=" + id + "&type=edit";
+    }
+
 }
 
 function approve(id) {
