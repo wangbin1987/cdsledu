@@ -91,7 +91,7 @@
                                         <label>材料类型：</label><label id="materialName">自查报告</label>
                                     </div>
                                     <div class="form-group">
-                                        <label>上传文件：</label>
+                                        <label>选择文件：</label>
                                         <input type="file" multiple="multiple" accept="image/*" id="materialFile">
                                     </div>
                                     <input type="hidden" id="materialType">
@@ -99,7 +99,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button class="btn btn-secondary" type="button" data-dismiss="modal">取消</button>
-                                <button class="btn btn-primary" id="updateBtn">上传</button>
+                                <button class="btn btn-primary" id="updateBtn">上传文件</button>
                             </div>
                         </div>
                     </div>
@@ -205,10 +205,10 @@
                         let tr = $("<tr></tr>")
                         tr.attr("data", JSON.stringify(material));
                         let pos = $("<td>" + (index + 1) + "</td>")
-                        let name = $("<td>" + must + material.name + "</td>")
+                        let name = $("<td>" + material.name + must + "</td>")
                         let timeStr = "-----";
                         let view = "<a class='view-image down btn btn-default btn-xs' href='javascript:void(0)'>查看 <i class='fa fa-file-image'></i></a>";
-                        let upload = "<a class='upload down btn btn-default btn-xs' href='javascript:void(0)'>上传 <i class='fa fa-upload'></i></a>";
+                        let upload = "<a class='upload down btn btn-default btn-xs' href='javascript:void(0)'>上传材料 <i class='fa fa-upload'></i></a>";
                         let del = "<a class='delete-material down btn btn-default btn-xs' href='javascript:void(0)'>删除 <i class='fa fa-trash-alt'></i></a>";
                         let op = $("<td>" + upload + "</td>");
                         if (!isEmpty(material.createTime)) {
