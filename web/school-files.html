@@ -13,10 +13,11 @@
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-
+    <link href="vendor/toastr/toastr.css" rel="stylesheet">
+    <link href="vendor/photoviewer/photoviewer.css" rel="stylesheet">
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.css" rel="stylesheet">
-    <link href="vendor/toastr/toastr.css" rel="stylesheet">
+
 
     <style>
 
@@ -155,10 +156,10 @@
 <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 <script src="vendor/toastr/toastr.min.js"></script>
 <script src="vendor/filterizr/jquery.filterizr.min.js"></script>
+<script src="vendor/photoviewer/photoviewer.js"></script>
 
 <!-- Custom scripts for all pages-->
 <script src="js/sb-admin-2.min.js"></script>
-
 
 <script src="js/config.js"></script>
 <script src="js/common.js"></script>
@@ -184,6 +185,8 @@
             return JSON.parse(materialStr);
         }
     }
+
+    getMaterial();
 
     let materials = getMaterial();
 
@@ -226,6 +229,28 @@
         console.info("height：" + imageHeight);
         // $("#content-wrapper").height(imageHeight);
     });
+
+    // todo 点击li的时候把items填充，点击图片执行下面的操作
+    $(document).on('click', "[data-gallery=manual]", function (e) {
+        e.preventDefault();
+        let items = [];
+        let srcs = [];
+        // looping to create images array
+        $('[data-gallery=manual]').each(function () {
+            let src = $(this).attr('href');
+            items.push({
+                src: src
+            });
+            srcs.push(src);
+        });
+
+        // get index of element clicked
+        let options = {
+            index: srcs.indexOf($(this).attr('href'))
+        }
+        // console.info(options);
+        new PhotoViewer(items, options);
+    })
 </script>
 </body>
 
