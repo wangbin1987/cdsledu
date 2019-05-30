@@ -664,4 +664,6 @@ $(function () {
 
     $("#submitApprove").css('width', '20%')
 
+    $("#submit").hide();
+
 });

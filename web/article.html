@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>首页显示内容编辑</title>
+    <title>文章编辑</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -65,6 +65,10 @@
                 <!-- DataTales Example -->
                 <div class="card shadow mb-4">
                     <div class="card-body">
+                        <div class="form-group">
+                            <label>文章标题：</label>
+                            <input style="width: 50%" class="form-control" type="text" id="title">
+                        </div>
                         <div id="summernote"></div>
                     </div>
                     <div class="card-body">
@@ -104,9 +108,9 @@
 <script>
     $('#summernote').summernote({
         lang: 'zh-CN',
-        placeholder: '请输入文章内容',
+        placeholder: '请输入文章内容，Shift+Enter换行后没有空行',
         tabsize: 4,
-        height: 200,
+        height: 400,
         toolbar: [
             ['operate', ['undo', 'redo']],
             ['magic', ['style']],
@@ -120,17 +124,20 @@
         ]
     });
 
-    let id;
+    let id = getUrlParam("id");
+    if (!isEmpty(id)) {
+        getIndexArticle(id);
+    }
 
-    getIndexArticle();
 
     function getIndexArticle() {
         $.ajax({
-            url: window.config.api + '/article/getIndex',
+            url: window.config.api + '/article/getArticle?id=' + id,
             method: "GET",
             success: function (response) {
                 if (response.errorCode == 200) {
                     id = response.data.id;
+                    $("#title").val(response.data.title);
                     $("#summernote").summernote('code', response.data.content);
                 }
             }
@@ -139,14 +146,21 @@
 
     $("#submitArticle").click(function () {
         let content = $("#summernote").summernote('code');
-        if (isEmpty(content)) {
+        let title = $("#title").val();
+        if (isEmpty(title)) {
+            toastr.warning("请输入文章标题");
+            $("#title").focus();
+            return;
+        }
+        if (isEmpty(content) || content == "<p><br></p>") {
             toastr.warning("请输入文章内容");
+            return;
         } else {
             let article = {};
             if (!isEmpty(id)) {
                 article.id = id;
             }
-            article.title = "首页显示内容";
+            article.title = title;
             article.content = content;
             $.ajax({
                 url: window.config.api + '/article/save',
@@ -154,7 +168,9 @@
                 data: JSON.stringify(article),
                 success: function (response) {
                     if (response.errorCode == 200) {
+                        id = response.data;
                         toastr.success("发布成功");
+                        window.location = "./articles.html";
                     }
                 }
             });
