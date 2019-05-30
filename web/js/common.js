@@ -149,7 +149,7 @@ function logout() {
  * 获取用户信息
  */
 function getUserInfo() {
-    let userJsonStr = localStorage.getItem("user-info");
+    let userJsonStr = localStorage.getItem(window.config.userInfo);
     if (isEmpty(userJsonStr)) {
         $.ajax({
             url: window.config.api + '/user/getUserInfo',
