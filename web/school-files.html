@@ -230,61 +230,65 @@
         })
     }
 
-    let srcs = [];
-    let hrefs = [];
-
-    let imgs = [];
-    imgs = $('div img');
-    $('.nav li').on('click', function () {
-        $(this).toggleClass('active').siblings().removeClass('active');
-        let materialType = $(this).attr('data-filter')
-        let current = $(this).html();
-        if (current == '全部') {
-            imgs = $('div img');
-        } else {
-            imgs = $('div[data-category="' + materialType + '"] img');
-        }
-        if (imgs && imgs.length > 0) {
-            srcs.length = 0;
-            hrefs.length = 0;
-            imgs.each(function (index) {
-                let src = $(imgs[index]).attr("src");
-                // console.info("src：" + src);
-                srcs.push(src);
-                let href = $(imgs[index]).attr("href");
-                // console.info("href：" + href);
-                hrefs.push(href);
-            })
-        }
-        // let imageHeight = $("div.card-body").outerWidth(true);
-        // console.info("height：" + imageHeight);
-        // $("#content-wrapper").height(imageHeight);
-    });
-
-    // todo 点击li的时候把items填充，点击图片执行下面的操作
-    $(document).on('click', "[data-gallery=manual]", function (e) {
-        e.preventDefault();
-        // console.info(hrefs);
-        let items = [];
-        if (hrefs.length > 0) {
-            for (i in hrefs) {
-                items.push({
-                    src: hrefs[i]
-                })
-            }
-        }
-        // get index of element clicked
-        let options = {
-            index: hrefs.indexOf($(this).attr('href'))
-        }
-        // console.info(options);
-        new PhotoViewer(items, options);
-    })
-
 
     $(window).on("load", function () {
         removeLoading();
+        let srcs = [];
+        let hrefs = [];
+        let imgs = [];
         imgs = $('div img');
+
+        extracteImages();
+
+        $('.nav li').on('click', function () {
+            $(this).toggleClass('active').siblings().removeClass('active');
+            let materialType = $(this).attr('data-filter')
+            let current = $(this).html();
+            if (current == '全部') {
+                imgs = $('div img');
+            } else {
+                imgs = $('div[data-category="' + materialType + '"] img');
+            }
+            extracteImages();
+            // let imageHeight = $("div.card-body").outerWidth(true);
+            // console.info("height：" + imageHeight);
+            // $("#content-wrapper").height(imageHeight);
+        });
+
+        // todo 点击li的时候把items填充，点击图片执行下面的操作
+        $(document).on('click', "[data-gallery=manual]", function (e) {
+            e.preventDefault();
+            // console.info(hrefs);
+            let items = [];
+            if (hrefs.length > 0) {
+                for (i in hrefs) {
+                    items.push({
+                        src: hrefs[i]
+                    })
+                }
+            }
+            // get index of element clicked
+            let options = {
+                index: hrefs.indexOf($(this).attr('href'))
+            }
+            // console.info(options);
+            new PhotoViewer(items, options);
+        })
+
+        function extracteImages() {
+            if (imgs && imgs.length > 0) {
+                srcs.length = 0;
+                hrefs.length = 0;
+                imgs.each(function (index) {
+                    let src = $(imgs[index]).attr("src");
+                    // console.info("src：" + src);
+                    srcs.push(src);
+                    let href = $(imgs[index]).attr("href");
+                    // console.info("href：" + href);
+                    hrefs.push(href);
+                })
+            }
+        }
     });
 
 
