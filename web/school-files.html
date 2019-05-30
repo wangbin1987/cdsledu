@@ -172,6 +172,7 @@
             $.ajax({
                 url: window.config.api + '/file/getMaterial',
                 method: "GET",
+                async: false,
                 success: function (response) {
                     if (response.errorCode == 200) {
                         localStorage.setItem('material', JSON.stringify(response.data));
@@ -185,9 +186,6 @@
     }
 
     let materials = getMaterial();
-    if (isEmpty(materials)) {
-        materials = getMaterial();
-    }
 
     $("ul.nav").append($("<li class='active' data-filter='all'>全部</li>"))
     materials.forEach(material => {
@@ -211,7 +209,7 @@
                     if (response.data) {
                         response.data.forEach(function (file, index) {
                             let div = $("<div class='filtr-item' data-category='" + file.materialType + "'></div>")
-                            let image = $("<img class='thumb-image' src='" + window.config.api + "/file/preview/" + file.md5 + "'>");
+                            let image = $("<img class='thumb-image' src='" + window.config.api + "/file/preview/" + file.thumbMd5 + "'>");
                             div.append(image);
                             $('#images').append(div);
                         });
