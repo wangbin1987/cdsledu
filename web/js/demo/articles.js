@@ -65,7 +65,7 @@ $(document).ready(function () {
 });
 
 function view(id) {
-    window.location = "./article-detail.html?id=" + id;
+    window.open("./article-detail.html?id=" + id, '_blank');
 }
 
 function edit(id) {

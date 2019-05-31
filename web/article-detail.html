@@ -17,101 +17,51 @@
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.css" rel="stylesheet">
     <style>
-        .form-control {
-            width: auto;
-            height: calc(1.5em + 0.5rem + 2px);
-            padding: 0.25rem 0.5rem;
-            font-size: 0.875rem;
-            line-height: 1.5;
-            border-radius: 0.2rem;
-            display: inline;
+        .article {
+            margin: 0 auto;
+            width: 80%;
         }
     </style>
 </head>
 
-<body id="page-top">
-<div id="wrapper">
-    <!-- 左侧菜单开始 -->
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-            <div class="sidebar-brand-icon">
-                <i class="fas fa-graduation-cap"></i>
-            </div>
-            <div class="sidebar-brand-text mx-3" id="productName">双流教育</div>
-        </a>
-        <!-- 一个占位符 -->
-        <li class="nav-item active" id='placeholder'>
-            <a class="nav-link" href="index.html">
-                <i class="fas fa-fw fa-home"></i>
-                <span>首页</span></a>
-        </li>
-    </ul>
+<body>
+<div class="article" id="wrapper">
 
-    <!-- Logout Modal-->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-    </div>
     <!-- 左侧菜单结束 -->
-    <div id="content-wrapper" class="d-flex flex-column">
-        <!-- Main Content -->
-        <div id="content">
-            <!-- 顶部信息 -->
-            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow" id="top"></nav>
-            <!-- 顶部信息 -->
-            <!-- 页面内容 -->
-            <div class="container-fluid">
-                <!-- DataTales Example -->
-                <div class="card shadow mb-4">
-                    <div class="card-body">
-                        <div style="text-align: center;margin: 1rem">
-                            <strong><span style="font-size: 20px" id="title"></span></strong>
-                        </div>
-                        <div id="summernote"></div>
-                    </div>
-                </div>
-            </div>
-            <!-- 页面内容 -->
+    <!-- Main Content -->
+    <!-- 页面内容 -->
+    <!-- DataTales Example -->
+    <div class="card-body">
+        <div style="text-align: center;margin: 1rem">
+            <h2 style="color: #3a3b45;" id="title"></h2>
+            <span id="time"></span>
         </div>
-
-        <!-- 尾部信息 -->
-        <footer class="sticky-footer bg-white" id="footer">
-        </footer>
-        <!-- 尾部信息 -->
+        <div id="summernote"></div>
     </div>
+    <!-- 页面内容 -->
+
 
 </div>
 <!-- Bootstrap core JavaScript-->
 <script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-<!-- Core plugin JavaScript-->
-<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-<!-- Custom scripts for all pages-->
-<script src="js/sb-admin-2.min.js"></script>
-
-<!-- Page level plugins -->
 <script src="vendor/toastr/toastr.min.js"></script>
-<!-- Page level custom scripts -->
 <script src="js/config.js"></script>
 <script src="js/common.js"></script>
-<script src="js/user-info-menu.js"></script>
 <script>
 
     let id = getUrlParam("id");
     if (!isEmpty(id)) {
-        getIndexArticle(id);
+        getArticle(id);
     }
 
-
-    function getIndexArticle() {
+    function getArticle() {
         $.ajax({
             url: window.config.api + '/article/getArticle?id=' + id,
-            method: "GET",
             success: function (response) {
                 if (response.errorCode == 200) {
-                    id = response.data.id;
+                    $(document).attr("title", response.data.title);
                     $("#title").html(response.data.title);
+                    $("#time").html(response.data.createTime);
                     $("#summernote").html(response.data.content);
                 }
             }
