@@ -33,6 +33,7 @@ $(document).ready(function () {
             url: window.config.api + '/article/getArticle',
             type: 'GET'
         },
+        "aaSorting": [[2, "desc"]],
         "columns": [
             {"data": "title"},
             {"data": "creatorName"},
@@ -42,7 +43,7 @@ $(document).ready(function () {
             [
                 {
                     "targets": 0,//操作按钮目标列
-                    "bSortable": false
+                    "ordering": false
                 },
                 {
                     // 定义操作列,######以下是重点########
@@ -57,10 +58,9 @@ $(document).ready(function () {
                         html += "<a href='javascript:void(0);' onclick='del(" + row.id + ")' class='down btn btn-default btn-xs'><i class='fa fa-trash-alt'></i> 删除</a>"
                         return html;
                     },
-                    "bSortable": false
+                    "ordering": false
                 }]
     })
-    ;
 
 });
 
