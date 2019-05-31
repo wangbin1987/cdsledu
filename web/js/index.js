@@ -29,7 +29,7 @@ $(function () {
     welcome += ("今天是" + year + "年" + mon + "月" + date + "日" + '，' + weeks[week] + "</p>");
 
     $.ajax({
-        url: window.config.api + '/article/getIndex',
+        url: window.config.api + '/article/getArticle?id=1',
         method: "GET",
         async: false,
         success: function (response) {

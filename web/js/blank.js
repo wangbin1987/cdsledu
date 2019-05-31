@@ -575,8 +575,9 @@ $(function () {
                         $(".gb-school").css('display', 'none');
                     }
                     // 都不在，显示一个吧，显示公办
+                    // todo 这里应该用时间判断，下一个是什么幼儿园就是显示什么幼儿园
                     if (!response.data.gbKindergarten && !response.data.gyKindergarten) {
-                        $(".gb-school").css('display', 'table-cell');
+                        $(".gy-school").css('display', 'table-cell');
                     }
                 } else {
                     // 公办幼儿园
@@ -662,5 +663,7 @@ $(function () {
     }
 
     $("#submitApprove").css('width', '20%')
+
+    $("#submit").hide();
 
 });

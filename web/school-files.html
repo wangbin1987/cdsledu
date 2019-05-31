@@ -13,18 +13,21 @@
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-
+    <link href="vendor/toastr/toastr.css" rel="stylesheet">
+    <link href="vendor/photoviewer/photoviewer.css" rel="stylesheet">
+    <link href="vendor/loading/css/animate.css" rel="stylesheet">
+    <link href="vendor/loading/css/loading.css" rel="stylesheet">
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.css" rel="stylesheet">
-    <link href="vendor/toastr/toastr.css" rel="stylesheet">
+
 
     <style>
 
 
         .thumb-image {
             border: 1px solid #BDBDBD;
-            width: 120px;
-            margin: 15px;
+            width: 100px;
+            margin: 10px;
             border-radius: 5px;
             box-shadow: 2px 2px 2px rgba(0, 0, 0, .5);
             -moz-box-shadow: 2px 2px 2px rgba(0, 0, 0, .5);
@@ -155,10 +158,11 @@
 <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 <script src="vendor/toastr/toastr.min.js"></script>
 <script src="vendor/filterizr/jquery.filterizr.min.js"></script>
+<script src="vendor/photoviewer/photoviewer.js"></script>
+<script src="vendor/loading/js/loading.js"></script>
 
 <!-- Custom scripts for all pages-->
 <script src="js/sb-admin-2.min.js"></script>
-
 
 <script src="js/config.js"></script>
 <script src="js/common.js"></script>
@@ -166,12 +170,18 @@
 
 <script>
 
+    $(function () {
+        loading("加载图片", "正在加载图片，请稍等...");
+    })
+
+
     function getMaterial() {
         let materialStr = localStorage.getItem('material');
         if (isEmpty(materialStr)) {
             $.ajax({
                 url: window.config.api + '/file/getMaterial',
                 method: "GET",
+                async: false,
                 success: function (response) {
                     if (response.errorCode == 200) {
                         localStorage.setItem('material', JSON.stringify(response.data));
@@ -184,12 +194,11 @@
         }
     }
 
-    let materials = getMaterial();
-    if (isEmpty(materials)) {
-        materials = getMaterial();
-    }
+    getMaterial();
 
-    $("ul.nav").append($("<li class='active' data-filter='all'>全部</li>"))
+    let materials = getMaterial();
+
+    $("ul.nav").append($("<li class='active' data-filter='all' id='all'>全部</li>"))
     materials.forEach(material => {
         let li = $("<li data-filter='" + material.type + "'>" + material.name + "</li>");
         $("ul.nav").append(li);
@@ -204,14 +213,13 @@
     function getSchoolMaterials(schoolCode) {
         $.ajax({
             url: window.config.api + '/file/getSchoolMaterials/' + schoolCode,
-            async: false,
             success: function (response) {
                 console.info(response);
                 if (response.errorCode == 200) {
                     if (response.data) {
                         response.data.forEach(function (file, index) {
                             let div = $("<div class='filtr-item' data-category='" + file.materialType + "'></div>")
-                            let image = $("<img class='thumb-image' src='" + window.config.api + "/file/preview/" + file.md5 + "'>");
+                            let image = $("<img data-gallery='manual' class='thumb-image' src='" + window.config.api + "/file/preview/" + file.thumbMd5 + "' href='" + window.config.api + "/file/preview/" + file.md5 + "'>");
                             div.append(image);
                             $('#images').append(div);
                         });
@@ -222,12 +230,68 @@
         })
     }
 
-    $('.nav li').on('click', function () {
-        $(this).toggleClass('active').siblings().removeClass('active');
-        let imageHeight = $("div.card-body").outerWidth(true);
-        console.info("height：" + imageHeight);
-        // $("#content-wrapper").height(imageHeight);
+
+    $(window).on("load", function () {
+        removeLoading();
+        let srcs = [];
+        let hrefs = [];
+        let imgs = [];
+        imgs = $('div img');
+
+        extracteImages();
+
+        $('.nav li').on('click', function () {
+            $(this).toggleClass('active').siblings().removeClass('active');
+            let materialType = $(this).attr('data-filter')
+            let current = $(this).html();
+            if (current == '全部') {
+                imgs = $('div img');
+            } else {
+                imgs = $('div[data-category="' + materialType + '"] img');
+            }
+            extracteImages();
+            // let imageHeight = $("div.card-body").outerWidth(true);
+            // console.info("height：" + imageHeight);
+            // $("#content-wrapper").height(imageHeight);
+        });
+
+        // todo 点击li的时候把items填充，点击图片执行下面的操作
+        $(document).on('click', "[data-gallery=manual]", function (e) {
+            e.preventDefault();
+            // console.info(hrefs);
+            let items = [];
+            if (hrefs.length > 0) {
+                for (i in hrefs) {
+                    items.push({
+                        src: hrefs[i]
+                    })
+                }
+            }
+            // get index of element clicked
+            let options = {
+                index: hrefs.indexOf($(this).attr('href'))
+            }
+            // console.info(options);
+            new PhotoViewer(items, options);
+        })
+
+        function extracteImages() {
+            if (imgs && imgs.length > 0) {
+                srcs.length = 0;
+                hrefs.length = 0;
+                imgs.each(function (index) {
+                    let src = $(imgs[index]).attr("src");
+                    // console.info("src：" + src);
+                    srcs.push(src);
+                    let href = $(imgs[index]).attr("href");
+                    // console.info("href：" + href);
+                    hrefs.push(href);
+                })
+            }
+        }
     });
+
+
 </script>
 </body>
 
