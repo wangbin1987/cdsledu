@@ -67,13 +67,16 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label>文章标题：</label>
-                            <input style="width: 50%" class="form-control" type="text" id="title">
+                            <input style="width: 40%" class="form-control" type="text" id="title">
                         </div>
-                        <div id="summernote"></div>
+                        <div class="form-group">
+                            <div id="summernote"></div>
+                        </div>
+                        <div class="form-group">
+                            <button id="submitArticle" class="btn btn-sm btn-outline-primary">发布文章</button>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <button id="submitArticle" class="btn btn-sm btn-outline-primary">发布文章</button>
-                    </div>
+
                 </div>
             </div>
             <!-- 页面内容 -->
@@ -120,7 +123,7 @@
             ['color', ['color']],
             ['para', ['ul', 'ol', 'paragraph', 'height']],
             ['insert', ['picture', 'video', 'link', 'table', 'hr']],
-            ['layout', ['fullscreen']],
+            ['view', ['fullscreen', 'codeview', 'help']],
         ]
     });
 
@@ -152,8 +155,9 @@
             $("#title").focus();
             return;
         }
-        if (isEmpty(content) || content == "<p><br></p>") {
+        if ($('#summernote').summernote('isEmpty')) {
             toastr.warning("请输入文章内容");
+            $('#summernote').summernote('focus');
             return;
         } else {
             let article = {};
@@ -170,7 +174,10 @@
                     if (response.errorCode == 200) {
                         id = response.data;
                         toastr.success("发布成功");
-                        window.location = "./articles.html";
+                        setTimeout(function () {
+                            window.location = "./articles.html";
+                        }, window.config.timeout);
+
                     }
                 }
             });
