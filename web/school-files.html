@@ -20,9 +20,12 @@
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.css" rel="stylesheet">
 
-
     <style>
 
+        .form-left {
+            width: auto;
+            display: inline;
+        }
 
         .thumb-image {
             border: 1px solid #BDBDBD;
@@ -124,6 +127,18 @@
                                 <ul class="nav">
 
                                 </ul>
+                                <div id="approveDiv" style="display: none">
+                                    <div class="form-inline">
+                                        审核结果：
+                                        <input type="radio" name="shjg" value="1" checked> 通过
+                                        <input type="radio" name="shjg" value="2" style="margin-left: 1rem;"> 不通过
+                                        <label class="label-right" style="margin-left: 3rem">审核意见：</label>
+                                        <input type="text" id="totalStudent" class="form-control form-left"
+                                               style="width: 40rem;margin-right: 0.75rem">
+                                        <button class="btn btn-primary btn-sm" type="button" id="approveBtn">提交审核
+                                        </button>
+                                    </div>
+                                </div>
                                 <div id="images">
 
                                 </div>
@@ -174,6 +189,19 @@
         loading("加载图片", "正在加载图片，请稍等...");
     })
 
+    let approve = [];
+    $.ajax({
+        url: window.config.api + '/file/getApproveMaterials',
+        method: "GET",
+        async: false,
+        success: function (response) {
+            if (response.errorCode == 200) {
+                response.data.forEach(function (file, index) {
+                    approve.push(file);
+                });
+            }
+        }
+    });
 
     function getMaterial() {
         let materialStr = localStorage.getItem('material');
@@ -243,6 +271,12 @@
         $('.nav li').on('click', function () {
             $(this).toggleClass('active').siblings().removeClass('active');
             let materialType = $(this).attr('data-filter')
+            console.info(approve.indexOf(materialType));
+            if (approve.indexOf(materialType) != -1) {
+                $("#approveDiv").show();
+            } else {
+                $("#approveDiv").hide();
+            }
             let current = $(this).html();
             if (current == '全部') {
                 imgs = $('div img');
@@ -258,7 +292,6 @@
         // todo 点击li的时候把items填充，点击图片执行下面的操作
         $(document).on('click', "[data-gallery=manual]", function (e) {
             e.preventDefault();
-            // console.info(hrefs);
             let items = [];
             if (hrefs.length > 0) {
                 for (i in hrefs) {
