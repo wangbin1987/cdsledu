@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>jQuery WeUI</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+
+    <link rel="stylesheet" href="../../vendor/weui/lib/weui.min.css">
+    <link rel="stylesheet" href="../../vendor/weui/css/jquery-weui.css">
+    <link rel="stylesheet" href="css/demos.css">
+
+</head>
+
+<body ontouchstart>
+
+<header class='demos-header' style="text-align: center">
+    <img style="border-radius: 50%" id="head-img" src="../../img/male.png" width="150rem">
+    <div id="nickname">微信用户</div>
+</header>
+
+<div class="weui-grids">
+    <a href="" class="weui-grid js_grid">
+        <div class="weui-grid__icon">
+            <img src="images/icon_nav_button.png" alt="">
+        </div>
+        <p class="weui-grid__label">
+            Button
+        </p>
+    </a>
+    <a href="" class="weui-grid js_grid">
+        <div class="weui-grid__icon">
+            <img src="images/icon_nav_cell.png" alt="">
+        </div>
+        <p class="weui-grid__label">
+            List
+        </p>
+    </a>
+    <a href="" class="weui-grid js_grid">
+        <div class="weui-grid__icon">
+            <img src="images/icon_nav_cell.png" alt="">
+        </div>
+        <p class="weui-grid__label">
+            Form
+        </p>
+    </a>
+    <a href="" class="weui-grid js_grid">
+        <div class="weui-grid__icon">
+            <img src="images/icon_nav_cell.png" alt="">
+        </div>
+        <p class="weui-grid__label">
+            Flex
+        </p>
+    </a>
+    <a href="" class="weui-grid js_grid">
+        <div class="weui-grid__icon">
+            <img src="images/icon_nav_toast.png" alt="">
+        </div>
+        <p class="weui-grid__label">
+            Toast
+        </p>
+    </a>
+    <a href="" class="weui-grid js_grid">
+        <div class="weui-grid__icon">
+            <img src="images/icon_nav_dialog.png" alt="">
+        </div>
+        <p class="weui-grid__label">
+            Dialog
+        </p>
+    </a>
+    <a href="" class="weui-grid js_grid">
+        <div class="weui-grid__icon">
+            <img src="images/icon_nav_progress.png" alt="">
+        </div>
+        <p class="weui-grid__label">
+            Progress
+        </p>
+    </a>
+    <a href="" class="weui-grid js_grid">
+        <div class="weui-grid__icon">
+            <img src="images/icon_nav_msg.png" alt="">
+        </div>
+        <p class="weui-grid__label">
+            Msg
+        </p>
+    </a>
+    <a href="" class="weui-grid js_grid">
+        <div class="weui-grid__icon">
+            <img src="images/icon_nav_article.png" alt="">
+        </div>
+        <p class="weui-grid__label">
+            Article
+        </p>
+    </a>
+</div>
+
+<script src="../../vendor/weui/lib/jquery-2.1.4.js"></script>
+<script src="../../vendor/weui/lib/fastclick.js"></script>
+<script src="../../vendor/toastr/toastr.min.js"></script>
+<script src="../../js/config.js"></script>
+<script src="../../js/common.js"></script>
+<script>
+    $(function () {
+        FastClick.attach(document.body);
+
+
+        let openid = getUrlParam('openid');
+
+        if (!isEmpty(openid)) {
+            getWechatUser(openid)
+        }
+
+        function getWechatUser(openid) {
+            $.ajax({
+                url: window.config.api + '/wechat/getWechatUserInfo/' + openid,
+                method: "GET",
+                success: function (response) {
+                    if (response.errorCode == 200) {
+                        $("#nickname").text(response.data.nickname);
+                        $("#head-img").attr("src", response.data.headimgurl);
+                    }
+                },
+                // 防止统一ajax设置进入登录页提示会话过期重新登录
+                complete: function (xhr) {
+
+                }
+            });
+        }
+
+    });
+</script>
+<script src="../../vendor/weui/js/jquery-weui.js"></script>
+
+</body>
+
+</html>
