@@ -53,6 +53,10 @@
             margin: 5px;
             font-size: 18px;
         }
+        .input-group{
+            line-height: 100px;
+            text-align: center;
+        }
 
 
     </style>
@@ -92,6 +96,12 @@
             <button id="enrollment-button" class="btn btn-primary btn-lg" data-toggle="modal" data-target=".bs-example-modal-lg">
                 报名入口
             </button>
+        </div>
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="输入身份证查询" aria-label="Recipient's username" aria-describedby="button-addon2">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2">查询</button>
+            </div>
         </div>
 
 
@@ -159,7 +169,7 @@
             indexContainer: ".img-index",//下标容器
             prev: ".carousel-prev",//左按钮
             next: ".carousel-next",//右按钮
-            timing: 3000,//自动播放间隔
+            timing: 2000,//自动播放间隔
             animateTime: 700,//动画时间
             autoPlay: true,//是否自动播放 true/false
             direction: "left",//滚动方向 right/left

@@ -13,9 +13,14 @@ a:visited{
 
 .top-img {
     position: relative;
-    left: 10px;
+    left: 20px;
 }
+.top-img-right {
+    position: absolute;
+    top: 5px;
+    right: 30px;
 
+}
 .top-link {
     position: absolute;
     top: 20px;
