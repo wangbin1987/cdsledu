@@ -4,7 +4,7 @@ function DragImgUpload(id, options) {
         boxWidth: '30mm',
         boxHeight: 'auto'
     }
-    this.preview = $('<div id="preview"><img src="../img/ytschool/example.jpg" class="img-responsive"  style="width: 100%;height: auto;" alt="" title=""> </div>');
+    this.preview = $('<div id="preview" style="text-align: center"><img src="./img/male.png" class="img-responsive"  style="width: 100%;height: auto;">选择照片</div>');
     this.opts = $.extend(true, defaultOpt, {}, options);
     this.init();
     this.callback = this.opts.callback;
