@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>中小学入学登记</title>
+    <title>艺体中学报名页</title>
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="vendor/toastr/toastr.css" rel="stylesheet">
@@ -54,159 +54,22 @@
             margin-left: 0.25rem
         }
 
-        #upload {
-            opacity: 0;
-            width: 25mm;
-            height: 35mm;
-            text-align: justify;
-        }
 
-        .upload-content {
-            width: 682px;
-            margin: 0 auto;
-            font-size: 12px;
-            color: #666;
-            padding: 20px;
-            background: #fff;
-        }
-
-        .upload-content .content-img {
-            width: 682px;
-        }
-
-        .upload-content .content-img-list {
-            display: inline;
-            width: 682px;
-        }
-
-        .upload-content .content-img .ico-plus {
-            display: inline-block;
-            vertical-align: middle;
-            margin-top: -4px;
-            margin-left: 2px;
-            width: 28px;
-            height: 28px;
-            background: url('https://caiyunupload.b0.upaiyun.com/newweb/imgs/icon-plus.png') center/28px 28px;
-        }
-
-        .upload-content .content-img-list-item {
-            position: relative;
-            display: inline-block;
-            width: 165px;
-            height: 96px;
-            margin-top: 20px;
-            margin-left: 7px;
-        }
-
-        .upload-content .content-img-list-item:first-child {
-            margin-left: 0;
-        }
-
-        .upload-content .content-img-list-item .hide {
-            display: none;
-        }
-
-        .upload-content .content-img-list-item .delete-btn {
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            text-align: center;
-            width: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            height: 28px;
-            line-height: 28px;
-            color: #fff;
-            cursor: pointer;
-        }
-
-        .upload-content .content-img-list-item .ico-delete {
-            display: inline-block;
-            vertical-align: middle;
-            width: 12px;
-            height: 13px;
-            background: url('https://caiyunupload.b0.upaiyun.com/newweb/imgs/icon-delete.png') center/12px 13px;
-        }
-
-        .upload-content .content-img-list-item img {
-            width: 165px;
-            height: 96px;
-        }
-
-        .upload-content .upload-tips {
-            padding-top: 10px;
-            text-align: right;
-            width: 100%;
-        }
-
-        /*图片上传按钮*/
-        .upload-content .file {
-            position: relative;
-            display: inline-block;
-            border: 1px dashed #DEDEDE;
-            border-radius: 4px;
-            color: #999999;
-            text-decoration: none;
-            text-indent: 0;
-            width: 165px;
-            height: 96px;
-            line-height: 96px;
-            margin-top: 20px;
-        }
-
-        .upload-content .file input {
-            position: absolute;
-            font-size: 0px;
-            right: 0;
-            top: 0;
-            opacity: 0;
-            cursor: pointer;
-            width: 165px;
-            height: 96px;
-        }
-
-        .upload-content .file:hover {
-            color: #999999;
-        }
-
-        .upload-submit {
-            text-align: center;
-            margin-top: 50px;
-        }
-
-        .upload-submit .btn-submit-upload {
-            display: inline-block;
-            width: 170px;
-            height: 40px;
-            text-align: center;
-            line-height: 38px;
-            font-size: 14px;
-            box-sizing: border-box;
-            background: #ff8819;
-            color: #fff;
-            border: 1px solid #ff8819;
-            border-radius: 2px;
-            text-decoration: none;
-        }
     </style>
 </head>
-
 <body id="page-top">
 <div id="wrapper">
     <!-- 左侧菜单开始 -->
-
     <!-- 左侧菜单结束 -->
     <div id="content-wrapper" class="d-flex flex-column">
-
         <!-- Main Content -->
         <div id="content">
             <!-- 顶部信息 -->
             <!-- Page Heading -->
             <div class="card shadow mb-4">
                 <!--<div class="card-header py-3">-->
-                <!--<h4 id="headTitle" class="m-0 font-weight-bold text-primary">中小学信息填写</h4>-->
                 <!--</div>-->
                 <div class="card-body">
-
                     <div class="col-sm-12">
                         <input type="text" readonly class="form-control-plaintext" value="报名信息填报页">
                     </div>
@@ -218,12 +81,10 @@
                             <td><input class="form-control" type="text" name="xsName" id="xsName"/></td>
                             <td>身份证号码</td>
                             <td><input class="form-control" type="text" name="xsId" id="xsId"/></td>
-                            <td rowspan="3" colspan="2" class="content-img file">
-                                上传图片，支持jpg/png<input type="file" name="file" class="content-img-list" accept="image/*" id="upload">
+                            <td rowspan="3" colspan="2">
+                                <div id="drop_area"></div>
                             </td>
-
                         </tr>
-
                         <tr>
                             <td>学生性别</td>
                             <td>
@@ -252,14 +113,12 @@
                                 </select>
                             </td>
                         </tr>
-
                         <tr>
                             <td>联系电话</td>
                             <td><input class="form-control" name="xstelephone" id="xstelephone"/></td>
                             <td>原学校</td>
                             <td colspan="2"><input class="form-control" name="oldschool" id="oldschool"/></td>
                         </tr>
-
                         <tr>
                             <td>家长姓名</td>
                             <td><input class="form-control" name="guarder" id="guarder"/></td>
@@ -267,7 +126,6 @@
                             <td colspan="2"><input class="form-control" name="guarderTelephone" id="guarderTelephone"/>
                             </td>
                         </tr>
-
                         <tr>
                             <td>户籍地址</td>
                             <td colspan="5">
@@ -329,7 +187,134 @@
 <!-- Page level custom scripts -->
 <script src="vendor/toastr/toastr.min.js"></script>
 <script src="js/distpicker.js"></script>
-<script src="js/ytschool.js"></script>
+<script src="js/upload.js"></script>
+<script type="text/javascript">
+    //打印页面
+    $(document).on("click", "#printBtn", function () {
+        $("#printDiv").hide();
+        window.print();
+        $("#printDiv").show();
+    });
+
+    var dragImgUpload = new DragImgUpload("#drop_area", {
+        callback: function (files) {
+            //回调函数，可以传递给后台等等
+            var file = files[0];
+            console.log(file.name);
+        }
+    });
+
+
+    // 验证函数
+    function formValidate(submit) {
+
+        let studentName = $.trim($("#xsName").val());
+        if (isEmpty(studentName)) {
+            toastr.warning("请输入学生姓名");
+            $("#xsName").focus();
+            return;
+        } else {
+            if (!isChinaName(studentName)) {
+                toastr.warning("学生姓名格式不正确");
+                $("#xsName").focus();
+                return;
+            }
+        }
+
+        let studentIdentityNumber = $.trim($("#xsId").val());
+        if (isEmpty(studentIdentityNumber)) {
+            toastr.warning("请输入学生身份证");
+            $("#xsId").focus();
+            return;
+        } else {
+            if (!isCardNo(studentIdentityNumber)) {
+                toastr.warning("学生身份证格式不正确");
+                $("#xsId").focus();
+                return;
+            }
+        }
+
+        let studentGender = $("input[type='radio'][name='xsGender']:checked").val();
+        if (studentGender == 'male') {
+            studentGender = '男'
+        } else {
+            studentGender = '女'
+        }
+
+        let nations = $.trim($("#nation").val());
+        if (isEmpty(nations)) {
+            toastr.warning("请输入民族");
+            $("#nation").focus();
+            return;
+        } else {
+            if (!isChinaName(nations)) {
+                toastr.warning("民族格式不正确");
+                $("#nation").focus();
+                return;
+            }
+        }
+
+        let guarderName = $.trim($("#guarder").val());
+        if (isEmpty(guarderName)) {
+            toastr.warning("请输入家长姓名");
+            $("#guarder").focus();
+            return;
+        } else {
+            if (!isChinaName(guarderName)) {
+                toastr.warning("家长姓名格式不正确");
+                $("#guarder").focus();
+                return;
+            }
+        }
+        let telephone = $.trim($("#guarderTelephone").val());
+        if (isEmpty(telephone)) {
+            toastr.warning("请输入家长联系电话");
+            $("#guarderTelephone").focus();
+            return;
+        } else {
+            if (!isTelephone(telephone)) {
+                toastr.warning("家长电话格式不正确");
+                $("#guarderTelephone").focus();
+                return;
+            }
+        }
+        // 地址
+        let address = $.trim($("#address").val());
+        if (isEmpty(address)) {
+            toastr.warning("请输入住址详细地址");
+            $("#address").focus();
+            return;
+        }
+
+        let grade = $("#major").val();
+        if (isEmpty(major)) {
+            toastr.warning("请选择申请专业");
+            $("#major").focus();
+            return;
+
+            // 学籍号
+            let studentSchoolRoll = $.trim($("#xjh").val());
+
+            $("#xsId").on('blur', function () {
+                let idNumber = $.trim($("#xsId").val());
+                if (isEmpty(idNumber)) {
+                    return;
+                }
+                if (!isCardNo(idNumber)) {
+                    toastr.warning("学生身份证格式不正确");
+                    $("#xsId").focus();
+                    return;
+                }
+                let gender = (parseInt(idNumber.substr(16, 1)) % 2 == 1);
+                if (gender) {
+                    $("input[name='xsGender'][value='male']").trigger('click');
+                } else {
+                    $("input[name='xsGender'][value='female']").trigger('click');
+                }
+            })
+        }
+    }
+</script>
 
 
 </body>
