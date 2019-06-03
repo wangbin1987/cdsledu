@@ -12,6 +12,7 @@
     <title>艺体中学报名页</title>
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="vendor/datepicker/css/foundation-datepicker.css" rel="stylesheet">
     <link href="vendor/toastr/toastr.css" rel="stylesheet">
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.css" rel="stylesheet">
@@ -95,7 +96,7 @@
                         </tr>
                         <tr>
                             <td>出生日期</td>
-                            <td><input type="date" name="birthDate" id="birthDate"/></td>
+                            <td><input name="birthDate" id="birthDate" type="text" class="datetime form-control" readonly/></td>
                             <td>选择专业</td>
                             <td>
                                 <select class="form-control form-control-sm" name="major " id="major ">
@@ -180,6 +181,8 @@
 
 <!-- Core plugin JavaScript-->
 <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="vendor/datepicker/js/foundation-datepicker.js"></script>
+<script src="vendor/datepicker/js/locales/foundation-datepicker.zh-CN.js"></script>
 <!-- Custom scripts for all pages-->
 <script src="js/sb-admin-2.min.js"></script>
 
@@ -188,6 +191,10 @@
 <script src="js/distpicker.js"></script>
 <script src="js/upload.js"></script>
 <script type="text/javascript">
+
+    $('.datetime').fdatepicker({
+        format: 'yyyy-mm-dd',
+    });
     //打印页面
     $(document).on("click", "#printBtn", function () {
         $("#printDiv").hide();
