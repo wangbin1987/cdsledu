@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>民办学校年检结果</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="vendor/toastr/toastr.css" rel="stylesheet">
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin-2.css" rel="stylesheet">
+    <link href="vendor/bootstrap-select/css/bootstrap-select.css" rel="stylesheet">
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <style>
+        .container {
+            margin: 10px auto;
+            font-family: 宋体;
+            font-size: 16px;
+        }
+
+        .top-text {
+            padding: 0.75rem 1.25rem;
+            margin-bottom: 0;
+            border-bottom: 1px solid #e3e6f0;
+            color: #000 !important;
+            font-size: 150%;
+            text-align: center;
+        }
+
+        table, table tr th, table tr td {
+            border: 1px solid #0094ff;
+        }
+
+        table {
+            table-layout: fixed;
+            word-break: break-all;
+            word-wrap: break-word;
+            width: 100%;
+            text-align: justify;
+            line-height: 30px;
+        }
+
+        .th-text {
+            text-align: center;
+        }
+
+        #comment {
+            width: 100%;
+            height: 300px;
+        }
+
+        .comment-sign {
+            width: 100%;
+            text-align: left;
+        }
+
+        .comment-date {
+            width: 100%;
+            text-align: right;
+            padding-right: 20px;
+            padding-bottom: 10px;
+        }
+
+        .td-up {
+            width: 100%;
+            text-align: justify;
+        }
+
+        .td-up input {
+            margin-left: 5px;
+        }
+
+        .td-down {
+            width: 100%;
+            text-align: justify;
+            margin-left: 5px;
+        }
+
+    </style>
+</head>
+
+<body id="page-top">
+<div id="wrapper">
+    <!-- 左侧菜单开始 -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <div class="sidebar-brand-icon">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <div class="sidebar-brand-text mx-3" id="productName">双流教育</div>
+        </a>
+        <!-- 一个占位符 -->
+        <li class="nav-item active" id='placeholder'>
+            <a class="nav-link" href="index.html">
+                <i class="fas fa-fw fa-home"></i>
+                <span>首页</span></a>
+        </li>
+    </ul>
+    <!-- 左侧菜单结束 -->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Main Content -->
+        <div id="content">
+            <!-- 顶部信息 -->
+            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow" id="top"></nav>
+            <!-- 顶部信息 -->
+            <!-- 页面内容 -->
+
+            <div class="container">
+                <!-- Page Heading -->
+                <div class="top-text">
+                    xxx学校2018年年检情况
+                </div>
+                <table>
+                    <tr>
+                        <th colspan="3" class="th-text">初审情况</th>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <div id="comment">
+                            </div>
+                            <div class="comment-sign"> 工作组成员（签字）</div>
+                            <div class="comment-date"> 年 月 日</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="th-text col-md-4">复核意见</td>
+                        <td class="th-text" colspan="2">整改后复核意见</td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4" id="check-comment">
+                            <div class="td-up">
+                                <input type="checkbox" name="colors">优秀
+                                <input type="checkbox" name="colors">合格
+                                <input type="checkbox" name="colors">基本合格
+                            </div>
+                            <div class="td-up">
+                                <input type="checkbox" name="colors">暂缓年检
+                                <input type="checkbox" name="colors">立即整改
+                                <input type="checkbox" name="colors">限期整改
+                            </div>
+                            <div class="td-down">
+                                <input type="checkbox" name="colors">不合格，予以警告
+                            </div>
+                            <div class="td-down">
+                                <input type="checkbox" name="colors">不合格，予以警告并立即/限期整改
+                            </div>
+                            <div class="td-down">
+                                <input type="checkbox" name="colors">不合格，取消办学资格
+                            </div>
+                            <div id="stamp1" class="comment-date">
+                                (盖章)
+                            </div>
+                            <div class="comment-date">
+                                年 月 日
+                            </div>
+                        </td>
+                        <td class="col-md-6" colspan="2">
+                            <div class="td-up">
+                                <input type="checkbox" name="colors">暂缓年检
+                                <input type="checkbox" name="colors">整改期满，验收合格
+                            </div>
+                            <div class="td-up">
+                                <input type="checkbox" name="colors">整改期满，验收基本合格
+                            </div>
+                            <div class="td-down">
+                                <input type="checkbox" name="colors">整改期满，验收不合格，不予警告。
+                                列入当年度成都市教育系统黑名单和成都市公共信用信息管理系统不诚信名单，并暂停招生，至年检合格后恢复招生。
+                            </div>
+                            <div class="td-down">
+                                <input type="checkbox" name="colors">整改期满，验收不合格。依法取消办学资格，
+                                列入当年度成都市教育系统黑名单和成都市公共信用信息管理系统不诚信名单。
+                            </div>
+
+                            <div id="stamp2" class="comment-date">
+                                (盖章)
+                            </div>
+                            <div class="comment-date">
+                                年 月 日
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="th-text">局务会意见</td>
+                        <td class="th-text">公示情况</td>
+                        <td class="th-text">年检结论</td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">20 年 月 日，局党组会成员、局长 在 会议室主持召开20 年第 次局长办公会，会议审议，议定：</td>
+                        <td class="col-md-4">20 年 月 日，局党组会成员、局长 在 会议室主持召开20 年第 次局长办公会，会议审议，议定：</td>
+                        <td class="col-md-4">
+                            <div class="td-up">
+                                <input type="checkbox" name="colors">优秀
+                                <input type="checkbox" name="colors">合格
+                                <input type="checkbox" name="colors">基本合格
+                                <input type="checkbox" name="colors">不合格
+                            </div>
+                            <div id="stamp3" class="comment-date">
+                                教育局(盖章)
+                            </div>
+                            <div class="comment-date">
+                                年 月 日
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+            <!-- 页面内容 -->
+        </div>
+    </div>
+
+</div>
+<!-- Bootstrap core JavaScript-->
+!-- Bootstrap core JavaScript-->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="vendor/bootstrap-select/js/bootstrap-select.js"></script>
+<script src="vendor/bootstrap-select/js/i18n/defaults-zh_CN.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="js/sb-admin-2.min.js"></script>
+
+<!-- Page level plugins -->
+<script src="vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+<script src="vendor/toastr/toastr.min.js"></script>
+<!-- Page level custom scripts -->
+<script src="js/config.js"></script>
+<script src="js/common.js"></script>
+<script src="js/user-info-menu.js"></script>
+
+
+</body>
+
+</html>
