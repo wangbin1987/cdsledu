@@ -6,11 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
-    <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
-">
+    <meta name="description" content="双流教育">
 
-    <link rel="stylesheet" href="../../vendor/weui/lib/weui.min.css">
-    <link rel="stylesheet" href="../../vendor/weui/css/jquery-weui.css">
+    <link rel="stylesheet" href="../vendor/weui/lib/weui.min.css">
+    <link rel="stylesheet" href="../vendor/weui/css/jquery-weui.css">
     <link rel="stylesheet" href="css/demos.css">
 
 </head>
@@ -18,17 +17,17 @@
 <body ontouchstart>
 
 <header class='demos-header' style="text-align: center">
-    <img style="border-radius: 50%;width: 5rem" id="head-img" src="../../img/male.png">
+    <img style="border-radius: 50%;width: 5rem" id="head-img" src="../img/male.png">
     <div id="nickname">微信用户</div>
 </header>
 
 <div class="weui-grids">
-    <a href="" class="weui-grid js_grid">
+    <a href="javascript:void(0)" id="kindergarten" class="weui-grid js_grid">
         <div class="weui-grid__icon">
-            <img src="images/icon_nav_button.png" alt="">
+            <img src="images/index/kindergarten.png" alt="">
         </div>
         <p class="weui-grid__label">
-            Button
+            幼儿园报名
         </p>
     </a>
     <a href="" class="weui-grid js_grid">
@@ -96,16 +95,19 @@
         </p>
     </a>
 </div>
-
-<script src="../../vendor/weui/lib/jquery-2.1.4.js"></script>
-<script src="../../vendor/weui/lib/fastclick.js"></script>
-<script src="../../vendor/toastr/toastr.min.js"></script>
-<script src="../../js/config.js"></script>
-<script src="../../js/common.js"></script>
+<script src="../vendor/weui/lib/jquery-2.1.4.js"></script>
+<script src="../vendor/weui/lib/fastclick.js"></script>
+<script src="../vendor/weui/js/jquery-weui.js"></script>
+<script src="../vendor/toastr/toastr.min.js"></script>
+<script src="../js/config.js"></script>
+<script src="../js/common.js"></script>
 <script>
     $(function () {
         FastClick.attach(document.body);
 
+        $("#kindergarten").click(function () {
+            window.location = "./cell.html";
+        })
 
         let openid = getUrlParam('openid');
 
@@ -132,7 +134,7 @@
 
     });
 </script>
-<script src="../../vendor/weui/js/jquery-weui.js"></script>
+
 
 </body>
 

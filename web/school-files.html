@@ -129,11 +129,12 @@
                                 </ul>
                                 <div id="approveDiv" style="display: none">
                                     <div class="form-inline">
+                                        <span id="isApproved" class="label label-default" style="margin-right: 1rem;">未审核</span>
                                         审核结果：
                                         <input type="radio" name="shjg" value="1" checked> 通过
                                         <input type="radio" name="shjg" value="2" style="margin-left: 1rem;"> 不通过
                                         <label class="label-right" style="margin-left: 3rem">审核意见：</label>
-                                        <input type="text" id="totalStudent" class="form-control form-left"
+                                        <input type="text" id="shyj" class="form-control form-left"
                                                style="width: 40rem;margin-right: 0.75rem">
                                         <button class="btn btn-primary btn-sm" type="button" id="approveBtn">提交审核
                                         </button>
@@ -191,7 +192,7 @@
 
     let approve = [];
     $.ajax({
-        url: window.config.api + '/file/getApproveMaterials',
+        url: window.config.api + '/material/getApproveMaterials',
         method: "GET",
         async: false,
         success: function (response) {
@@ -207,7 +208,7 @@
         let materialStr = localStorage.getItem('material');
         if (isEmpty(materialStr)) {
             $.ajax({
-                url: window.config.api + '/file/getMaterial',
+                url: window.config.api + '/material/getMaterial',
                 method: "GET",
                 async: false,
                 success: function (response) {
@@ -240,9 +241,8 @@
 
     function getSchoolMaterials(schoolCode) {
         $.ajax({
-            url: window.config.api + '/file/getSchoolMaterials/' + schoolCode,
+            url: window.config.api + '/material/getSchoolMaterials/' + schoolCode,
             success: function (response) {
-                console.info(response);
                 if (response.errorCode == 200) {
                     if (response.data) {
                         response.data.forEach(function (file, index) {
@@ -268,12 +268,53 @@
 
         extracteImages();
 
+        let materialType;
         $('.nav li').on('click', function () {
             $(this).toggleClass('active').siblings().removeClass('active');
-            let materialType = $(this).attr('data-filter')
-            console.info(approve.indexOf(materialType));
+            materialType = $(this).attr('data-filter')
+            if (isEmpty(schoolCode)) {
+                return;
+            }
+            // 审核表单清空
+            $("[name='shjg'][value='1']").prop("checked", "checked");
+            $("#shyj").val("");
             if (approve.indexOf(materialType) != -1) {
                 $("#approveDiv").show();
+                // 查询历史审核结果
+                $.ajax({
+                    url: window.config.api + '/material/getSubmitApprove',
+                    method: "POST",
+                    data: JSON.stringify({
+                        "schoolCode": schoolCode,
+                        "materialType": materialType
+                    }),
+                    success: function (response) {
+                        if (response.errorCode == 200) {
+                            $("#isApproved").removeClass('label-default');
+                            $("#isApproved").removeClass('label-success');
+                            $("#isApproved").removeClass('label-danger');
+                            $("#isApproved").removeClass('label-info');
+                            if (response.data) {
+                                $("#shyj").val(response.data.comment);
+                                if (response.data.status == 1) {
+                                    $("[name='shjg'][value='1']").prop("checked", "checked");
+                                    $("#isApproved").text("已审核通过");
+                                    $("#isApproved").addClass('label-success');
+                                    $("#isApproved").attr('title', "已审核通过");
+                                } else {
+                                    $("[name='shjg'][value='2']").prop("checked", "checked");
+                                    $("#isApproved").text("已审核不通过");
+                                    $("#isApproved").addClass('label-danger');
+                                    $("#isApproved").attr('title', "已审核不通过");
+                                }
+                            } else {
+                                $("#isApproved").addClass('label-default');
+                                $("#isApproved").text("未审核");
+                                $("#isApproved").attr('title', "未审核");
+                            }
+                        }
+                    }
+                })
             } else {
                 $("#approveDiv").hide();
             }
@@ -283,6 +324,7 @@
             } else {
                 imgs = $('div[data-category="' + materialType + '"] img');
             }
+
             extracteImages();
             // let imageHeight = $("div.card-body").outerWidth(true);
             // console.info("height：" + imageHeight);
@@ -322,6 +364,61 @@
                 })
             }
         }
+
+        // 审核按钮
+        $("#approveBtn").click(function () {
+            if (isEmpty(schoolCode) || isEmpty(materialType)) {
+                return;
+            }
+            // 审核结果 1通过 2不通过
+            let approveResult = $("input[type='radio'][name='shjg']:checked").val();
+            let approveComment = $.trim($("#shyj").val());
+            console.info(approveComment);
+            // 不通过
+            if (approveResult == '2') {
+                if (isEmpty(approveComment)) {
+                    toastr.warning("请输入审核意见");
+                    $("#shyj").focus();
+                    return;
+                }
+            }
+            console.info(schoolCode);
+            console.info(materialType);
+            console.info(approveResult);
+            console.info(approveComment);
+            $.ajax({
+                url: window.config.api + '/material/submitApprove',
+                method: "POST",
+                data: JSON.stringify({
+                    "schoolCode": schoolCode,
+                    "materialType": materialType,
+                    "status": approveResult,
+                    "comment": approveComment
+                }),
+                success: function (response) {
+                    if (response.errorCode == 200) {
+                        toastr.clear();
+                        toastr.success("审核成功");
+                        $("#isApproved").removeClass('label-default');
+                        $("#isApproved").removeClass('label-success');
+                        $("#isApproved").removeClass('label-danger');
+                        $("#isApproved").removeClass('label-info');
+                        if (approveResult == 1) {
+                            $("#isApproved").text("已审核通过");
+                            $("#isApproved").addClass('label-success');
+                            $("#isApproved").attr('title', "已审核通过");
+                        } else {
+                            $("#isApproved").text("已审核不通过");
+                            $("#isApproved").addClass('label-danger');
+                            $("#isApproved").attr('title', "已审核不通过");
+                        }
+                        // setTimeout(function () {
+                        //     window.location = "./kindergarten.html";
+                        // }, window.config.timeout);
+                    }
+                }
+            });
+        })
     });
 
 

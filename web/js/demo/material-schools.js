@@ -30,7 +30,7 @@ $(document).ready(function () {
         },
         "serverSide": false,
         ajax: {
-            url: window.config.api + '/file/getApproveSchool',
+            url: window.config.api + '/material/getApproveSchool',
             type: 'GET'
         },
         "aaSorting": [[3, "asc"]],

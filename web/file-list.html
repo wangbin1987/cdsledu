@@ -188,7 +188,7 @@
 
     function getMaterial() {
         $.ajax({
-            url: window.config.api + '/file/getMaterial',
+            url: window.config.api + '/material/getMaterial',
             method: "GET",
             success: function (response) {
                 if (response.errorCode == 200) {
@@ -236,7 +236,7 @@
 
     $("#submitApprove").click(function () {
         $.ajax({
-            url: window.config.api + '/file/submitCheck',
+            url: window.config.api + '/material/submitCheck',
             method: "POST",
             success: function (response) {
                 if (response.errorCode == 200) {
@@ -366,7 +366,7 @@
 
     function getMaterialFiles(param) {
         $.ajax({
-            url: window.config.api + '/file/getMaterialFiles',
+            url: window.config.api + '/material/getMaterialFiles',
             method: "POST",
             data: JSON.stringify(param),
             success: function (response) {
@@ -393,7 +393,7 @@
 
     function deleteMaterial(param) {
         $.ajax({
-            url: window.config.api + '/file/deleteMaterial',
+            url: window.config.api + '/material/deleteMaterial',
             method: "POST",
             data: JSON.stringify(param),
             success: function (response) {
