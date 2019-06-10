@@ -17,6 +17,23 @@
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.css" rel="stylesheet">
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <style>
+        .class-center {
+            text-align: center;
+        }
+
+        .form-left {
+            width: auto;
+            display: inline;
+            margin-right: 1rem;
+        }
+
+        .form-right {
+            float: right;
+            width: 11rem;
+            padding: 0;
+        }
+    </style>
 </head>
 
 <body id="page-top">
@@ -58,6 +75,18 @@
                         <h4 class="m-0 font-weight-bold text-primary">民办学校年检列表</h4>
                     </div>
                     <div class="card-body">
+                        <div style="margin: 0 0 1rem 0">
+                            <label class="control-label">审核状态：</label>
+                            <select id="approveStatus" class="form-control form-control-sm form-left">
+                                <option value="0">全部</option>
+                                <option value="1">待审核</option>
+                                <option value="2">审核通过</option>
+                                <option value="3">审核不通过</option>
+                            </select>
+                            <button style="display: none;" class="btn btn-primary form-control-sm form-right" type="button" id="export">
+                                <i class="fas fa-download"></i> 导出数据
+                            </button>
+                        </div>
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
