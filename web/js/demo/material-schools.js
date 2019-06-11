@@ -50,25 +50,46 @@ $(document).ready(function () {
                 return JSON.stringify(returnData);// 这几个参数都是datatable需要的，必须要
             }
         },
-        "aaSorting": [[3, "asc"]],
+        "aaSorting": [[2, "asc"]],
         "columns": [
             {"data": "schoolName"},
             {"data": "schoolCode"},
             {"data": "submitTime"},
+            {"data": "showStatus"}
         ], "columnDefs": [
             {
                 "targets": 0,//操作按钮目标列
                 "bSortable": false
             },
             {
-                // 定义操作列,######以下是重点########
                 "targets": 3,//操作按钮目标列
+                "bSortable": false
+            },
+            {
+                // 定义操作列,######以下是重点########
+                "targets": 4,//操作按钮目标列
                 "className": 'class-center',
                 "data": null,
                 "render": function (data, type, row) {
-                    let id = row.id;
+                   let id = row.id;
                     let html = "";
-                    html += "<a href='javascript:void(0);' onclick='approve(" + row.schoolCode + ")' class='down btn btn-default btn-xs'><i class='fa fa-file-alt'></i> 查看</a>"
+                    row.operations.forEach(key => {
+                        if (key == 'print') {
+                            html += "<a href='javascript:void(0);' onclick='printIt(" + row.schoolCode + ")' class='view btn btn-default btn-xs'><i class='fa fa-print'></i> 打印</a>";
+                        }
+                        if (key == 'view') {
+                            html += "<a href='javascript:void(0);' onclick='approve(" + row.schoolCode + ")' class='view btn btn-default btn-xs'><i class='fa fa-file-alt'></i> 查看</a>";
+                        }
+                        if (key == 'edit') {
+                            html += "<a href='javascript:void(0);' onclick='edit(" + row.schoolCode + ")' class='view btn btn-default btn-xs'><i class='fa fa-edit'></i> 编辑</a>";
+                        }
+                        if (key == 'delete') {
+                            html += "<a href='javascript:void(0);' onclick='del(" + row.schoolCode + ")' class='down btn btn-default btn-xs'><i class='fa fa-trash-alt'></i> 删除</a>"
+                        }
+                        if (key == 'approve') {
+                            html += "<a href='javascript:void(0);' onclick='approve(" + row.schoolCode + ")' class='down btn btn-default btn-xs'><i class='fa fa-sitemap'></i> 审核</a>"
+                        }
+                    })
                     return html;
                 },
                 "bSortable": false
