@@ -65,7 +65,6 @@
         #images {
             width: 100%;
             margin: 0 auto;
-            font-size: 0;
         }
 
         .filtr-item {
@@ -135,7 +134,7 @@
                                         <input type="radio" name="shjg" value="2" style="margin-left: 1rem;"> 不通过
                                         <label class="label-right" style="margin-left: 3rem">审核意见：</label>
                                         <input type="text" id="shyj" class="form-control form-left"
-                                               style="width: 40rem;margin-right: 0.75rem">
+                                               style="width: 30rem;margin-right: 0.75rem">
                                         <button class="btn btn-primary btn-sm" type="button" id="approveBtn">提交审核
                                         </button>
                                     </div>
@@ -187,9 +186,10 @@
 <script>
 
     $(function () {
-        loading("加载图片", "正在加载图片，请稍等...");
+        // loading("加载图片", "正在加载图片，请稍等...");
     })
 
+    // 当前用户要审核的材料类型
     let approve = [];
     $.ajax({
         url: window.config.api + '/material/getApproveMaterials',
@@ -236,14 +236,65 @@
 
     let schoolCode = getUrlParam("schoolCode");
     if (!isEmpty(schoolCode)) {
-        getSchoolMaterials(schoolCode);
+        getSchoolMaterialSummary(schoolCode);
     }
 
-    function getSchoolMaterials(schoolCode) {
+    // 年审汇总
+    function getSchoolMaterialSummary(schoolCode) {
         $.ajax({
-            url: window.config.api + '/material/getSchoolMaterials/' + schoolCode,
+            url: window.config.api + '/material/getMaterialSummary/' + schoolCode,
             success: function (response) {
                 if (response.errorCode == 200) {
+                    $("#images").empty();
+                    if (response.data) {
+                        let div = $("<div></div>");
+                        let table = $("<tbale class='table table-hover'></tbale>");
+                        let thead = $("<thead></thead>");
+                        let tr = $("<tr></tr>");
+                        let th1 = $("<th>材料类型（带<span style='color: red;'> * </span>为必传项）</th>");
+                        let th2 = $("<th>审核科室</th>");
+                        let th3 = $("<th>上传状态</th>");
+                        let th4 = $("<th>审核状态</th>");
+                        tr.append(th1).append(th2).append(th3).append(th4);
+                        thead.append(tr);
+                        table.append(thead);
+                        let tbody = $("<tbody></tbody>");
+
+                        response.data.forEach(function (file, index) {
+                            console.info(file.name);
+                            let name = file.name;
+                            if (file.isMust == 1) {
+                                name = file.name + "<span style='color: red;'> * </span>";
+                            }
+                            let tr = $("<tr></tr>");
+                            let td1 = $("<td style='width:40%'>" + name + "</td>");
+                            let td2 = $("<td>" + file.approve + "</td>");
+                            let td3 = $("<td>" + file.uploadStatus + "</td>");
+                            let td4 = $("<td>" + file.approveStatus + "</td>");
+                            tr.append(td1).append(td2).append(td3).append(td4);
+                            tbody.append(tr);
+                            table.append(tbody);
+                            div.append(table);
+                            $('#images').append(div);
+                        });
+                        // $('#images').filterizr();
+                    }
+                }
+            }
+        })
+
+    }
+
+    // 各个材料下的图片
+    function getSchoolMaterials(param) {
+        $.ajax({
+            url: window.config.api + '/material/getSchoolMaterialFiles',
+            method: "POST",
+            data: JSON.stringify(param),
+            success: function (response) {
+                if (response.errorCode == 200) {
+                    removeLoading();
+                    $("#images").empty();
                     if (response.data) {
                         response.data.forEach(function (file, index) {
                             let div = $("<div class='filtr-item' data-category='" + file.materialType + "'></div>")
@@ -251,21 +302,20 @@
                             div.append(image);
                             $('#images').append(div);
                         });
-                        $('#images').filterizr();
+                        // $('#images').filterizr();
                     }
                 }
             }
         })
     }
-    
+
     // 每个材料是否上传以及审核状态
     // 自查报告 已上传 待审核
     // ...
-    
 
 
     $(window).on("load", function () {
-        removeLoading();
+        // removeLoading();
         let srcs = [];
         let hrefs = [];
         let imgs = [];
@@ -279,6 +329,16 @@
             materialType = $(this).attr('data-filter')
             if (isEmpty(schoolCode)) {
                 return;
+            }
+            if (!isEmpty(materialType) && 'all' != materialType) {
+                let param = {};
+                param.materialType = materialType;
+                param.schoolCode = schoolCode;
+                loading("加载图片", "正在加载图片，请稍等...");
+                getSchoolMaterials(param);
+            } else {
+                // 全部显示摘要信息
+                getSchoolMaterialSummary(schoolCode);
             }
             // 审核表单清空
             $("[name='shjg'][value='1']").prop("checked", "checked");
@@ -336,20 +396,22 @@
             // $("#content-wrapper").height(imageHeight);
         });
 
-        // todo 点击li的时候把items填充，点击图片执行下面的操作
         $(document).on('click', "[data-gallery=manual]", function (e) {
             e.preventDefault();
             let items = [];
-            if (hrefs.length > 0) {
-                for (i in hrefs) {
-                    items.push({
-                        src: hrefs[i]
-                    })
-                }
-            }
+            let srcs = [];
+            // looping to create images array
+            $('[data-gallery=manual]').each(function () {
+                let src = $(this).attr('href');
+                items.push({
+                    src: src
+                });
+                srcs.push(src);
+            });
+
             // get index of element clicked
             let options = {
-                index: hrefs.indexOf($(this).attr('href'))
+                index: srcs.indexOf($(this).attr('href'))
             }
             // console.info(options);
             new PhotoViewer(items, options);
