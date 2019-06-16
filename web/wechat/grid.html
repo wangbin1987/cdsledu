@@ -22,28 +22,28 @@
 </header>
 
 <div class="weui-grids">
+    <a href="javascript:void(0)" id="user-info" class="weui-grid js_grid">
+        <div class="weui-grid__icon">
+            <img src="images/index/idcard.png" alt="">
+        </div>
+        <p class="weui-grid__label">
+            个人信息
+        </p>
+    </a>
     <a href="javascript:void(0)" id="kindergarten" class="weui-grid js_grid">
         <div class="weui-grid__icon">
-            <img src="images/index/kindergarten.png" alt="">
+            <img src="images/index/kindergarten-sign.png" alt="">
         </div>
         <p class="weui-grid__label">
             幼儿园报名
         </p>
     </a>
-    <a href="" class="weui-grid js_grid">
+    <a href="javascript:void(0)" id="meeting" class="weui-grid js_grid">
         <div class="weui-grid__icon">
-            <img src="images/icon_nav_cell.png" alt="">
+            <img src="images/index/meeting.png" alt="">
         </div>
         <p class="weui-grid__label">
-            List
-        </p>
-    </a>
-    <a href="" class="weui-grid js_grid">
-        <div class="weui-grid__icon">
-            <img src="images/icon_nav_cell.png" alt="">
-        </div>
-        <p class="weui-grid__label">
-            Form
+            会议
         </p>
     </a>
     <a href="" class="weui-grid js_grid">
@@ -105,8 +105,16 @@
     $(function () {
         FastClick.attach(document.body);
 
+        $("#user-info").click(function () {
+            window.location = "./form.html";
+        })
+
         $("#kindergarten").click(function () {
             window.location = "./cell.html";
+        })
+
+        $("#meeting").click(function () {
+            $.toast("正在开发");
         })
 
         let openid = getUrlParam('openid');
