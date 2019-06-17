@@ -91,7 +91,7 @@
     </div>
 </div>
 
-<div class="weui-btn-area" style="margin: 1rem;">
+<div class="weui-btn-area" style="margin: 1rem 0.5rem">
     <a class="weui-btn weui-btn_primary" href="javascript:void(0)" id="btn-bind">绑定</a>
 
 </div>
@@ -107,8 +107,8 @@
         $(".unbind").hide();
         // $.toast.prototype.defaults.duration = 1500;
         let userInfo = getWechatUserInfo();
-        if (!isEmpty(userInfo)) {
-            getWechatUserInfo();
+        if (isEmpty(userInfo)) {
+            userInfo = getWechatUserInfo();
         }
         let openid = userInfo.openid;
         $("#nickname").text(userInfo.nickname);
@@ -192,6 +192,7 @@
                         if (response.errorCode == 200) {
                             $.toast("解绑成功");
                             localStorage.removeItem(window.config.wechatInfo);
+                            getWechatUserInfo();
                             setTimeout(function () {
                                 window.location.reload();
                             }, 2000)
@@ -200,7 +201,6 @@
                 });
                 return;
             }
-
 
             let telephone = $("#telephone").val().trim();
             let code = $("#code").val().trim();
@@ -251,6 +251,7 @@
                     if (response.errorCode == 200) {
                         $.toast("绑定成功");
                         localStorage.removeItem(window.config.wechatInfo);
+                        getWechatUserInfo();
                         setTimeout(function () {
                             window.location.reload();
                         }, 2000)
