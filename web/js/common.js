@@ -177,7 +177,6 @@ function getWechatUserInfo() {
         let openid = localStorage.getItem(window.config.openid);
         $.ajax({
             url: window.config.api + '/wechat/getWechatUserInfo/' + openid,
-            async: false,
             success: function (response) {
                 console.info(response);
                 if (response.errorCode == 200) {

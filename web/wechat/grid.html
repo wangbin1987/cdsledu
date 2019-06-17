@@ -112,6 +112,7 @@
             return;
         } else {
             localStorage.setItem(window.config.openid, openid);
+            localStorage.removeItem(window.config.wechatInfo);
             let userInfo = getWechatUserInfo();
             if (isEmpty(userInfo)) {
                 userInfo = getWechatUserInfo();
