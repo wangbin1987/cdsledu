@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>双流教育</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="双流教育">
+
+    <link rel="stylesheet" href="../vendor/weui/lib/weui.min.css">
+    <link rel="stylesheet" href="../vendor/weui/css/jquery-weui.css">
+    <link rel="stylesheet" href="css/demos.css">
+
+</head>
+
+<body ontouchstart>
+
+
+<header class='demos-header'>
+    <h1 class="demos-title">幼儿园报名</h1>
+</header>
+
+<div class="bd">
+    <div class="page__bd">
+
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label for="hjgs" class="weui-label">户籍归属</label></div>
+            <input class="weui-input" type="text" placeholder="请选择" id="hjgs">
+        </div>
+
+
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label for="" class="weui-label">幼儿姓名</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="text" placeholder="请输入姓名" id="xsName">
+            </div>
+        </div>
+
+
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label for="" class="weui-label">幼儿身份证</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="number" pattern="[0-9]*" value="weui input error"
+                       placeholder="请输入幼儿身份证号">
+            </div>
+        </div>
+
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label for="xsGender" class="weui-label">幼儿性别</label></div>
+            <input class="weui-input" type="text" placeholder="请选择性别" id="xsGender">
+        </div>
+
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label for="guarder" class="weui-label">监护人姓名</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="text" placeholder="请输入姓名" id="guarder">
+            </div>
+        </div>
+
+
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label for="guarderId" class="weui-label">监护人身份证</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="number" pattern="[0-9]*" value="weui input error"
+                       placeholder="请输入监护人身份证号" id="guarderId">
+            </div>
+        </div>
+
+        <div class="weui-cell weui-cell_vcode">
+            <div class="weui-cell__hd">
+                <label class="weui-label">联系电话</label>
+            </div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="tel" placeholder="请输入手机号" id="telephone">
+            </div>
+         </div>
+
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label for="addressTitle" class="weui-label">户籍地址</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="text" id='addressTitle' value="四川省 成都市 双流区" />
+            </div>
+        </div>
+
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label for="address" class="weui-label">详细住址</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="tel" placeholder="请输入详细住址（从街镇开始）" id="address">
+            </div>
+        </div>
+
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label for="xsGender" class="weui-label">请选择幼儿园</label></div>
+            <input class="weui-input" type="text" placeholder="请选择" id="kindergarten">
+        </div>
+
+        <a href="javascript:;" class="weui-btn weui-btn_primary">提交</a>
+
+        <div class="weui-footer">
+            <p class="weui-footer__links">
+                <a href="javascript:void(0);" class="weui-footer__link">双流教育</a>
+            </p>
+            <p class="weui-footer__text">Copyright © 2019 </p>
+        </div>
+
+
+
+</div>
+<script src="../vendor/weui/lib/jquery-2.1.4.js"></script>
+<script src="../vendor/weui/lib/fastclick.js"></script>
+<script src="../vendor/weui/js/city-picker.min.js"></script>
+<script>
+    $(function () {
+        FastClick.attach(document.body);
+    });
+</script>
+<script src="../vendor/weui/js/jquery-weui.js"></script>
+<script>
+    $("#hjgs").select({
+        title: "户籍归属",
+        items: ["双流区", "援藏干部"]
+    });
+
+    $("#xsGender").select({
+        title: "选择性别",
+        items: ["男", "女"]
+    });
+
+    $("#addressTitle").cityPicker({
+        title: "请选择户籍"
+    });
+    $("#kindergarten").select({
+        title: "幼儿园",
+        items: ["双流区实验幼儿园", "双流区机关幼儿园"]
+    });
+
+    $('.delete-swipeout').click(function () {
+        $(this).parents('.weui-cell').remove()
+    })
+    $('.close-swipeout').click(function () {
+        $(this).parents('.weui-cell').swipeout('close')
+    })
+</script>
+</body>
+</html>
