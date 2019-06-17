@@ -86,8 +86,22 @@
         <div class="weui-cell">
             <div class="weui-cell__hd"><label for="address" class="weui-label">详细住址</label></div>
             <div class="weui-cell__bd">
-                <input class="weui-input" type="text" id='address' value="四川省 成都市 双流区" />
+                <input class="weui-input" type="tel" placeholder="请输入详细住址（从街镇开始）" id="address">
             </div>
+        </div>
+
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label for="xsGender" class="weui-label">请选择幼儿园</label></div>
+            <input class="weui-input" type="text" placeholder="请选择" id="kindergarten">
+        </div>
+
+        <a href="javascript:;" class="weui-btn weui-btn_primary">提交</a>
+
+        <div class="weui-footer">
+            <p class="weui-footer__links">
+                <a href="javascript:void(0);" class="weui-footer__link">双流教育</a>
+            </p>
+            <p class="weui-footer__text">Copyright © 2019 </p>
         </div>
 
 
@@ -116,6 +130,11 @@
     $("#addressTitle").cityPicker({
         title: "请选择户籍"
     });
+    $("#kindergarten").select({
+        title: "幼儿园",
+        items: ["双流区实验幼儿园", "双流区机关幼儿园"]
+    });
+
     $('.delete-swipeout').click(function () {
         $(this).parents('.weui-cell').remove()
     })
