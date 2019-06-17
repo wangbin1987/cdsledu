@@ -2,6 +2,8 @@
 window.config = {
     api: 'http://171.217.95.196',
     token: 'ACCESS-TOKEN',
+    openid: 'OPENID',
+    wechatInfo: 'wechat-info',
     userInfo: 'user-info',
     compulsorySearch: 'compulsorySearch',
     timeout: 1500,
@@ -19,6 +21,9 @@ $($.ajaxSetup({
     beforeSend: function (xhr, settings) {
         if (localStorage.getItem(window.config.token)) {
             xhr.setRequestHeader(window.config.token, localStorage.getItem(window.config.token));
+        }
+        if (localStorage.getItem(window.config.openid)) {
+            xhr.setRequestHeader(window.config.openid, localStorage.getItem(window.config.openid));
         }
         // 在请求前给修改 url（增加一个时间戳参数）
         settings.url += settings.url.match(/\?/) ? "&" : "?";

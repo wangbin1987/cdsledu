@@ -167,6 +167,36 @@ function getUserInfo() {
     }
 }
 
+
+/**
+ * 获取用户信息
+ */
+function getWechatUserInfo() {
+    let userJsonStr = localStorage.getItem(window.config.wechatInfo);
+    if (isEmpty(userJsonStr)) {
+        let openid = localStorage.getItem(window.config.openid);
+        $.ajax({
+            url: window.config.api + '/wechat/getWechatUserInfo/' + openid,
+            method: "GET",
+            async: false,
+            success: function (response) {
+                console.info(response);
+                if (response.errorCode == 200) {
+                    if (!isEmpty(response.data.token)) {
+                        localStorage.setItem(window.config.token, response.data.token);
+                    }
+                    localStorage.setItem(window.config.wechatInfo, JSON.stringify(response.data));
+                    return response.data;
+                } else {
+                    localStorage.clear();
+                }
+            }
+        });
+    } else {
+        return JSON.parse(userJsonStr);
+    }
+}
+
 /**
  * 获取菜单信息
  */
