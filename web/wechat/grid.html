@@ -113,6 +113,9 @@
         } else {
             localStorage.setItem(window.config.openid, openid);
             let userInfo = getWechatUserInfo();
+            if (isEmpty(userInfo)) {
+                userInfo = getWechatUserInfo();
+            }
             $("#nickname").val(userInfo.nickname);
             $("#head-img").attr("src", userInfo.headimgurl);
         }

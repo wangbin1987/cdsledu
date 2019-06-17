@@ -177,7 +177,6 @@ function getWechatUserInfo() {
         let openid = localStorage.getItem(window.config.openid);
         $.ajax({
             url: window.config.api + '/wechat/getWechatUserInfo/' + openid,
-            method: "GET",
             async: false,
             success: function (response) {
                 console.info(response);
@@ -187,9 +186,11 @@ function getWechatUserInfo() {
                     }
                     localStorage.setItem(window.config.wechatInfo, JSON.stringify(response.data));
                     return response.data;
-                } else {
-                    localStorage.clear();
                 }
+            },
+            // 防止统一ajax设置进入登录页提示会话过期重新登录
+            complete: function (xhr) {
+
             }
         });
     } else {

@@ -107,6 +107,9 @@
         $(".unbind").hide();
         // $.toast.prototype.defaults.duration = 1500;
         let userInfo = getWechatUserInfo();
+        if (!isEmpty(userInfo)) {
+            getWechatUserInfo();
+        }
         let openid = userInfo.openid;
         $("#nickname").text(userInfo.nickname);
         $("#head-img").attr("src", userInfo.headimgurl);
@@ -188,6 +191,7 @@
                     success: function (response) {
                         if (response.errorCode == 200) {
                             $.toast("解绑成功");
+                            localStorage.removeItem(window.config.wechatInfo);
                             setTimeout(function () {
                                 window.location.reload();
                             }, 2000)
@@ -246,9 +250,12 @@
                     // console.info(response);
                     if (response.errorCode == 200) {
                         $.toast("绑定成功");
+                        localStorage.removeItem(window.config.wechatInfo);
                         setTimeout(function () {
                             window.location.reload();
                         }, 2000)
+                    } else {
+                        $.toast(response.message, 'text');
                     }
                 }
             });
