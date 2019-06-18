@@ -105,30 +105,22 @@
     $(function () {
         FastClick.attach(document.body);
 
-        $("#user-info").click(function () {
-            window.location = "./form.html";
-        })
-
-        $("#kindergarten").click(function () {
-            window.location = "kindergarten.html";
-        })
-
-        $("#meeting").click(function () {
-            $.toast("正在开发");
-        })
-
         let openid = getUrlParam('openid');
 
-        if (!isEmpty(openid)) {
-            getWechatUser(openid)
-        }
-
-        function getWechatUser(openid) {
+        if (isEmpty(openid)) {
+            $.toast("无法获取用户信息", "text");
+            return;
+        } else {
             $.ajax({
                 url: window.config.api + '/wechat/getWechatUserInfo/' + openid,
-                method: "GET",
                 success: function (response) {
+                    console.info(response);
                     if (response.errorCode == 200) {
+                        localStorage.setItem(window.config.openid, openid);
+                        if (!isEmpty(response.data.token)) {
+                            localStorage.setItem(window.config.token, response.data.token);
+                        }
+                        localStorage.setItem(window.config.wechatInfo, JSON.stringify(response.data));
                         $("#nickname").text(response.data.nickname);
                         $("#head-img").attr("src", response.data.headimgurl);
                     }
@@ -140,9 +132,20 @@
             });
         }
 
+        $("#user-info").click(function () {
+            window.location = "./user-info.html";
+        })
+
+        $("#kindergarten").click(function () {
+            window.location = "kindergarten.html";
+        })
+
+        $("#meeting").click(function () {
+            $.toast("正在开发");
+        })
+
     });
 </script>
-
 
 </body>
 

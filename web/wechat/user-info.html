@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>双流教育</title>
+    <title>个人信息</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
@@ -19,205 +19,83 @@
 <header class='demos-header' style="text-align: center">
     <img style="border-radius: 50%;width: 5rem" id="head-img" src="../img/male.png">
     <div id="nickname">微信用户</div>
+    <div class="weui-cells__title unbind" style="text-align: center;display: none;">您还未绑定，请先绑定</div>
 </header>
 
-<div class="weui-cells__title">单选列表项</div>
-<div class="weui-cells weui-cells_radio">
-    <label class="weui-cell weui-check__label" for="x11">
-        <div class="weui-cell__bd">
-            <p>cell standard</p>
-        </div>
-        <div class="weui-cell__ft">
-            <input type="radio" class="weui-check" name="radio1" id="x11">
-            <span class="weui-icon-checked"></span>
-        </div>
-    </label>
-    <label class="weui-cell weui-check__label" for="x12">
-
-        <div class="weui-cell__bd">
-            <p>cell standard</p>
-        </div>
-        <div class="weui-cell__ft">
-            <input type="radio" name="radio1" class="weui-check" id="x12" checked="checked">
-            <span class="weui-icon-checked"></span>
-        </div>
-    </label>
-    <a href="javascript:void(0);" class="weui-cell weui-cell_link">
-        <div class="weui-cell__bd">添加更多</div>
-    </a>
-</div>
-<div class="weui-cells__title">复选列表项</div>
-<div class="weui-cells weui-cells_checkbox">
-    <label class="weui-cell weui-check__label" for="s11">
+<div class="weui-cells unbind">
+    <div class="weui-cell weui-cell_select weui-cell_select-after">
         <div class="weui-cell__hd">
-            <input type="checkbox" class="weui-check" name="checkbox1" id="s11" checked="checked">
-            <i class="weui-icon-checked"></i>
+            <label class="weui-label">绑定方式</label>
         </div>
         <div class="weui-cell__bd">
-            <p>standard is dealt for u.</p>
-        </div>
-    </label>
-    <label class="weui-cell weui-check__label" for="s12">
-        <div class="weui-cell__hd">
-            <input type="checkbox" name="checkbox1" class="weui-check" id="s12">
-            <i class="weui-icon-checked"></i>
-        </div>
-        <div class="weui-cell__bd">
-            <p>standard is dealicient for u.</p>
-        </div>
-    </label>
-    <a href="javascript:void(0);" class="weui-cell weui-cell_link">
-        <div class="weui-cell__bd">添加更多</div>
-    </a>
-</div>
-
-<div class="weui-cells__title">表单</div>
-<div class="weui-cells weui-cells_form">
-    <div class="weui-cell">
-        <div class="weui-cell__hd"><label class="weui-label">qq</label></div>
-        <div class="weui-cell__bd">
-            <input class="weui-input" type="number" pattern="[0-9]*" placeholder="请输入qq号">
+            <select class="weui-select" name="select2" id="bindType">
+                <option value="1" selected>手机号绑定</option>
+                <option value="2">登录帐号绑定</option>
+            </select>
         </div>
     </div>
-    <div class="weui-cell weui-cell_vcode">
+</div>
+
+<div class="weui-cells__title" id="bind-title">帐号绑定</div>
+<div class="weui-cells weui-cells_form unbind">
+    <div class="weui-cell weui-cell_vcode type-tel">
         <div class="weui-cell__hd">
             <label class="weui-label">手机号</label>
         </div>
         <div class="weui-cell__bd">
-            <input class="weui-input" type="tel" placeholder="请输入手机号">
+            <input id="telephone" class="weui-input" type="text" placeholder="请输入手机号">
         </div>
         <div class="weui-cell__ft">
-            <button class="weui-vcode-btn">获取验证码</button>
+            <button class="weui-vcode-btn" id="btn-get-code">获取验证码</button>
         </div>
     </div>
-    <div class="weui-cell">
-        <div class="weui-cell__hd"><label class="weui-label">日期</label></div>
-        <div class="weui-cell__bd">
-            <input class="weui-input" type="date" value="">
-        </div>
-    </div>
-    <div class="weui-cell">
-        <div class="weui-cell__hd"><label class="weui-label">时间</label></div>
-        <div class="weui-cell__bd">
-            <input class="weui-input" type="datetime-local" value="" placeholder="">
-        </div>
-    </div>
-    <div class="weui-cell weui-cell_vcode">
+    <div class="weui-cell type-tel">
         <div class="weui-cell__hd"><label class="weui-label">验证码</label></div>
         <div class="weui-cell__bd">
-            <input class="weui-input" type="number" placeholder="请输入验证码">
-        </div>
-        <div class="weui-cell__ft">
-            <img class="weui-vcode-img" src="./images/vcode.jpg">
+            <input id="code" class="weui-input" type="text" placeholder="请输入验证码">
         </div>
     </div>
-</div>
-<div class="weui-cells__tips">底部说明文字底部说明文字</div>
 
-<div class="weui-cells__title">表单报错</div>
-<div class="weui-cells weui-cells_form">
-    <div class="weui-cell weui-cell_warn">
-        <div class="weui-cell__hd"><label class="weui-label">卡号</label></div>
+    <div class="weui-cell type-username" style="display: none;">
+        <div class="weui-cell__hd"><label class="weui-label">用户名</label></div>
         <div class="weui-cell__bd">
-            <input class="weui-input" type="number" pattern="[0-9]*" value="weui input error" placeholder="请输入卡号">
+            <input id="username" class="weui-input" type="text" placeholder="请输入用户名">
         </div>
-        <div class="weui-cell__ft">
-            <i class="weui-icon-warn"></i>
+    </div>
+    <div class="weui-cell type-username" style="display: none;">
+        <div class="weui-cell__hd"><label class="weui-label">密码</label></div>
+        <div class="weui-cell__bd">
+            <input id="password" class="weui-input" type="password" placeholder="请输入密码">
         </div>
     </div>
 </div>
 
-
-<div class="weui-cells__title">开关</div>
-<div class="weui-cells weui-cells_form">
-    <div class="weui-cell weui-cell_switch">
-        <div class="weui-cell__bd">标题文字</div>
-        <div class="weui-cell__ft">
-            <input class="weui-switch" type="checkbox">
-        </div>
-    </div>
-    <div class="weui-cell weui-cell_switch">
-        <div class="weui-cell__bd">兼容IE Edge的版本</div>
-        <div class="weui-cell__ft">
-            <label for="switchCP" class="weui-switch-cp">
-                <input id="switchCP" class="weui-switch-cp__input" type="checkbox" checked="checked">
-                <div class="weui-switch-cp__box"></div>
-            </label>
-        </div>
-    </div>
-</div>
-
-<div class="weui-cells__title">文本框</div>
-<div class="weui-cells">
+<div class="weui-cells weui-cells_form bind-detail" style="display: none;">
     <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">姓名</label></div>
         <div class="weui-cell__bd">
-            <input class="weui-input" type="text" placeholder="请输入文本">
+            <input id="bind-nickname" class="weui-input" type="text" placeholder="请输入姓名">
         </div>
     </div>
-</div>
-
-<div class="weui-cells__title">文本域</div>
-<div class="weui-cells weui-cells_form">
     <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">身份证号</label></div>
         <div class="weui-cell__bd">
-            <textarea class="weui-textarea" placeholder="请输入文本" rows="3"></textarea>
-            <div class="weui-textarea-counter"><span>0</span>/200</div>
+            <input id="bind-idcard" class="weui-input" type="text" placeholder="请输入身份证号">
+        </div>
+    </div>
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">电话号码</label></div>
+        <div class="weui-cell__bd">
+            <input id="bind-telephone" class="weui-input" type="text" placeholder="请输入电话号码">
         </div>
     </div>
 </div>
 
-<div class="weui-cells__title">选择</div>
-<div class="weui-cells">
+<div class="weui-btn-area" style="margin: 1rem 0.5rem">
+    <a class="weui-btn weui-btn_primary" href="javascript:void(0)" id="btn-bind">绑定</a>
 
-    <div class="weui-cell weui-cell_select weui-cell_select-before">
-        <div class="weui-cell__hd">
-            <select class="weui-select" name="select2">
-                <option value="1">+86</option>
-                <option value="2">+80</option>
-                <option value="3">+84</option>
-                <option value="4">+87</option>
-            </select>
-        </div>
-        <div class="weui-cell__bd">
-            <input class="weui-input" type="number" pattern="[0-9]*" placeholder="请输入号码">
-        </div>
-    </div>
-</div>
-<div class="weui-cells__title">选择</div>
-<div class="weui-cells">
-    <div class="weui-cell weui-cell_select">
-        <div class="weui-cell__bd">
-            <select class="weui-select" name="select1">
-                <option selected="" value="1">微信号</option>
-                <option value="2">QQ号</option>
-                <option value="3">Email</option>
-            </select>
-        </div>
-    </div>
-    <div class="weui-cell weui-cell_select weui-cell_select-after">
-        <div class="weui-cell__hd">
-            <label class="weui-label">国家/地区</label>
-        </div>
-        <div class="weui-cell__bd">
-            <select class="weui-select" name="select2">
-                <option value="1">中国</option>
-                <option value="2">美国</option>
-                <option value="3">英国</option>
-            </select>
-        </div>
-    </div>
 </div>
 
-<label for="weuiAgree" class="weui-agree">
-    <input id="weuiAgree" type="checkbox" class="weui-agree__checkbox">
-    <span class="weui-agree__text">
-        阅读并同意<a href="javascript:void(0);">《相关条款》</a>
-      </span>
-</label>
-
-<div class="weui-btn-area">
-    <a class="weui-btn weui-btn_primary" href="javascript:" id="showTooltips">确定</a>
-</div>
 <script src="../vendor/weui/lib/jquery-2.1.4.js"></script>
 <script src="../vendor/weui/lib/fastclick.js"></script>
 <script src="../vendor/weui/js/jquery-weui.js"></script>
@@ -226,34 +104,191 @@
 <script src="../js/common.js"></script>
 <script>
     $(function () {
-        FastClick.attach(document.body);
+        $(".unbind").hide();
+        // $.toast.prototype.defaults.duration = 1500;
+        let userInfo = getWechatUserInfo();
+        if (isEmpty(userInfo)) {
+            userInfo = getWechatUserInfo();
+        }
+        let openid = userInfo.openid;
+        $("#nickname").text(userInfo.nickname);
+        $("#head-img").attr("src", userInfo.headimgurl);
 
-        $("#user-info").click(function () {
-            $.toast("正在开发", "text");
-        })
+        checkBind();
 
-        $("#kindergarten").click(function () {
-            window.location = "./cell.html";
-        })
+        let bindType = $("#bindType").val();
+        $("#bindType").change(function () {
+            bindType = $("#bindType").val();
+            if (bindType == 1) {
+                $(".type-tel").show();
+                $(".type-username").hide();
+            } else {
+                $(".type-tel").hide();
+                $(".type-username").show();
+            }
+        });
 
-        $("#meeting").click(function () {
-            $.toast("正在开发");
-        })
+        let wait = 60;
 
-        let openid = getUrlParam('openid');
-
-        if (!isEmpty(openid)) {
-            getWechatUser(openid)
+        function time(btn) {
+            if (wait == 0) {
+                btn.removeAttribute("disabled");
+                btn.innerHTML = "获取验证码";
+                wait = 60;
+            } else {
+                btn.setAttribute("disabled", true);
+                btn.innerHTML = "重新发送(" + wait + ")";
+                wait--;
+                setTimeout(function () {
+                    time(btn)
+                }, 1000)
+            }
         }
 
-        function getWechatUser(openid) {
+        $("#btn-get-code").click(function () {
+            let telephone = $("#telephone").val().trim();
+            if (telephone.length == 0) {
+                $.toast("请输入手机号", "text");
+                $("#telephone").focus();
+                return;
+            } else {
+                if (!isTelephone(telephone)) {
+                    $.toast("手机号格式不对", "text");
+                    $("#telephone").focus();
+                    return;
+                }
+            }
+            time(this);
+            getBindCode('telephone', telephone);
+        })
+
+        function getBindCode(type, key) {
+            let url = window.config.api + '/sms/getCode';
+            if (type == 'email') {
+                url = window.config.api + '/email/getCode';
+            }
+            $.ajax({
+                url: url,
+                method: "POST",
+                data: JSON.stringify({
+                    "type": "wechatBind",
+                    "value": key
+                }),
+                success: function (response) {
+                    // console.info(response);
+                    if (response.errorCode == 200) {
+                        $.toast(response.message);
+                    }
+                }
+            });
+        }
+
+        $("#btn-bind").click(function () {
+
+            if ($(this).html().indexOf("解除") != -1) {
+                $.ajax({
+                    url: window.config.api + '/wechat/unbind/' + openid,
+                    success: function (response) {
+                        if (response.errorCode == 200) {
+                            $.toast("解绑成功");
+                            localStorage.removeItem(window.config.wechatInfo);
+                            getWechatUserInfo();
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 2000)
+                        }
+                    }
+                });
+                return;
+            }
+
+            let telephone = $("#telephone").val().trim();
+            let code = $("#code").val().trim();
+            let username = $("#username").val().trim();
+            let password = $("#password").val().trim();
+
+            if (bindType == 1) {
+                if (isEmpty(telephone)) {
+                    $.toast("手机号不能为空", "text");
+                    $("#telephone").focus();
+                    return;
+                }
+                if (isEmpty(code)) {
+                    $.toast("验证码不能为空", "text");
+                    $("#code").focus();
+                    return;
+                }
+            } else {
+                if (isEmpty(username)) {
+                    $.toast("用户名不能为空", "text");
+                    $("#username").focus();
+                    return;
+                }
+                if (isEmpty(password)) {
+                    $.toast("密码不能为空", "text");
+                    $("#password").focus();
+                    return;
+                }
+            }
+
+            let param = {};
+            param.type = bindType;
+            param.telephone = telephone;
+            param.code = code;
+            param.username = username;
+            param.password = password;
+            param.openid = openid
+            bind(param);
+        })
+
+        function bind(param) {
+            $.ajax({
+                url: window.config.api + '/wechat/bind',
+                method: "POST",
+                data: JSON.stringify(param),
+                success: function (response) {
+                    // console.info(response);
+                    if (response.errorCode == 200) {
+                        $.toast("绑定成功");
+                        localStorage.removeItem(window.config.wechatInfo);
+                        getWechatUserInfo();
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 2000)
+                    } else {
+                        $.toast(response.message, 'text');
+                    }
+                }
+            });
+        }
+
+
+        function checkBind() {
             $.ajax({
                 url: window.config.api + '/wechat/getWechatUserInfo/' + openid,
-                method: "GET",
                 success: function (response) {
                     if (response.errorCode == 200) {
+                        if (!isEmpty(response.data.token)) {
+                            localStorage.setItem(window.config.token, response.data.token);
+                            // 显示用户信息
+                            $(".type-tel").hide();
+                            $(".type-username").hide();
+                            $(".unbind").hide();
+
+                            $("#bind-title").text("绑定详情");
+                            $(".bind-detail").show();
+                            $("#bind-nickname").val(response.data.nickname);
+                            $("#bind-idcard").val(response.data.idCardNumber);
+                            $("#bind-telephone").val(response.data.telephone);
+                            $("#btn-bind").html("解除绑定")
+                        } else {
+                            $(".unbind").show();
+                        }
+                        localStorage.setItem(window.config.openid, openid);
+                        localStorage.setItem(window.config.wechatInfo, JSON.stringify(response.data));
                         $("#nickname").text(response.data.nickname);
-                        $("#head-img").attr("src", response.data.headimgurl);
+                    } else {
+                        $.toast(response.message, 'text');
                     }
                 },
                 // 防止统一ajax设置进入登录页提示会话过期重新登录
