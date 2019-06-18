@@ -74,12 +74,12 @@
             <div class="weui-cell__bd">
                 <input class="weui-input" type="tel" placeholder="请输入手机号" id="telephone">
             </div>
-         </div>
+        </div>
 
         <div class="weui-cell">
             <div class="weui-cell__hd"><label for="addressTitle" class="weui-label">户籍地址</label></div>
             <div class="weui-cell__bd">
-                <input class="weui-input" type="text" id='addressTitle' value="四川省 成都市 双流区" />
+                <input class="weui-input" type="text" id='addressTitle' value="四川省 成都市 双流区"/>
             </div>
         </div>
 
@@ -105,42 +105,46 @@
         </div>
 
 
-
+    </div>
 </div>
-<script src="../vendor/weui/lib/jquery-2.1.4.js"></script>
-<script src="../vendor/weui/lib/fastclick.js"></script>
-<script src="../vendor/weui/js/city-picker.min.js"></script>
-<script>
-    $(function () {
-        FastClick.attach(document.body);
-    });
-</script>
-<script src="../vendor/weui/js/jquery-weui.js"></script>
-<script>
-    $("#hjgs").select({
-        title: "户籍归属",
-        items: ["双流区", "援藏干部"]
-    });
+    <script src="../vendor/weui/lib/jquery-2.1.4.js"></script>
+    <script src="../vendor/weui/lib/fastclick.js"></script>
+    <script src="../vendor/weui/js/city-picker.min.js"></script>
+    <script>
+        $(function () {
+            FastClick.attach(document.body);
+        });
+    </script>
+    <script src="../vendor/weui/js/jquery-weui.js"></script>
+    <script>
+        $("#hjgs").select({
+            title: "户籍归属",
+            items: ["双流区", "援藏干部"]
+        });
 
-    $("#xsGender").select({
-        title: "选择性别",
-        items: ["男", "女"]
-    });
+        $("#xsGender").select({
+            title: "选择性别",
+            items: ["男", "女"]
+        });
 
-    $("#addressTitle").cityPicker({
-        title: "请选择户籍"
-    });
-    $("#kindergarten").select({
-        title: "幼儿园",
-        items: ["双流区实验幼儿园", "双流区机关幼儿园"]
-    });
+        $("#addressTitle").cityPicker({
+            title: "请选择户籍"
+        });
+        $("#kindergarten").select({
+            title: "幼儿园",
+            items: ["双流区实验幼儿园", "双流区机关幼儿园"]
+        });
 
-    $('.delete-swipeout').click(function () {
-        $(this).parents('.weui-cell').remove()
-    })
-    $('.close-swipeout').click(function () {
-        $(this).parents('.weui-cell').swipeout('close')
-    })
-</script>
+        $('.delete-swipeout').click(function () {
+            $(this).parents('.weui-cell').remove()
+        })
+        $('.close-swipeout').click(function () {
+            $(this).parents('.weui-cell').swipeout('close')
+        })
+    </script>
+    <!-- Page level custom scripts -->
+    <script src="js/config.js"></script>
+
+
 </body>
 </html>
