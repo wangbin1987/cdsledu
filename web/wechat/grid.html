@@ -124,10 +124,6 @@
                         $("#nickname").text(response.data.nickname);
                         $("#head-img").attr("src", response.data.headimgurl);
                     }
-                },
-                // 防止统一ajax设置进入登录页提示会话过期重新登录
-                complete: function (xhr) {
-
                 }
             });
         }

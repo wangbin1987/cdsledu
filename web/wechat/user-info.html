@@ -177,7 +177,7 @@
                 success: function (response) {
                     // console.info(response);
                     if (response.errorCode == 200) {
-                        $.toast(response.message);
+                        $.toast(response.message, 'text');
                     }
                 }
             });
