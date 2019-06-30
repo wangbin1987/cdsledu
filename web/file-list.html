@@ -117,6 +117,7 @@
                                     <th>编号</th>
                                     <th style="width: 40%">材料名称（带<span style='color: red;'> * </span>为必传项）</th>
                                     <th>上传时间</th>
+                                    <th>审核状态</th>
                                     <th style="text-align: center">操作</th>
                                 </tr>
                                 </thead>
@@ -207,13 +208,19 @@
                         let pos = $("<td>" + (index + 1) + "</td>")
                         let name = $("<td style='text-align: left'>" + material.name + must + "</td>")
                         let timeStr = "-----";
+                        let status = $("<td title=" + material.comment + ">" + material.approveStatus + "</td>");
                         let view = "<a class='view-image down btn btn-default btn-xs' href='javascript:void(0)'>查看 <i class='fa fa-file-image'></i></a>";
                         let upload = "<a class='upload down btn btn-default btn-xs' href='javascript:void(0)'>上传材料 <i class='fa fa-upload'></i></a>";
                         let del = "<a class='delete-material down btn btn-default btn-xs' href='javascript:void(0)'>删除 <i class='fa fa-trash-alt'></i></a>";
                         let op = $("<td style='text-align: center'>" + upload + "</td>");
                         if (!isEmpty(material.createTime)) {
                             timeStr = material.createTime;
-                            op = $("<td style='text-align: center'>" + view + del + "</td>");
+                            if (material.canUpload) {
+                                op = $("<td>" + view + del + "</td>");
+                            } else {
+                                op = $("<td>" + view + "</td>");
+                            }
+
                         } else {
                             if (material.isMust == 1) {
                                 allUpload = false;
@@ -223,6 +230,7 @@
                         tr.append(pos);
                         tr.append(name);
                         tr.append(time);
+                        tr.append(status);
                         tr.append(op);
                         tbody.append(tr);
                     })
@@ -358,6 +366,13 @@
         let material = JSON.parse($(this).parent().parent().attr("data"));
         let param = {};
         param.materialType = material.type;
+        if (material.canUpload) {
+            $("#materialFile").parent().show();
+            $(".close-image").show();
+        } else {
+            $("#materialFile").parent().hide();
+            $(".close-image").hide();
+        }
         getMaterialFiles(param);
         $("#materialName").text(material.name);
         $("#materialType").val(material.type);
