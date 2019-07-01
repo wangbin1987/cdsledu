@@ -208,11 +208,17 @@
                         let pos = $("<td>" + (index + 1) + "</td>")
                         let name = $("<td style='text-align: left'>" + material.name + must + "</td>")
                         let timeStr = "-----";
-                        let status = $("<td title=" + material.comment + ">" + material.approveStatus + "</td>");
+                        let status;
+                        if (!isEmpty(material.approveStatus)) {
+                            status = $("<td title=" + material.comment + ">" + material.approveStatus + "</td>");
+                        } else {
+                            status = $("<td title='未提交'>未提交</td>");
+                        }
+
                         let view = "<a class='view-image down btn btn-default btn-xs' href='javascript:void(0)'>查看 <i class='fa fa-file-image'></i></a>";
                         let upload = "<a class='upload down btn btn-default btn-xs' href='javascript:void(0)'>上传材料 <i class='fa fa-upload'></i></a>";
                         let del = "<a class='delete-material down btn btn-default btn-xs' href='javascript:void(0)'>删除 <i class='fa fa-trash-alt'></i></a>";
-                        let op = $("<td style='text-align: center'>" + upload + "</td>");
+                        let op = $("<td>" + upload + "</td>");
                         if (!isEmpty(material.createTime)) {
                             timeStr = material.createTime;
                             if (material.canUpload) {
