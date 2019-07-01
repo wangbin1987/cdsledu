@@ -13,6 +13,10 @@ window.config = {
         '<div class="sidebar-brand-text mx-3" id="productName">双流教育</div>'
 }
 
+// 这个是自己内部使用
+let flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i);
+let mobile = flag ? 1 : 0;
+
 // ajax全局设置，统一添加ACCESS-TOKEN，统一拦截错误信息
 $($.ajaxSetup({
     contentType: 'application/json; charset=utf-8',
@@ -35,8 +39,16 @@ $($.ajaxSetup({
         //     console.info(xhr.responseJSON);
         // }
         if (xhr.statusText == 'timeout') {
-            toastr.warning("请求超时");
-            removeLoading();
+            if (mobile == 1) {
+                $.toast("请求超时", "text");
+            } else {
+                toastr.warning("请求超时");
+                try {
+                    removeLoading();
+                } catch (e) {
+
+                }
+            }
             return;
         }
         if (xhr.readyState == 4 && xhr.status == 200) {
@@ -51,8 +63,16 @@ $($.ajaxSetup({
                                 window.location = "./login.html";
                             }, window.config.timeout);
                         } else {
-                            toastr.warning(xhr.responseJSON.message);
-                            removeLoading();
+                            if (mobile == 1) {
+                                $.toast(xhr.responseJSON.message, "text");
+                            } else {
+                                toastr.warning(xhr.responseJSON.message);
+                                try {
+                                    removeLoading();
+                                } catch (e) {
+
+                                }
+                            }
                         }
                     }
                 }
@@ -65,7 +85,11 @@ $($.ajaxSetup({
         if (xhr.responseJSON) {
             // springboot 对404的返回 {"timestamp":"","status":404,"error":"Not Found","message":"Not Found","path":"/system/updateKindergartenSignTime"}
             if (xhr.responseJSON.status && xhr.responseJSON.status == 404) {
-                toastr.warning("404找不到请求地址");
+                if (mobile == 1) {
+                    $.toast("404找不到请求地址", "text");
+                } else {
+                    toastr.warning("404找不到请求地址");
+                }
             } else {
                 if (xhr.responseJSON.errorCode == 401) {
                     // console.log("未登录");
@@ -75,15 +99,27 @@ $($.ajaxSetup({
                         window.location = "./login.html";
                     }, window.config.timeout);
                 } else {
-                    toastr.warning(xhr.responseJSON.message);
+                    if (mobile == 1) {
+                        $.toast(xhr.responseJSON.message, "text");
+                    } else {
+                        toastr.warning(xhr.responseJSON.message);
+                    }
                 }
             }
         } else {
             if (xhr.status == 404) {
-                toastr.warning("404找不到请求地址");
+                if (mobile == 1) {
+                    $.toast("404找不到请求地址", "text");
+                } else {
+                    toastr.warning("404找不到请求地址");
+                }
             } else {
                 if (errorThrown.code == 19) {
-                    toastr.warning("请求超时");
+                    if (mobile == 1) {
+                        $.toast("请求超时", "text");
+                    } else {
+                        toastr.warning("请求超时");
+                    }
                 }
             }
         }

@@ -65,6 +65,15 @@ function getCurrentTime() {
 }
 
 /**
+ * 是否来自移动端
+ * @returns {number}
+ */
+function isMobile() {
+    let flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i);
+    return flag ? 1 : 0;
+}
+
+/**
  * 获取地址栏参数
  * @param key 参数名称
  * @returns {*}
