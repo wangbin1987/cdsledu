@@ -174,7 +174,7 @@
             url: window.config.api + '/primary/getKindergarten/' + id,
             method: "GET",
             success: function (response) {
-                console.info(response);
+                // console.info(response);
                 if (response.errorCode == 200) {
                     if (response.data.householdType == "援藏干部") {
                         $(".address").text("援藏干部房产地址");

@@ -321,7 +321,7 @@
      */
     $(document).on('click', ".delete-material", function () {
         let material = JSON.parse($(this).parent().parent().attr("data"));
-        console.info(material);
+        // console.info(material);
         let param = {};
         param.materialType = material.type;
         swal({

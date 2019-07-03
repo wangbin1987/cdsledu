@@ -213,10 +213,11 @@
         let materialStr = localStorage.getItem('material');
         if (isEmpty(materialStr)) {
             $.ajax({
-                url: window.config.api + '/material/getMaterial?schoolCode='+schoolCode,
+                url: window.config.api + '/material/getMaterial?schoolCode=' + schoolCode,
                 method: "GET",
                 async: false,
                 success: function (response) {
+                    // console.info(response);
                     if (response.errorCode == 200) {
                         localStorage.setItem('material', JSON.stringify(response.data));
                         return response.data;
@@ -229,10 +230,10 @@
     }
 
 
-
     getMaterial();
 
     let materials = getMaterial();
+    // console.info(materials);
 
     $("ul.nav").append($("<li class='active' data-filter='all' id='all'>全部</li>"))
     materials.forEach(material => {
@@ -262,7 +263,7 @@
                         let tbody = $("<tbody></tbody>");
 
                         response.data.forEach(function (file, index) {
-                            console.info(file.name);
+                            // console.info(file.name);
                             let name = file.name;
                             if (file.isMust == 1) {
                                 name = file.name + "<span style='color: red;'> * </span>";
@@ -441,7 +442,7 @@
             // 审核结果 1通过 2不通过
             let approveResult = $("input[type='radio'][name='shjg']:checked").val();
             let approveComment = $.trim($("#shyj").val());
-            console.info(approveComment);
+            // console.info(approveComment);
             // 不通过
             if (approveResult == '2') {
                 if (isEmpty(approveComment)) {
@@ -450,10 +451,10 @@
                     return;
                 }
             }
-            console.info(schoolCode);
-            console.info(materialType);
-            console.info(approveResult);
-            console.info(approveComment);
+            // console.info(schoolCode);
+            // console.info(materialType);
+            // console.info(approveResult);
+            // console.info(approveComment);
             $.ajax({
                 url: window.config.api + '/material/submitApprove',
                 method: "POST",
