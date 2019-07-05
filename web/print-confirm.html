@@ -222,7 +222,7 @@
             url: window.config.api + '/enrollment/getCompulsoryById/' + id,
             method: "GET",
             success: function (response) {
-                console.info(response);
+                // console.info(response);
                 $("#serialNumber1,#serialNumber2").text(response.data.serialNumber);
                 $("#idType1,#idType2").text(response.data.residenceType + "(" + response.data.socialSecurityPayMethod + ")");
                 $("#jzzid1,#jzzid2").text(response.data.residenceNumber);

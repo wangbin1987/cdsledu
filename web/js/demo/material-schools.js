@@ -34,6 +34,7 @@ $(document).ready(function () {
             url: window.config.api + '/material/getApproveSchool',
             type: 'POST',
             data: function (data) {
+                data.schoolType=$("#schoolType").val();
                 data.approveStatus = $("#approveStatus").val();
                 return JSON.stringify(data)
             },
@@ -102,7 +103,7 @@ function approve(id) {
     window.location = "./school-files.html?schoolCode=" + id;
 }
 
-$("#approveStatus").change(function () {
+$("#approveStatus,#schoolType").change(function () {
     $('#dataTable').DataTable().ajax.reload();
 })
 

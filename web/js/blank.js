@@ -35,7 +35,7 @@ $(function () {
                 // 为省份下拉列表绑定change事件
                 $("#district").change(function () {
                     let index = $(this).val() - 1;// 获取当前省的下标
-                    console.info(response.data[index]);
+                    // console.info(response.data[index]);
 
                     $("#gbSchool").prop("length", 1);// 清空原有的数据
                     if (response.data[index]) {

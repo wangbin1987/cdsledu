@@ -80,7 +80,7 @@ $($.ajaxSetup({
         }
     },
     error: function (xhr, textStatus, errorThrown) {
-        console.info("error", xhr);
+        // console.info("error", xhr);
         // 未授权无法访问会返回在这里
         if (xhr.responseJSON) {
             // springboot 对404的返回 {"timestamp":"","status":404,"error":"Not Found","message":"Not Found","path":"/system/updateKindergartenSignTime"}
