@@ -226,12 +226,12 @@
                             } else {
                                 op = $("<td>" + view + "</td>");
                             }
-
                         } else {
                             if (material.isMust == 1) {
                                 allUpload = false;
                             }
                         }
+                        op.css('text-align', 'center');
                         let time = $("<td>" + timeStr + "</td>");
                         tr.append(pos);
                         tr.append(name);
