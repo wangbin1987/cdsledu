@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -37,15 +36,11 @@
 <body>
     <div class="print-form">
         <div class="print-header" align="center">
-            <h4>成都市双流区2020年入城务工随迁子女接受义务教育就读申请表</h4>
+            <h4 id="title"></h4>
         </div>
-        <p>本人申请子女在双流区接受义务教育，我保证提交的材料真实有效，如有虚假，本申请视为无效。本申请一式贰联，申请人留存壹联，登记点留存壹联。</p>
+        <p>本人申请子女在双流区接受义务教育，我保证提交的材料真实有效，如有虚假，本申请视为无效。本申请一式贰联，申请人留存壹联，审核点留存壹联。</p>
         <table class="table">
             <tbody>
-                <tr id="number1">
-                    <td>报名编号</td>
-                    <td id="serialNumber1" colspan="3"></td>
-                </tr>
                 <tr id="id1">
                     <td>证件类别</td>
                     <td id="idType1"></td>
@@ -101,12 +96,12 @@
                 </tr>
 
                 <tr>
-                    <td>原籍地址</td>
+                    <td>原就读学校</td>
                     <td colspan="3" id="target1"></td>
                 </tr>
 
                 <tr>
-                    <td>登记时间</td>
+                    <td>审核时间</td>
                     <td id="currentTime1"></td>
                     <td>登记人签字</td>
                     <td></td>
@@ -118,15 +113,11 @@
     <hr style="border: dashed;color: #e3e6f0;">
     <div class="print-form">
         <div class="print-header" align="center">
-            <h4>成都市双流区2020年入城务工随迁子女接受义务教育就读申请表</h4>
+            <h4 id="title"></h4>
         </div>
-        <p>本人申请子女在双流区接受义务教育，我保证提交的材料真实有效，如有虚假，本申请视为无效。本申请一式贰联，申请人留存壹联，登记点留存壹 。</p>
+        <p>本人申请子女在双流区接受义务教育，我保证提交的材料真实有效，如有虚假，本申请视为无效。本申请一式贰联，申请人留存壹联，审核点留存壹 。</p>
         <table class="table">
             <tbody>
-                <tr id="number2">
-                    <td>报名编号</td>
-                    <td id="serialNumber2" colspan="3"></td>
-                </tr>
                 <tr id="id2">
                     <td>证件类别</td>
                     <td id="idType2"></td>
@@ -181,12 +172,12 @@
                 </tr>
 
                 <tr>
-                    <td>原籍地址</td>
+                    <td>原就读学校</td>
                     <td colspan="3" id="target2"></td>
                 </tr>
 
                 <tr>
-                    <td>登记时间</td>
+                    <td>审核时间</td>
                     <td id="currentTime2"></td>
                     <td>家长签字</td>
                     <td></td>
@@ -209,22 +200,24 @@
     <script src="js/sb-admin-2.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="js/config.js"></script>
-    <script src="js/common.js"></script>
-    <script src="js/user-info-menu.js"></script>
+    <!-- <script src="js/config.js"></script> -->
+    <!-- <script src="js/common.js"></script> -->
+    <!-- <script src="js/user-info-menu.js"></script> -->
     <script src="js/distpicker.js"></script>
     <script>
         let id = getUrlParam("id");
         var date = new Date();
         console.info(id)
         console.info(date)
-            //
+
         if (id) {
             $.ajax({
-                url: window.config.api + '/enrollment/getCompulsoryById/' + id,
+                url: 'https://sljy.cdsledu.net/cms/compulsory/detail/' + id,
                 method: "GET",
                 success: function(response) {
-                    // console.info(response);
+                    console.info(response);
+                    $("#title").text("成都市双流区" +
+                        date.getFullYear() + "年入城务工随迁子女接受义务教育就读申请表");
                     $("#serialNumber1,#serialNumber2").text(response.data.serialNumber);
                     $("#idType1,#idType2").text(response.data.residenceType + "(" + response.data.socialSecurityPayMethod + ")");
                     $("#jzzid1,#jzzid2").text(response.data.residenceNumber);
