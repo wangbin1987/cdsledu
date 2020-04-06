@@ -36,7 +36,7 @@
 <body>
     <div class="print-form">
         <div class="print-header" align="center">
-            <h4 id="title"></h4>
+            <h4 id="title1"></h4>
         </div>
         <p>本人申请子女在双流区接受义务教育，我保证提交的材料真实有效，如有虚假，本申请视为无效。本申请一式贰联，申请人留存壹联，审核点留存壹联。</p>
         <table class="table">
@@ -113,7 +113,7 @@
     <hr style="border: dashed;color: #e3e6f0;">
     <div class="print-form">
         <div class="print-header" align="center">
-            <h4 id="title"></h4>
+            <h4 id="title2"></h4>
         </div>
         <p>本人申请子女在双流区接受义务教育，我保证提交的材料真实有效，如有虚假，本申请视为无效。本申请一式贰联，申请人留存壹联，审核点留存壹 。</p>
         <table class="table">
@@ -216,7 +216,7 @@
                 method: "GET",
                 success: function(response) {
                     console.info(response);
-                    $("#title").text("成都市双流区" +
+                    $("#title1，#title2").text("成都市双流区" +
                         date.getFullYear() + "年入城务工随迁子女接受义务教育就读申请表");
                     $("#serialNumber1,#serialNumber2").text(response.data.serialNumber);
                     $("#idType1,#idType2").text(response.data.residenceType + "(" + response.data.socialSecurityPayMethod + ")");
